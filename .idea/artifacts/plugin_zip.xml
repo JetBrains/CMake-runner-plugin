@@ -3,7 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/plugin_zip</output-path>
     <root id="root">
       <element id="archive" name="make-runner.zip">
-        <element id="artifact" artifact-name="plugin"/>
+        <element id="artifact" artifact-name="plugin" />
       </element>
     </root>
   </artifact>

@@ -11,30 +11,28 @@
       <element id="directory" name="agent">
         <element id="archive" name="make-runner.zip">
           <element id="archive" name="make-runner-agent.jar">
-            <element id="module-output" name="make-runner-agent"/>
+            <element id="module-output" name="make-runner-agent" />
           </element>
           <element id="archive" name="make-runner-common.jar">
-            <element id="module-output" name="make-runner-common"/>
+            <element id="module-output" name="make-runner-common" />
           </element>
-          <element id="file-copy" path="$PROJECT_DIR$/make-runner-agent/teamcity-agent-plugin.xml"
-                   output-file-name="teamcity-plugin.xml"/>
+          <element id="file-copy" path="$PROJECT_DIR$/make-runner-agent/teamcity-agent-plugin.xml" output-file-name="teamcity-plugin.xml" />
         </element>
       </element>
       <element id="directory" name="server">
         <element id="archive" name="make-runner-common.jar">
-          <element id="module-output" name="make-runner-common"/>
+          <element id="module-output" name="make-runner-common" />
         </element>
         <element id="archive" name="make-runner-server.jar">
-          <element id="module-output" name="make-runner-server"/>
+          <element id="module-output" name="make-runner-server" />
         </element>
         <element id="archive" name="make-runner-server-resources.jar">
           <element id="directory" name="buildServerResources">
-            <element id="dir-copy" path="$PROJECT_DIR$/make-runner-server/resources"/>
+            <element id="dir-copy" path="$PROJECT_DIR$/make-runner-server/resources" />
           </element>
         </element>
       </element>
-      <element id="file-copy" path="$PROJECT_DIR$/make-runner-server/teamcity-server-plugin.xml"
-               output-file-name="teamcity-plugin.xml"/>
+      <element id="file-copy" path="$PROJECT_DIR$/make-runner-server/teamcity-server-plugin.xml" output-file-name="teamcity-plugin.xml" />
     </root>
   </artifact>
 </component>
