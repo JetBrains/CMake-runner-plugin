@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Tags lib">
+    <CLASSES/>
+    <JAVADOC/>
+    <SOURCES>
+      <root url="file://$teamcitydistribution$/webapps/ROOT/WEB-INF/tags"/>
+      <root url="file://$teamcitydistribution$/webapps/ROOT/WEB-INF"/>
+    </SOURCES>
+  </library>
+</component>

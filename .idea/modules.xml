@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ResolveHelper/ResolveHelper.iml"
+              filepath="$PROJECT_DIR$/ResolveHelper/ResolveHelper.iml"/>
+      <module fileurl="file://$PROJECT_DIR$/make-runner-agent/make-runner-agent.iml"
+              filepath="$PROJECT_DIR$/make-runner-agent/make-runner-agent.iml"/>
+      <module fileurl="file://$PROJECT_DIR$/make-runner-common/make-runner-common.iml"
+              filepath="$PROJECT_DIR$/make-runner-common/make-runner-common.iml"/>
+      <module fileurl="file://$PROJECT_DIR$/make-runner-root.iml" filepath="$PROJECT_DIR$/make-runner-root.iml"/>
+      <module fileurl="file://$PROJECT_DIR$/make-runner-server/make-runner-server.iml"
+              filepath="$PROJECT_DIR$/make-runner-server/make-runner-server.iml"/>
+      <module fileurl="file://$PROJECT_DIR$/make-runner-test/make-runner-test.iml"
+              filepath="$PROJECT_DIR$/make-runner-test/make-runner-test.iml"/>
+    </modules>
+  </component>
+</project>
+
