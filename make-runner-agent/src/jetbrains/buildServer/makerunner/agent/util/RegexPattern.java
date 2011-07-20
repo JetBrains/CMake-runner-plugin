@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.makerunner.agent.output;
+package jetbrains.buildServer.makerunner.agent.util;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 public class RegexPattern {
   private static final Severity DEFAULT_SEVERITY = Severity.SPECIAL;
   private static final String DEFAULT_DESCRIPTION_EXPR = "$0";
-  private static final boolean DEFAULT_EAT_LINE = false;
+  private static final boolean DEFAULT_EAT_LINE = true;
 
   private final java.util.regex.Pattern myPattern;
   private String myDescriptionExpression;

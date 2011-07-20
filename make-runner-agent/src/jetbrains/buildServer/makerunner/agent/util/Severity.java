@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.makerunner.agent.output;
+package jetbrains.buildServer.makerunner.agent.util;
 
 /**
  * @author Vladislav.Rassokhin

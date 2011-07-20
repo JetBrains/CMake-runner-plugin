@@ -22,7 +22,7 @@ import jetbrains.buildServer.agent.runner.BuildServiceAdapter;
 import jetbrains.buildServer.agent.runner.ProcessListener;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
-import jetbrains.buildServer.makerunner.agent.output.MakeOutputListener;
+import jetbrains.buildServer.makerunner.agent.output.OutputListener;
 import jetbrains.buildServer.makerunner.agent.util.OSUtil;
 import jetbrains.buildServer.makerunner.agent.util.SimpleMakeLogger;
 import jetbrains.buildServer.runner.BuildFileRunnerUtil;
@@ -122,7 +122,7 @@ public class MakeTasksBuildService extends BuildServiceAdapter {
   @NotNull
   @Override
   public List<ProcessListener> getListeners() {
-    return Collections.<ProcessListener>singletonList(new MakeOutputListener(new SimpleMakeLogger(getLogger()), myMakeTasks));
+    return Collections.<ProcessListener>singletonList(new OutputListener(new SimpleMakeLogger(getLogger()), myMakeTasks));
   }
 
   @Nullable

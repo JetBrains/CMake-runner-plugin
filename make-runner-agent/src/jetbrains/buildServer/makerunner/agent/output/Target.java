@@ -21,18 +21,20 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Vladislav.Rassokhin
  */
-class MakeTarget {
+class Target {
   @NotNull
   private final String myName;
   @NotNull
   private final String myDirectory;
   @NotNull
   private final String myDescription;
+  private final int myLevel;
 
-  public MakeTarget(@NotNull final String name, @NotNull final String directory, @NotNull final String myDescription) {
+  public Target(@NotNull final String name, @NotNull final String directory, @NotNull final String myDescription, int level) {
     this.myName = name;
     this.myDirectory = directory;
     this.myDescription = myDescription;
+    this.myLevel = level;
   }
 
   @NotNull
@@ -48,5 +50,9 @@ class MakeTarget {
   @NotNull
   public String getDescription() {
     return myDescription;
+  }
+
+  public int getLevel() {
+    return myLevel;
   }
 }

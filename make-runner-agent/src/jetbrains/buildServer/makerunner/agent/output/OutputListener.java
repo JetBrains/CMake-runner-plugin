@@ -18,6 +18,7 @@ package jetbrains.buildServer.makerunner.agent.output;
 
 import jetbrains.buildServer.agent.runner.ProcessListenerAdapter;
 import jetbrains.buildServer.makerunner.agent.util.Logger;
+import jetbrains.buildServer.makerunner.agent.util.RegexParser;
 import jetbrains.buildServer.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,7 +31,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * @author Vladislav.Rassokhin
  */
-public class MakeOutputListener extends ProcessListenerAdapter {
+public class OutputListener extends ProcessListenerAdapter {
   @NotNull
   private final AtomicReference<File> myWorkingDirectory;
   @NotNull
@@ -38,7 +39,7 @@ public class MakeOutputListener extends ProcessListenerAdapter {
   @NotNull
   private final RegexParser myRegexParser;
 
-  public MakeOutputListener(@NotNull final Logger logger, @NotNull final AtomicReference<List<String>> makeTasks) {
+  public OutputListener(@NotNull final Logger logger, @NotNull final AtomicReference<List<String>> makeTasks) {
     myWorkingDirectory = new AtomicReference<File>();
     myContext = new MakeParserManager(logger, myWorkingDirectory, makeTasks);
     myRegexParser = loadParser(logger);

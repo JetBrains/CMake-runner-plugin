@@ -16,9 +16,9 @@
 
 package jetbrains.buildServer.makerunner.tests.output;
 
-import jetbrains.buildServer.makerunner.agent.output.RegexParser;
-import jetbrains.buildServer.makerunner.agent.output.RegexPattern;
-import jetbrains.buildServer.makerunner.agent.output.Severity;
+import jetbrains.buildServer.makerunner.agent.util.RegexPattern;
+import jetbrains.buildServer.makerunner.agent.util.RegexParser;
+import jetbrains.buildServer.makerunner.agent.util.Severity;
 import junit.framework.TestCase;
 
 import java.io.InputStream;

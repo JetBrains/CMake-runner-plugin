@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.makerunner.agent.output;
+package jetbrains.buildServer.makerunner.agent.util;
 
-import jetbrains.buildServer.makerunner.agent.util.Logger;
 import org.jetbrains.annotations.NotNull;
 
 /**

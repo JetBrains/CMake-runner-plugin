@@ -16,7 +16,7 @@
 
 package jetbrains.buildServer.makerunner.tests;
 
-import jetbrains.buildServer.makerunner.agent.output.MakeOutputListener;
+import jetbrains.buildServer.makerunner.agent.output.OutputListener;
 import jetbrains.buildServer.makerunner.agent.util.LoggerAdapter;
 import junit.framework.TestCase;
 import org.jetbrains.annotations.NotNull;
@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static jetbrains.buildServer.makerunner.tests.output.MakeOutputGenerator.generateLeaveMessage;
 import static jetbrains.buildServer.makerunner.tests.output.MakeOutputGenerator.generateStartingTargetMessage;
@@ -33,12 +35,12 @@ import static jetbrains.buildServer.makerunner.tests.output.MakeOutputGenerator.
 /**
  * @author Vladislav.Rassokhin
  */
-public class MakeLoggingListenerTest extends TestCase {
+public class OutputListenerTest extends TestCase {
 
   public void testTargetsFolding() throws Exception {
     final BracketSequenceMakeLogger logger = new BracketSequenceMakeLogger();
     final AtomicReference<List<String>> makeTasks = new AtomicReference<List<String>>(Arrays.asList("all", "clean"));
-    final MakeOutputListener mll = new MakeOutputListener(logger, makeTasks);
+    final OutputListener mll = new OutputListener(logger, makeTasks);
 
     {
       final File workingDirectory = new File("");
@@ -73,7 +75,7 @@ public class MakeLoggingListenerTest extends TestCase {
       }
     };
     final AtomicReference<List<String>> makeTasks = new AtomicReference<List<String>>(Arrays.asList("all", "clean"));
-    final MakeOutputListener mll = new MakeOutputListener(logger, makeTasks);
+    final OutputListener mll = new OutputListener(logger, makeTasks);
 
     {
       final File workingDirectory = new File("");
@@ -105,7 +107,7 @@ public class MakeLoggingListenerTest extends TestCase {
     final TargetsCollector tc = new TargetsCollector();
     final List<String> targets = Arrays.asList("all", "clean");
     final AtomicReference<List<String>> makeTasks = new AtomicReference<List<String>>(targets);
-    final MakeOutputListener mll = new MakeOutputListener(tc, makeTasks);
+    final OutputListener mll = new OutputListener(tc, makeTasks);
 
     final File workingDir = new File("");
     mll.processStarted("make", workingDir);
@@ -118,4 +120,13 @@ public class MakeLoggingListenerTest extends TestCase {
     assertEquals(targets, tc.myTargets);
   }
 
+private static final String DIRECTORY_LEAVE = ".*make[^\\[]*(?:\\[(\\d+)\\])?: Leaving directory `(.*)'";
+  private static final Pattern DIRECTORY_LEAVE_PATTERN = Pattern.compile(DIRECTORY_LEAVE);
+
+  public void testName() throws Exception {
+    final Matcher m = DIRECTORY_LEAVE_PATTERN.matcher("make.exe[1]: Leaving directory `/cygdrive/c/TeamCity/buildAgent/work/a4ef5517b8342b6e/man/ru'");
+    assertTrue(m.find());
+    assertNotNull(m.group(1));
+    assertEquals("1",m.group(1));
+  }
 }

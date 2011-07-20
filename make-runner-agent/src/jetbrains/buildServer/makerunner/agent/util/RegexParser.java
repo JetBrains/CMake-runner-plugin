@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.makerunner.agent.output;
+package jetbrains.buildServer.makerunner.agent.util;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.SingleValueConverter;
@@ -139,7 +139,7 @@ public class RegexParser {
           return true;
         }
       } catch (Exception e) {
-        manager.parsingError("Error parsing line [" + line + "]");
+        manager.parsingError("Error parsing line [" + line + "]" + e.getMessage());
       }
     }
     return false;
