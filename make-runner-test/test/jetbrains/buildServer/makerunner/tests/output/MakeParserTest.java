@@ -16,20 +16,15 @@
 //
 package jetbrains.buildServer.makerunner.tests.output;
 
-import jetbrains.buildServer.makerunner.agent.output.MakeParserFactory;
-import jetbrains.buildServer.makerunner.agent.util.Logger;
 import jetbrains.buildServer.makerunner.agent.util.LoggerAdapter;
-import jetbrains.buildServer.makerunner.agent.util.parser.Context;
-import jetbrains.buildServer.makerunner.agent.util.parser.Parser;
 import junit.framework.TestCase;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Vladislav.Rassokhin
  */
 public class MakeParserTest extends TestCase {
-  private static final MakeParserFactory MAKE_PARSER_FACTORY = new MakeParserFactory();
+//  private static final MakeParserFactory MAKE_PARSER_FACTORY = new MakeParserFactory();
   //  private static final String OUTPUT_SAMPLES_PATH = "make-runner-test/src/test/resources/output-samples";
 //  public static final FileFilter TXT_FILES_FILTER = new FileFilter() {
 //    public boolean accept(final File file) {
@@ -323,42 +318,42 @@ public class MakeParserTest extends TestCase {
   private static final int GMAKE_ERROR_STREAM2_WARNINGS = 0;
   private static final int GMAKE_ERROR_STREAM2_ERRORS = 3;
 
-  public void testPack0() throws Exception {
-    runParserMessagesCheck(GMAKE_ERROR_STREAM0, GMAKE_ERROR_STREAM0_ERRORS, GMAKE_ERROR_STREAM0_WARNINGS, GMAKE_ERROR_STREAM0_INFOS, GMAKE_ERROR_STREAM0_MESSAGES);
-  }
+//  public void testPack0() throws Exception {
+//    runParserMessagesCheck(GMAKE_ERROR_STREAM0, GMAKE_ERROR_STREAM0_ERRORS, GMAKE_ERROR_STREAM0_WARNINGS, GMAKE_ERROR_STREAM0_INFOS, GMAKE_ERROR_STREAM0_MESSAGES);
+//  }
+//
+//  public void testPack1() throws Exception {
+//    runParserMessagesCheck(GMAKE_ERROR_STREAM1, GMAKE_ERROR_STREAM1_ERRORS, GMAKE_ERROR_STREAM1_WARNINGS, null, GMAKE_ERROR_STREAM1_MESSAGES);
+//  }
+//
+//  public void testPack2() throws Exception {
+//    runParserMessagesCheck(GMAKE_ERROR_STREAM2, GMAKE_ERROR_STREAM2_ERRORS, GMAKE_ERROR_STREAM2_WARNINGS, null, null);
+//  }
 
-  public void testPack1() throws Exception {
-    runParserMessagesCheck(GMAKE_ERROR_STREAM1, GMAKE_ERROR_STREAM1_ERRORS, GMAKE_ERROR_STREAM1_WARNINGS, null, GMAKE_ERROR_STREAM1_MESSAGES);
-  }
-
-  public void testPack2() throws Exception {
-    runParserMessagesCheck(GMAKE_ERROR_STREAM2, GMAKE_ERROR_STREAM2_ERRORS, GMAKE_ERROR_STREAM2_WARNINGS, null, null);
-  }
-
-  void runParserMessagesCheck(@NotNull final String[] lines, @Nullable final Integer estimateErrors, @Nullable final Integer estimateWarnings, @Nullable final Integer estimateInfo, @Nullable final Integer estimateMessages) {
-    final Parser parser = MAKE_PARSER_FACTORY.createParser();
-    final CounterLogger logger = new CounterLogger();
-    final Context context = new Context() {
-      public Logger getLogger() {
-        return logger;
-      }
-    };
-    for (final String line : lines) {
-      parser.parse(line).apply(context);
-    }
-    if (estimateErrors != null) {
-      assertEquals("Errors count:", estimateErrors.intValue(), logger.error);
-    }
-    if (estimateWarnings != null) {
-      assertEquals("Warnings count:", estimateWarnings.intValue(), logger.warning);
-    }
-    if (estimateInfo != null) {
-      assertEquals("Info count:", estimateInfo.intValue(), logger.info);
-    }
-    if (estimateMessages != null) {
-      assertEquals("Messages count:", estimateMessages.intValue(), logger.message);
-    }
-  }
+//  void runParserMessagesCheck(@NotNull final String[] lines, @Nullable final Integer estimateErrors, @Nullable final Integer estimateWarnings, @Nullable final Integer estimateInfo, @Nullable final Integer estimateMessages) {
+//    final Parser parser = MAKE_PARSER_FACTORY.createParser();
+//    final CounterLogger logger = new CounterLogger();
+//    final Context context = new Context() {
+//      public Logger getLogger() {
+//        return logger;
+//      }
+//    };
+//    for (final String line : lines) {
+//      parser.parse(line).apply(context);
+//    }
+//    if (estimateErrors != null) {
+//      assertEquals("Errors count:", estimateErrors.intValue(), logger.error);
+//    }
+//    if (estimateWarnings != null) {
+//      assertEquals("Warnings count:", estimateWarnings.intValue(), logger.warning);
+//    }
+//    if (estimateInfo != null) {
+//      assertEquals("Info count:", estimateInfo.intValue(), logger.info);
+//    }
+//    if (estimateMessages != null) {
+//      assertEquals("Messages count:", estimateMessages.intValue(), logger.message);
+//    }
+//  }
 
 //  public void testParse1() throws Exception {
 //    Parser parser = new MakeParserFactory().createParser();

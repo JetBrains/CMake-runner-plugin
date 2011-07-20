@@ -17,7 +17,6 @@
 package jetbrains.buildServer.makerunner.agent.output;
 
 import jetbrains.buildServer.makerunner.agent.util.Logger;
-import jetbrains.buildServer.makerunner.agent.util.parser.Context;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,7 +31,7 @@ import java.util.regex.Pattern;
 /**
  * @author Vladislav.Rassokhin
  */
-public class MakeContext extends Manager implements Context {
+public class MakeParserManager extends Manager {
   @NotNull
   private final Stack<MakeTarget> myTargetsStack = new Stack<MakeTarget>();
   @NotNull
@@ -42,40 +41,35 @@ public class MakeContext extends Manager implements Context {
   private ListIterator<String> myMainMakeTasksIterator;
 
 
-  public MakeContext(@NotNull final Logger logger, @NotNull final AtomicReference<File> workingDirectory, @NotNull final AtomicReference<List<String>> mainMakeTasks) {
+  public MakeParserManager(@NotNull final Logger logger, @NotNull final AtomicReference<File> workingDirectory, @NotNull final AtomicReference<List<String>> mainMakeTasks) {
     super(logger);
     this.myWorkingDirectory = workingDirectory;
     this.myMainMakeTasks = mainMakeTasks;
   }
 
-  public boolean hasTargets() {
+  boolean hasTargets() {
     return !myTargetsStack.empty();
   }
 
-  public boolean isLastTargetDirectory(@NotNull final String dir) {
+  private boolean isLastTargetDirectory(@NotNull final String dir) {
     return hasTargets() && myTargetsStack.peek().getDirectory().equals(dir);
   }
 
-  public boolean isLastTargetName(@NotNull final String name) {
+  private boolean isLastTargetName(@NotNull final String name) {
     return hasTargets() && myTargetsStack.peek().getName().equals(name);
   }
 
-  @NotNull
-  public Logger getLogger() {
-    return myLogger;
-  }
-
-  public boolean isWorkingDirectory(@Nullable final String dir) {
+  boolean isWorkingDirectory(@Nullable final String dir) {
     return myWorkingDirectory.get().getName().equals(dir);
   }
 
-  public void checkMainTaskFinished(@Nullable final String dirName) {
+  void checkMainTaskFinished(@Nullable final String dirName) {
     if (isWorkingDirectory(dirName) && isLastTargetDirectory(".")) {
-      myLogger.blockFinish(myTargetsStack.pop().getDescription());
+      getLogger().blockFinish(myTargetsStack.pop().getDescription());
     }
   }
 
-  public void startNextMainTask() {
+  void startNextMainTask() {
     if (myMainMakeTasks.get() == null) return;
     if (myMainMakeTasksIterator == null) {
       myMainMakeTasksIterator = myMainMakeTasks.get().listIterator();
@@ -84,18 +78,18 @@ public class MakeContext extends Manager implements Context {
       final String targetName = myMainMakeTasksIterator.next();
       final String targetDescription = "Making " + targetName + " in /";
       myTargetsStack.push(new MakeTarget(targetName, ".", targetDescription));
-      myLogger.blockStart(targetDescription);
+      getLogger().blockStart(targetDescription);
     }
   }
 
-  public void targetStart(final String name, final String directory, final String description) {
+  void targetStart(final String name, final String directory, final String description) {
     checkMainTaskExist();
     final MakeTarget mt = new MakeTarget(name, directory, description);
     myTargetsStack.push(mt);
-    myLogger.blockStart(description);
+    getLogger().blockStart(description);
   }
 
-  public void targetFinish() {
+  void targetFinish() {
     final MakeTarget mt = myTargetsStack.pop();
     getLogger().blockFinish(mt.getDescription());
     checkMainTaskFinished(mt.getDirectory());
@@ -115,10 +109,10 @@ public class MakeContext extends Manager implements Context {
     }
   }
 
-  public static final String MAKING_IN = "Making (\\S+) in (\\S+)";
-  public static final Pattern MAKING_IN_PATTERN = Pattern.compile(MAKING_IN);
-  public static final String DIRECTORY_LEAVE = ".*make.*: Leaving directory `(.*)'";
-  public static final Pattern DIRECTORY_LEAVE_PATTERN = Pattern.compile(DIRECTORY_LEAVE);
+  private static final String MAKING_IN = "Making (\\S+) in (\\S+)";
+  private static final Pattern MAKING_IN_PATTERN = Pattern.compile(MAKING_IN);
+  private static final String DIRECTORY_LEAVE = ".*make.*: Leaving directory `(.*)'";
+  private static final Pattern DIRECTORY_LEAVE_PATTERN = Pattern.compile(DIRECTORY_LEAVE);
 
   @Override
   protected void specialParse(@NotNull final String line) {
@@ -126,22 +120,21 @@ public class MakeContext extends Manager implements Context {
     Matcher m = MAKING_IN_PATTERN.matcher(line);
     if (m.find()) {
       final String directory = m.group(2);
-      final MakeTarget myTarget = new MakeTarget(line, directory, line);
       if (!directory.equals(".")) {
         targetStart(line, directory, line);
       }
-      myLogger.info(line);
+      getLogger().info(line);
     } else {
       m = DIRECTORY_LEAVE_PATTERN.matcher(line);
       if (m.find()) {
-        myLogger.info(line);
+        getLogger().info(line);
         final String dirShortName = new File(m.group(1)).getName();
         if (isLastTargetDirectory(dirShortName)) {
           targetFinish();
         }
         checkMainTaskFinished(dirShortName);
       } else {
-        myLogger.info(line);
+        getLogger().info(line);
       }
     }
 

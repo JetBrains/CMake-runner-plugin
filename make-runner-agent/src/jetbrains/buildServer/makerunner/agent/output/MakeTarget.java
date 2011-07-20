@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Vladislav.Rassokhin
  */
-public class MakeTarget {
+class MakeTarget {
   @NotNull
   private final String myName;
   @NotNull

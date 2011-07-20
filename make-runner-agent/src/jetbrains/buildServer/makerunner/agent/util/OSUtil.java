@@ -23,6 +23,7 @@ import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
 import jetbrains.buildServer.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -85,7 +86,7 @@ public class OSUtil {
    */
   public static boolean isCLIExist(@NotNull final Map<String, String> environment) {
     try {
-      return FileUtil.checkIfExists(getCLIFullPath(environment));
+      return new File(getCLIFullPath(environment)).exists();
     } catch (RunBuildException e) {
       return false;
     }

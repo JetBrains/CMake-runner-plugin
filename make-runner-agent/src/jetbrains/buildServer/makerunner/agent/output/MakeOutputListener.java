@@ -34,13 +34,13 @@ public class MakeOutputListener extends ProcessListenerAdapter {
   @NotNull
   private final AtomicReference<File> myWorkingDirectory;
   @NotNull
-  private final MakeContext myContext;
+  private final MakeParserManager myContext;
   @NotNull
   private final RegexParser myRegexParser;
 
   public MakeOutputListener(@NotNull final Logger logger, @NotNull final AtomicReference<List<String>> makeTasks) {
     myWorkingDirectory = new AtomicReference<File>();
-    myContext = new MakeContext(logger, myWorkingDirectory, makeTasks);
+    myContext = new MakeParserManager(logger, myWorkingDirectory, makeTasks);
     myRegexParser = loadParser(logger);
   }
 
@@ -56,12 +56,16 @@ public class MakeOutputListener extends ProcessListenerAdapter {
 
   @Override
   public void onStandardOutput(@NotNull final String text) {
-    myRegexParser.processLine(text, myContext);
+    if (!myRegexParser.processLine(text, myContext)) {
+      myContext.getLogger().message(text);
+    }
   }
 
   @Override
   public void onErrorOutput(@NotNull final String text) {
-    myRegexParser.processLine(text, myContext);
+    if (!myRegexParser.processLine(text, myContext)) {
+      myContext.getLogger().error(text);
+    }
   }
 
 

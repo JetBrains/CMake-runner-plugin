@@ -24,20 +24,6 @@ import org.jetbrains.annotations.NotNull;
  */
 @SuppressWarnings({"SameReturnValue"})
 public class MakeRunnerBean {
-  @NotNull
-  public String getRunnerType() {
-    return MakeRunnerConstants.RUNNER_TYPE;
-  }
-
-  @NotNull
-  public String getRunnerDescription() {
-    return MakeRunnerConstants.RUNNER_DESCRIPTION;
-  }
-
-  @NotNull
-  public String getRunnerDisplayName() {
-    return MakeRunnerConstants.RUNNER_DISPLAY_NAME;
-  }
 
   // Keys
   @NotNull

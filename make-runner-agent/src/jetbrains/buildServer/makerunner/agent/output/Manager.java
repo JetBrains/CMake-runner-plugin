@@ -23,10 +23,15 @@ import org.jetbrains.annotations.NotNull;
  * @author Vladislav.Rassokhin
  */
 public class Manager {
-  protected final Logger myLogger;
+  private final Logger myLogger;
 
   public Manager(@NotNull final Logger myLogger) {
     this.myLogger = myLogger;
+  }
+
+  @NotNull
+  public Logger getLogger() {
+    return myLogger;
   }
 
   public final void log(@NotNull final String description, @NotNull final Severity severity) {
