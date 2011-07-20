@@ -15,52 +15,38 @@
   ~ limitations under the License.
   -->
 
-<parser id="GNU Make output parser" name="jetbrains.buildServer.makerunner.agent.output.MakeRegexpParser">
+<parser id="GNU Make output parser" name="jetbrains.buildServer.makerunner.agent.output.MakeRegexpParser"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="parser-configuration.xsd">
 
-  <!-- Folding targets -->
-  <pattern regex="Making (\S+) in (\S+)" output-expr="$0" severity="SPECIAL" eat-line="true"/>
-  <pattern regex=".*make.*: Leaving directory `(.*)'" output-expr="$0" severity="SPECIAL" eat-line="true"/>
+  <!-- Folding targets (Additional parsing)-->
+  <pattern regex="Making (\S+) in (\S+)"/>
+  <pattern regex=".*make.*: Leaving directory `(.*)'"/>
 
   <!-- do nothing-->
-  <pattern regex=".*make.*: Entering directory `(.*)'" output-expr="$0" severity="INFO" eat-line="true"/>
+  <pattern regex=".*make.*: Entering directory `(.*)'" severity="INFO"/>
 
 
   <!-- Makefile errors/warnings -->
-  <pattern regex="(.*):(\d*): (\*\*\* .*)" output-expr="In file '$1' at line '$2' : '$3'" severity="ERROR"
-           eat-line="true"/>
-  <pattern regex="(.*[Mm]akefile):(\d*): warning: (.*)" output-expr="In file '$1' at line '$2' : '$3'" severity="WARN"
-           eat-line="true"/>
+  <pattern regex="(.*):(\d*): (\*\*\* .*)" output-expr="In file '$1' at line '$2' : '$3'" severity="ERROR"/>
+  <pattern regex="(.*[Mm]akefile):(\d*): warning: (.*)" output-expr="In file '$1' at line '$2' : '$3'" severity="WARN"/>
   <pattern regex="(.*):(\d*): (\S*: No such file or directory)" output-expr="In file '$1' at line '$2' : '$3'"
-           severity="WARN" eat-line="true"/>
+           severity="WARN"/>
 
   <!-- Targets errors/warnings-->
-  <pattern regex="No rule to make target `(.*)'\." output-expr="$0"
-           severity="ERROR" eat-line="true"/>
-  <pattern regex=".*make.*: (Target (.*) not remade because of errors.)" output-expr="$1"
-           severity="ERROR" eat-line="true"/>
+  <pattern regex="No rule to make target `(.*)'\." severity="ERROR"/>
+  <pattern regex=".*make.*: (Target (.*) not remade because of errors.)" output-expr="$1" severity="ERROR"/>
 
-  <pattern regex=".*make.*: \*\*\* (\[\S+\] .*)" output-expr="$1"
-           severity="ERROR" eat-line="true"/>
-  <pattern regex=".*make.*:(.*Error.*\(ignored\))" output-expr="$1"
-           severity="INFO" eat-line="true"/>
-  <pattern regex=".*make.*: \*\*\* (.*)" output-expr="$1"
-           severity="ERROR" eat-line="true"/>
-  <pattern regex="Error:\s*(.*)" output-expr="$0"
-           severity="ERROR" eat-line="true"/>
+  <pattern regex=".*make.*: \*\*\* (\[\S+\] .*)" output-expr="$1" severity="ERROR"/>
+  <pattern regex=".*make.*:(.*Error.*\(ignored\))" output-expr="$1" severity="INFO"/>
+  <pattern regex=".*make.*: \*\*\* (.*)" output-expr="$1" severity="ERROR"/>
+  <pattern regex="Error:\s*(.*)" severity="ERROR"/>
 
-  <pattern regex=".*command not found.*" output-expr="$0"
-           severity="ERROR" eat-line="true"/>
-  <pattern regex=".*command not found.*" output-expr="$0"
-           severity="ERROR" eat-line="true"/>
+  <pattern regex=".*command not found.*" severity="ERROR"/>
+  <pattern regex=".*command not found.*" severity="ERROR"/>
 
 
-  <pattern regex=".*make.*\[.*\] (Error [\-]?\d*.*)" output-expr="$1"
-           severity="WARN" eat-line="true"/>
-  <pattern regex=".*make.*: (Circular .* dependency dropped.)" output-expr="$1"
-           severity="WARN" eat-line="true"/>
+  <pattern regex=".*make.*\[.*\] (Error [\-]?\d*.*)" output-expr="$1" severity="WARN"/>
+  <pattern regex=".*make.*: (Circular .* dependency dropped.)" output-expr="$1" severity="WARN"/>
 
-
-  <!--<pattern regex="" output-expr="$0" severity="ERROR" eat-line="true"/>-->
-  <!--<pattern regex="" output-expr="$0" severity="WARN" eat-line="true"/>-->
-  <!--<pattern regex="" output-expr="$0" severity="INFO" eat-line="true"/>-->
 </parser>
