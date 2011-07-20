@@ -25,11 +25,14 @@ import java.util.regex.Pattern;
  * @author Vladislav.Rassokhin
  */
 public class RegexPattern {
+  private static final Severity DEFAULT_SEVERITY = Severity.SPECIAL;
+  private static final String DEFAULT_DESCRIPTION_EXPR = "$0";
+  private static final boolean DEFAULT_EAT_LINE = false;
 
   private final java.util.regex.Pattern myPattern;
-  private final String myDescriptionExpression;
-  private final Severity mySeverity;
-  private final boolean myEatLine;
+  private String myDescriptionExpression;
+  private Severity mySeverity;
+  private Boolean myEatLine;
 
   public RegexPattern(@NotNull final Pattern pattern, @NotNull final String descriptionExpression, @NotNull final Severity severity, final boolean eatLine) {
     this.myPattern = pattern;
@@ -58,6 +61,7 @@ public class RegexPattern {
    * @param input - input line.
    * @return matcher to interpret the input line.
    */
+  @NotNull
   private Matcher getMatcher(@NotNull final CharSequence input) {
     return myPattern.matcher(input);
   }
@@ -101,5 +105,18 @@ public class RegexPattern {
 
   public boolean getEatLine() {
     return myEatLine;
+  }
+
+  /**
+   * Special for XStream. Setting null params to defaults.
+   *
+   * @return this
+   */
+  @SuppressWarnings({"UnusedDeclaration"})
+  private Object readResolve() {
+    if (myEatLine == null) myEatLine = DEFAULT_EAT_LINE;
+    if (myDescriptionExpression == null) myDescriptionExpression = DEFAULT_DESCRIPTION_EXPR;
+    if (mySeverity == null) mySeverity = DEFAULT_SEVERITY;
+    return this;
   }
 }
