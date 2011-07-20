@@ -32,6 +32,9 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
+ * {@code RegexParser} is an parser designed to use regular expressions in order
+ * to parse build output to change output type for Errors, Warnings or some other using {@link RegexPattern}
+ *
  * @author Vladislav.Rassokhin
  */
 public class RegexParser {
@@ -40,7 +43,7 @@ public class RegexParser {
   private final List<RegexPattern> myPatterns = new ArrayList<RegexPattern>();
 
   /**
-   * Default constructor will initialize the error parser with the name of the class
+   * Default constructor will initialize the parser with the name of the class
    * using reflection mechanism.
    */
   public RegexParser() {
@@ -51,28 +54,18 @@ public class RegexParser {
   /**
    * Constructor to initialize ID and name of the error parser.
    *
-   * @param id   - ID of the error parser.
-   * @param name - name of the error parser.
+   * @param id   - ID of the parser.
+   * @param name - name of the parser.
    */
   public RegexParser(final String id, final String name) {
     myName = name;
     myId = id;
   }
 
-  /**
-   * Set error parser ID.
-   *
-   * @param id of error parser
-   */
   public void setId(final String id) {
     myId = id;
   }
 
-  /**
-   * Set error parser name.
-   *
-   * @param name of error parser
-   */
   public void setName(final String name) {
     myName = name;
   }
@@ -87,16 +80,16 @@ public class RegexParser {
   }
 
   /**
-   * Remove error pattern from processing.
+   * Remove pattern from processing.
    *
-   * @param pattern - error pattern to remove
+   * @param pattern - pattern to remove
    */
   public void removePattern(final RegexPattern pattern) {
     myPatterns.remove(pattern);
   }
 
   /**
-   * Remove all error patterns.
+   * Remove all patterns.
    */
   public void clearPatterns() {
     myPatterns.clear();
@@ -133,11 +126,10 @@ public class RegexParser {
 
 
   /**
-   * Parse a line of build output and register errors/warnings/infos for
-   * Problems view in internal list of {@link Manager}.
+   * Parse a line of build output.
    *
    * @param line    - line of the input
-   * @param manager - error parsers manager
+   * @param manager - parsing manager
    * @return true if parser recognized and accepted line, false otherwise
    */
   public boolean processLine(final String line, final Manager manager) {
@@ -172,8 +164,20 @@ public class RegexParser {
 
 
   @Nullable
-  public static RegexParser deserialize(@NotNull final String serialized) {
-    return XStreamWrapper.deserializeObject(serialized, createXStreamHolder());
+  public static RegexParser deserialize(@NotNull final String xml) {
+    // TODO: (in TC 7.0) use XStreamWrapper.deserializeObject(String, XStreamHolder, ClassLoader)
+    // Because current  XStreamWrapper.deserializeObject(String, XStreamHolder) will be deprecated.
+    final XStreamHolder holder = createXStreamHolder();
+    if (xml.length() > 0) {
+      final XStream xStream = holder.getXStream(RegexParser.class.getClassLoader());
+      try {
+        return (RegexParser) xStream.fromXML(xml);
+      } finally {
+        holder.releaseXStream(xStream);
+      }
+    } else {
+      return null;
+    }
   }
 
   private static class PatternConverter implements SingleValueConverter {
