@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.makerunner.tests.output;
+package jetbrains.buildServer.makerunner.tests.agent.output;
 
 import jetbrains.buildServer.makerunner.agent.util.RegexPattern;
 import jetbrains.buildServer.makerunner.agent.util.RegexParser;

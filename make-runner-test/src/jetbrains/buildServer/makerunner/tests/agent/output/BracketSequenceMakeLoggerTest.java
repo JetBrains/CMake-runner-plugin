@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.makerunner.tests;
+package jetbrains.buildServer.makerunner.tests.agent.output;
 
 import junit.framework.TestCase;
+import org.testng.Assert;
 
 /**
  * @author Vladislav.Rassokhin
@@ -35,24 +36,24 @@ public class BracketSequenceMakeLoggerTest extends TestCase {
           break;
       }
     }
-    assertEquals(sequence, logger.getSequence());
+    Assert.assertEquals(sequence, logger.getSequence());
   }
 
   public void testResetSequence() throws Exception {
     final BracketSequenceMakeLogger logger = new BracketSequenceMakeLogger();
-    assertEquals(0, logger.getSequence().length());
+    Assert.assertEquals(0, logger.getSequence().length());
     logger.blockStart("");
     logger.blockStart("");
     logger.blockStart("");
     logger.blockFinish("");
-    assertEquals(4, logger.getSequence().length());
+    Assert.assertEquals(4, logger.getSequence().length());
     logger.resetSequence();
-    assertEquals(0, logger.getSequence().length());
+    Assert.assertEquals(0, logger.getSequence().length());
   }
 
   public void testIsSequenceCorrect() throws Exception {
     final BracketSequenceMakeLogger logger = new BracketSequenceMakeLogger();
-    assertTrue(logger.isSequenceCorrect());
+    Assert.assertTrue(logger.isSequenceCorrect());
     final String validSeq = "(()(()))";
     for (int i = 0; i < validSeq.length(); i++) {
       switch (validSeq.charAt(i)) {
@@ -64,11 +65,11 @@ public class BracketSequenceMakeLoggerTest extends TestCase {
           break;
       }
     }
-    assertTrue(logger.isSequenceCorrect());
+    Assert.assertTrue(logger.isSequenceCorrect());
 
 
     logger.resetSequence();
-    assertTrue(logger.isSequenceCorrect());
+    Assert.assertTrue(logger.isSequenceCorrect());
     final String badSeq1 = "(()))";
     for (int i = 0; i < badSeq1.length(); i++) {
       switch (badSeq1.charAt(i)) {
@@ -80,11 +81,11 @@ public class BracketSequenceMakeLoggerTest extends TestCase {
           break;
       }
     }
-    assertFalse(logger.isSequenceCorrect());
+    Assert.assertFalse(logger.isSequenceCorrect());
 
 
     logger.resetSequence();
-    assertTrue(logger.isSequenceCorrect());
+    Assert.assertTrue(logger.isSequenceCorrect());
     final String badSeq2 = "(()()";
     for (int i = 0; i < badSeq2.length(); i++) {
       switch (badSeq2.charAt(i)) {
@@ -96,6 +97,6 @@ public class BracketSequenceMakeLoggerTest extends TestCase {
           break;
       }
     }
-    assertFalse(logger.isSequenceCorrect());
+    Assert.assertFalse(logger.isSequenceCorrect());
   }
 }

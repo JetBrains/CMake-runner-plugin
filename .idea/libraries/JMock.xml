@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="JMock">
-    <CLASSES>
-      <root url="jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/jmock-SNAPSHOT.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

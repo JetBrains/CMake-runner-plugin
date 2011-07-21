@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.makerunner.tests.output;
+package jetbrains.buildServer.makerunner.tests.agent.output;
 
 /**
  * @author Vladislav.Rassokhin
@@ -25,10 +25,16 @@ public class MakeOutputGenerator {
   }
 
   public static String generateEnterMessage(final String dirName, final int level) {
+    if (level == -1) {
+      return String.format("make: Entering directory `%s'", dirName);
+    }
     return String.format("make[%d]: Entering directory `%s'", level, dirName);
   }
 
   public static String generateLeaveMessage(final String dirName, final int level) {
+    if (level == -1) {
+      return String.format("make: Leaving directory `%s'", dirName);
+    }
     return String.format("make[%d]: Leaving directory `%s'", level, dirName);
   }
 }

@@ -14,12 +14,15 @@
 * limitations under the License.
 */
 
-package jetbrains.buildServer.makerunner.tests;
+package jetbrains.buildServer.makerunner.tests.agent;
 
 import jetbrains.buildServer.makerunner.agent.output.OutputListener;
 import jetbrains.buildServer.makerunner.agent.util.LoggerAdapter;
+import jetbrains.buildServer.makerunner.tests.agent.output.BracketSequenceMakeLogger;
 import junit.framework.TestCase;
 import org.jetbrains.annotations.NotNull;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -29,14 +32,15 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static jetbrains.buildServer.makerunner.tests.output.MakeOutputGenerator.generateLeaveMessage;
-import static jetbrains.buildServer.makerunner.tests.output.MakeOutputGenerator.generateStartingTargetMessage;
+import static jetbrains.buildServer.makerunner.tests.agent.output.MakeOutputGenerator.generateLeaveMessage;
+import static jetbrains.buildServer.makerunner.tests.agent.output.MakeOutputGenerator.generateStartingTargetMessage;
 
 /**
  * @author Vladislav.Rassokhin
  */
 public class OutputListenerTest extends TestCase {
 
+  @Test
   public void testTargetsFolding() throws Exception {
     final BracketSequenceMakeLogger logger = new BracketSequenceMakeLogger();
     final AtomicReference<List<String>> makeTasks = new AtomicReference<List<String>>(Arrays.asList("all", "clean"));
@@ -47,19 +51,20 @@ public class OutputListenerTest extends TestCase {
       mll.processStarted("make", workingDirectory);
       mll.onStandardOutput(generateStartingTargetMessage("all", "."));
       mll.onStandardOutput(generateStartingTargetMessage("all", "b"));
-      mll.onStandardOutput(generateLeaveMessage("b", 2));
+      mll.onStandardOutput(generateLeaveMessage("b", 1));
       mll.onStandardOutput(generateStartingTargetMessage("all", "c"));
-      mll.onStandardOutput(generateLeaveMessage("c", 2));
-      mll.onStandardOutput(generateLeaveMessage(workingDirectory.getName(), 1));
+      mll.onStandardOutput(generateLeaveMessage("c", 1));
+      mll.onStandardOutput(generateLeaveMessage(workingDirectory.getName(), -1));
       mll.onStandardOutput(generateStartingTargetMessage("clean", "."));
-      mll.onStandardOutput(generateLeaveMessage(workingDirectory.getName(), 1));
+      mll.onStandardOutput(generateLeaveMessage(workingDirectory.getName(), -1));
       mll.processFinished(0);
     }
 
-    assertTrue(logger.isSequenceCorrect());
-    assertEquals("(()())()", logger.getSequence());
+    Assert.assertTrue(logger.isSequenceCorrect());
+    Assert.assertEquals(logger.getSequence(), "(()())()");
   }
 
+  @Test
   public void testTargetsFoldingDirs() throws Exception {
     final BracketSequenceMakeLogger logger = new BracketSequenceMakeLogger(true) {
       @Override
@@ -82,19 +87,20 @@ public class OutputListenerTest extends TestCase {
       mll.processStarted("make", workingDirectory);
       mll.onStandardOutput(generateStartingTargetMessage("all", "."));
       mll.onStandardOutput(generateStartingTargetMessage("all", "b"));
-      mll.onStandardOutput(generateLeaveMessage("b", 2));
+      mll.onStandardOutput(generateLeaveMessage("b", 1));
       mll.onStandardOutput(generateStartingTargetMessage("all", "c"));
-      mll.onStandardOutput(generateLeaveMessage("c", 2));
-      mll.onStandardOutput(generateLeaveMessage(workingDirectory.getName(), 1));
+      mll.onStandardOutput(generateLeaveMessage("c", 1));
+      mll.onStandardOutput(generateLeaveMessage(workingDirectory.getName(), 0));
       mll.onStandardOutput(generateStartingTargetMessage("clean", "."));
-      mll.onStandardOutput(generateLeaveMessage(workingDirectory.getName(), 1));
+      mll.onStandardOutput(generateLeaveMessage(workingDirectory.getName(), 0));
       mll.processFinished(0);
     }
 
-    assertTrue(logger.isSequenceCorrect());
-    assertEquals("(/(b)b(c)c)/(/)/", logger.getSequence());
+    Assert.assertTrue(logger.isSequenceCorrect());
+    Assert.assertEquals(logger.getSequence(), "(/(b)b(c)c)/(/)/");
   }
 
+  @Test
   public void testSubstring() throws Exception {
     class TargetsCollector extends LoggerAdapter {
       final List<String> myTargets = new ArrayList<String>();
@@ -117,16 +123,17 @@ public class OutputListenerTest extends TestCase {
     }
     mll.processFinished(0);
 
-    assertEquals(targets, tc.myTargets);
+    Assert.assertEquals(tc.myTargets, targets);
   }
 
-private static final String DIRECTORY_LEAVE = ".*make[^\\[]*(?:\\[(\\d+)\\])?: Leaving directory `(.*)'";
+  private static final String DIRECTORY_LEAVE = ".*make[^\\[]*(?:\\[(\\d+)\\])?: Leaving directory `(.*)'";
   private static final Pattern DIRECTORY_LEAVE_PATTERN = Pattern.compile(DIRECTORY_LEAVE);
 
+  @Test
   public void testName() throws Exception {
     final Matcher m = DIRECTORY_LEAVE_PATTERN.matcher("make.exe[1]: Leaving directory `/cygdrive/c/TeamCity/buildAgent/work/a4ef5517b8342b6e/man/ru'");
-    assertTrue(m.find());
-    assertNotNull(m.group(1));
-    assertEquals("1",m.group(1));
+    Assert.assertTrue(m.find());
+    Assert.assertNotNull(m.group(1));
+    Assert.assertEquals(m.group(1), "1");
   }
 }
