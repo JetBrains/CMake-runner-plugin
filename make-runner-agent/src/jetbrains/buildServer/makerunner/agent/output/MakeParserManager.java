@@ -65,6 +65,7 @@ public class MakeParserManager extends Manager {
   }
 
   private void checkMainTaskFinished(@Nullable final String dirName) {
+    checkMainTaskExist();
     if (isWorkingDirectory(dirName) && isLastTargetDirectory(".")) {
       getLogger().blockFinish(myTargetsStack.pop().getDescription());
     }
@@ -123,10 +124,10 @@ public class MakeParserManager extends Manager {
     }
   }
 
-  private static final String MAKING_IN = "Making (\\S+) in (\\S+)";
-  private static final Pattern MAKING_IN_PATTERN = Pattern.compile(MAKING_IN);
-  private static final String DIRECTORY_LEAVE = ".*make[^\\[]*(?:\\[(\\d+)\\])?: Leaving directory `(.*)'";
-  private static final Pattern DIRECTORY_LEAVE_PATTERN = Pattern.compile(DIRECTORY_LEAVE);
+  private static final String MAKING_IN = ".*[Mm]aking (\\S+) in (\\S+)";
+  public static final Pattern MAKING_IN_PATTERN = Pattern.compile(MAKING_IN);
+  private static final String DIRECTORY_LEAVE = ".*[Mm]ake[^\\[\\]]*(?:\\[(\\d+)\\])?: Leaving directory `(.*)'";
+  public static final Pattern DIRECTORY_LEAVE_PATTERN = Pattern.compile(DIRECTORY_LEAVE);
 
   @Override
   protected void specialParse(@NotNull final String line) {
@@ -138,25 +139,26 @@ public class MakeParserManager extends Manager {
         targetStart(line, directory, line, -1);
       }
       getLogger().info(line);
-    } else {
-      m = DIRECTORY_LEAVE_PATTERN.matcher(line);
-      if (m.find()) {
-        getLogger().info(line);
-        final String dirShortName = new File(m.group(2)).getName();
-        final String levelStr = m.group(1);
-        int level = -1;
-        if (levelStr != null) {
-          level = Integer.parseInt(levelStr);
-        }
-        if (isLastTargetDirectory(dirShortName)) {
-          targetFinish(level);
-        }
-        checkMainTaskFinished(dirShortName);
-      } else {
-        getLogger().info(line);
-      }
+      return;
     }
 
+    m = DIRECTORY_LEAVE_PATTERN.matcher(line);
+    if (m.find()) {
+      getLogger().info(line);
+      final String dirShortName = new File(m.group(2)).getName();
+      final String levelStr = m.group(1);
+      int level = -1;
+      if (levelStr != null) {
+        level = Integer.parseInt(levelStr);
+      }
+      if (isLastTargetDirectory(dirShortName)) {
+        targetFinish(level);
+      }
+      checkMainTaskFinished(dirShortName);
+      return;
+    }
+
+    getLogger().info(line);
   }
 
 }
