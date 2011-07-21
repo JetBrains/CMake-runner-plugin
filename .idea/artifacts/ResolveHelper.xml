@@ -1,6 +1,5 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="ResolveHelper">
-    <output-path>$PROJECT_DIR$/out/artifacts/ResolveHelper</output-path>
     <root id="root">
       <element id="module-output" name="ResolveHelper" />
       <element id="javaee-facet-resources" facet="ResolveHelper/web/Web" />
