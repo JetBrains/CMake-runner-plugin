@@ -22,6 +22,7 @@ import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
 import jetbrains.buildServer.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -133,4 +134,36 @@ public class OSUtil {
   private static final String RUNNER_SCRIPT_UNIX = " $@ 2>&1";
   @NotNull
   private static final String OS_NOT_SUPPORTED = "OS not supported";
+
+  public static String getEnvPATHVariableName() {
+    if (SystemInfo.isUnix) {
+      return "PATH";
+    } else if (SystemInfo.isWindows) {
+      return "Path";
+    } else {
+      throw new RuntimeException(OS_NOT_SUPPORTED);
+    }
+  }
+
+  @Nullable
+  public static String getEnvironmentVariableValue(@NotNull final Map<String, String> environment, @NotNull final String name) {
+    String path = environment.get(name);
+    if (path != null)
+      return path;
+
+    // Using ignore case search
+    for (final String s : environment.keySet()) {
+      if (StringUtil.areEqual(s.toUpperCase(), name.toUpperCase())) {
+        path = environment.get(s);
+        break;
+      }
+    }
+
+    return path;
+  }
+
+  @Nullable
+  public static String getPathEnvVariable(@NotNull final Map<String, String> environment) {
+    return getEnvironmentVariableValue(environment, getEnvPATHVariableName());
+  }
 }

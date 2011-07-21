@@ -23,6 +23,7 @@ import jetbrains.buildServer.agent.runner.ProcessListener;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
 import jetbrains.buildServer.makerunner.agent.output.OutputListener;
+import jetbrains.buildServer.makerunner.agent.util.FileUtil;
 import jetbrains.buildServer.makerunner.agent.util.OSUtil;
 import jetbrains.buildServer.makerunner.agent.util.SimpleMakeLogger;
 import jetbrains.buildServer.runner.BuildFileRunnerUtil;
@@ -51,6 +52,7 @@ public class MakeTasksBuildService extends BuildServiceAdapter {
   private static final List<String> ONE_TASK_LIST = Collections.singletonList("default");
   @NotNull
   private static final String DEFAULT_MAKE_PROGRAM = "make";
+  private static final String NEW_LINES_PATTERN = "[" + System.getProperty("line.separator", "\n") + "]+";
 
   @NotNull
   @Override
@@ -58,8 +60,7 @@ public class MakeTasksBuildService extends BuildServiceAdapter {
 
     final List<String> arguments = new ArrayList<String>();
     final Map<String, String> runnerParameters = getRunnerParameters(); // all server-ui options
-
-    final Map<String, String> runnerEnvParams = new HashMap<String, String>(getBuildParameters().getEnvironmentVariables());
+    final Map<String, String> environment = new HashMap<String, String>(getBuildParameters().getEnvironmentVariables());
 
     // Path to 'make'
 
@@ -68,7 +69,9 @@ public class MakeTasksBuildService extends BuildServiceAdapter {
       programPath = DEFAULT_MAKE_PROGRAM;
     }
 
-    // TODO: check existence
+    // Check for program exist
+//    if (!FileUtil.checkIfExists(programPath) && FileUtil.findExecutableByNameInPATH(programPath, environment) == null)
+//      throw new RunBuildException("Cannot locate `" + programPath + "' executable");
 
 
     // Make options
@@ -96,7 +99,7 @@ public class MakeTasksBuildService extends BuildServiceAdapter {
 
 
     // Result:
-    return OSUtil.makeOSSpecific(new SimpleProgramCommandLine(runnerEnvParams,
+    return OSUtil.makeOSSpecific(new SimpleProgramCommandLine(environment,
             getWorkingDirectory().getAbsolutePath(),
             programPath,
             arguments));
@@ -144,14 +147,12 @@ public class MakeTasksBuildService extends BuildServiceAdapter {
   }
 
   private void addCustomArguments(@NotNull final List<String> args, @Nullable final String parameters) {
-    if (parameters == null) return;
-    final String newLinesPattern = "[" + System.getProperty("line.separator", "\n") + "]+";
-    if (!StringUtil.isEmptyOrSpaces(parameters)) {
-      for (final String _line : parameters.split(newLinesPattern)) {
-        final String line = _line.trim();
-        if (StringUtil.isEmptyOrSpaces(line)) continue;
-        args.addAll(StringUtil.splitHonorQuotes(line));
-      }
+    if (StringUtil.isEmptyOrSpaces(parameters)) return;
+    //noinspection ConstantConditions
+    for (final String _line : parameters.split(NEW_LINES_PATTERN)) {
+      final String line = _line.trim();
+      if (StringUtil.isEmptyOrSpaces(line)) continue;
+      args.addAll(StringUtil.splitHonorQuotes(line));
     }
   }
 
