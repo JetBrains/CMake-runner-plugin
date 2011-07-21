@@ -38,8 +38,14 @@
     </replace>
   </target>
 
-  <target name="deploy-plugin-zip-artifact">
-    <copyfile dest="${path.variable.teamcitydistribution}$/Data/plugins" src="${artifact.output.path}"/>
+  <target name="copy-after-build-artifact">
+    <property name="fromDir" value="${artifact.output.path}"/>
+    <property name="toDir" value="${artifact.copy.to.path}"/>
+
+    <echo message="copying plugin from ${fromDir} into ${toDir}"/>
+    <copy todir="${toDir}">
+      <fileset dir="${fromDir}"/>
+    </copy>
   </target>
 
 </project>

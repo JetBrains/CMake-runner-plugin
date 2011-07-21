@@ -4,7 +4,10 @@
     <properties id="ant-postprocessing">
       <options enabled="true">
         <file>file://$PROJECT_DIR$/build-hooks.xml</file>
-        <target>deploy-plugin-zip-artifact</target>
+        <target>copy-after-build-artifact</target>
+        <build-properties>
+          <build-property name="artifact.copy.to.path" value="$teamcitydistribution$/Data/plugins" />
+        </build-properties>
       </options>
     </properties>
     <root id="root">
