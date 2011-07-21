@@ -38,4 +38,8 @@
     </replace>
   </target>
 
+  <target name="deploy-plugin-zip-artifact">
+    <copyfile dest="${path.variable.teamcitydistribution}$/Data/plugins" src="${artifact.output.path}"/>
+  </target>
+
 </project>
