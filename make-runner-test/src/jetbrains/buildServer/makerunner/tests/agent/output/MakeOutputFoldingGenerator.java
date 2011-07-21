@@ -19,7 +19,8 @@ package jetbrains.buildServer.makerunner.tests.agent.output;
 /**
  * @author Vladislav.Rassokhin
  */
-public class MakeOutputGenerator {
+public class MakeOutputFoldingGenerator {
+
   public static String generateStartingTargetMessage(final String target, final String dirName) {
     return String.format("Making %s in %s", target, dirName);
   }

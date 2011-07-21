@@ -31,15 +31,10 @@ public class LoggerAdapter implements Logger {
   public void warning(@NotNull final String message) {
   }
 
-  public void debug(@NotNull final String message) {
-  }
-
   public void blockStart(@NotNull final String name) {
   }
 
   public void blockFinish(@NotNull final String name) {
   }
 
-  public void info(@NotNull final String message) {
-  }
 }

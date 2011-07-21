@@ -16,13 +16,17 @@
 
 package jetbrains.buildServer.makerunner.tests.agent.output;
 
+import jetbrains.buildServer.BaseTestCase;
 import junit.framework.TestCase;
 import org.testng.Assert;
+import org.testng.annotations.Test;
 
 /**
  * @author Vladislav.Rassokhin
  */
-public class BracketSequenceMakeLoggerTest extends TestCase {
+public class BracketSequenceMakeLoggerTest extends BaseTestCase {
+
+  @Test
   public void testGetSequence() throws Exception {
     final BracketSequenceMakeLogger logger = new BracketSequenceMakeLogger();
     final String sequence = "(()(()))";
@@ -39,6 +43,7 @@ public class BracketSequenceMakeLoggerTest extends TestCase {
     Assert.assertEquals(sequence, logger.getSequence());
   }
 
+  @Test
   public void testResetSequence() throws Exception {
     final BracketSequenceMakeLogger logger = new BracketSequenceMakeLogger();
     Assert.assertEquals(0, logger.getSequence().length());
@@ -51,6 +56,7 @@ public class BracketSequenceMakeLoggerTest extends TestCase {
     Assert.assertEquals(0, logger.getSequence().length());
   }
 
+  @Test
   public void testIsSequenceCorrect() throws Exception {
     final BracketSequenceMakeLogger logger = new BracketSequenceMakeLogger();
     Assert.assertTrue(logger.isSequenceCorrect());

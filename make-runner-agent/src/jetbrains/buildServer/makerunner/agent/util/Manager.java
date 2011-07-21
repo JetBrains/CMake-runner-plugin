@@ -33,26 +33,29 @@ public class Manager {
     return myLogger;
   }
 
-  public final void log(@NotNull final String description, @NotNull final Severity severity) {
+  public final void log(@NotNull final String text, @NotNull final Severity severity) {
     switch (severity) {
       case INFO:
-        myLogger.info(description);
+        myLogger.message(text);
         break;
       case WARN:
-        myLogger.warning(description);
+        myLogger.warning(text);
         break;
       case ERROR:
-        myLogger.error(description);
+        myLogger.error(text);
         break;
       case SPECIAL:
-        this.specialParse(description);
+        if (!this.specialParse(text)) {
+          myLogger.message(text);
+        }
     }
   }
 
-  protected void specialParse(@NotNull final String line) {
+  protected boolean specialParse(@NotNull final String line) {
+    return false;
   }
 
   public void parsingError(@NotNull final String message) {
-    myLogger.debug(message);
+    myLogger.warning("GNU Make parser: error parsing: " + message);
   }
 }

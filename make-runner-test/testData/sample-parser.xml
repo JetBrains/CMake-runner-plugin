@@ -15,7 +15,9 @@
   ~ limitations under the License.
   -->
 
-<parser id="Sample output parser" name="jetbrains.buildServer.makerunner.agent.output.SampleRegexParser">
+<parser id="Sample output parser" name="jetbrains.buildServer.makerunner.agent.output.SampleRegexParser"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../make-runner-agent/resources/parser-configuration.xsd">
   <pattern regex="error: (.*)" output-expr="$1" severity="ERROR" eat-line="true"/>
   <pattern regex="warning .*" output-expr="$0" severity="WARN" eat-line="false"/>
   <pattern regex=".*" output-expr="$0" severity="INFO" eat-line="true"/>

@@ -18,6 +18,7 @@ package jetbrains.buildServer.makerunner.agent.output;
 
 import jetbrains.buildServer.makerunner.agent.util.Logger;
 import jetbrains.buildServer.makerunner.agent.util.Manager;
+import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -124,27 +125,30 @@ public class MakeParserManager extends Manager {
     }
   }
 
+  @NonNls
   private static final String MAKING_IN = ".*[Mm]aking (\\S+) in (\\S+)";
-  public static final Pattern MAKING_IN_PATTERN = Pattern.compile(MAKING_IN);
+  @NonNls
   private static final String DIRECTORY_LEAVE = ".*[Mm]ake[^\\[\\]]*(?:\\[(\\d+)\\])?: Leaving directory `(.*)'";
+
+  public static final Pattern MAKING_IN_PATTERN = Pattern.compile(MAKING_IN);
   public static final Pattern DIRECTORY_LEAVE_PATTERN = Pattern.compile(DIRECTORY_LEAVE);
 
   @Override
-  protected void specialParse(@NotNull final String line) {
+  protected boolean specialParse(@NotNull final String text) {
 
-    Matcher m = MAKING_IN_PATTERN.matcher(line);
+    Matcher m = MAKING_IN_PATTERN.matcher(text);
     if (m.find()) {
       final String directory = m.group(2);
       if (!directory.equals(".")) {
-        targetStart(line, directory, line, -1);
+        targetStart(text, directory, text, -1);
       }
-      getLogger().info(line);
-      return;
+      getLogger().message(text);
+      return true;
     }
 
-    m = DIRECTORY_LEAVE_PATTERN.matcher(line);
+    m = DIRECTORY_LEAVE_PATTERN.matcher(text);
     if (m.find()) {
-      getLogger().info(line);
+      getLogger().message(text);
       final String dirShortName = new File(m.group(2)).getName();
       final String levelStr = m.group(1);
       int level = -1;
@@ -155,10 +159,9 @@ public class MakeParserManager extends Manager {
         targetFinish(level);
       }
       checkMainTaskFinished(dirShortName);
-      return;
+      return true;
     }
 
-    getLogger().info(line);
+    return super.specialParse(text);
   }
-
 }

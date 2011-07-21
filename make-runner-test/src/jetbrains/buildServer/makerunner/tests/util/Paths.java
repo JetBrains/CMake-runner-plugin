@@ -14,13 +14,24 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.makerunner.tests.agent.output;
+package jetbrains.buildServer.makerunner.tests.util;
 
-import junit.framework.TestCase;
+import jetbrains.buildServer.util.FileUtil;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
 
 /**
  * @author Vladislav.Rassokhin
  */
-public class MakeOutputListenerTest extends TestCase {
+public class Paths {
+  @NotNull
+  public static File getTestDataPath() {
+    return FileUtil.getCanonicalFile(new File("make-runner-test/testData"));
+  }
 
+  @NotNull
+  public static File getTestDataPath(@NotNull final String p) {
+    return FileUtil.getCanonicalFile(new File(getTestDataPath(), p));
+  }
 }

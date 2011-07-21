@@ -47,16 +47,6 @@ public class SimpleMakeLogger extends LoggerAdapter {
   }
 
   @Override
-  public void debug(@NotNull final String message) {
-    myBuildLogger.warning("DEBUG: " + message);
-  }
-
-  @Override
-  public void info(@NotNull final String message) {
-    myBuildLogger.message(message);
-  }
-
-  @Override
   public void blockStart(@NotNull final String name) {
     myBuildLogger.targetStarted(name);
   }

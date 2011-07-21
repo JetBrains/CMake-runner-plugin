@@ -42,7 +42,7 @@ public class OutputListener extends ProcessListenerAdapter {
   public OutputListener(@NotNull final Logger logger, @NotNull final AtomicReference<List<String>> makeTasks) {
     myWorkingDirectory = new AtomicReference<File>();
     myContext = new MakeParserManager(logger, myWorkingDirectory, makeTasks);
-    myRegexParser = loadParser(logger);
+    myRegexParser = loadParser(logger, "/make-parser.xml"); //TODO: extract "/make-parser.xml" as variable?
   }
 
   @Override
@@ -71,8 +71,8 @@ public class OutputListener extends ProcessListenerAdapter {
 
 
   @NotNull
-  private RegexParser loadParser(@NotNull final Logger logger) {
-    final InputStream parserConfigStream = this.getClass().getResourceAsStream("/make-parser.xml");
+  private RegexParser loadParser(@NotNull final Logger logger, @NotNull final String configFileName) {
+    final InputStream parserConfigStream = this.getClass().getResourceAsStream(configFileName);
     RegexParser parser = null;
     if (parserConfigStream == null) {
       logger.warning("Parser configuration not found");

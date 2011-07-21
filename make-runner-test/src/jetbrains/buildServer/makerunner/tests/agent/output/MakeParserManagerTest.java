@@ -26,23 +26,23 @@ import org.testng.annotations.Test;
  */
 public class MakeParserManagerTest extends BaseTestCase {
 
-  String[][] DIRECTORY_LEAVE_TEST_OK = {
+  private final String[][] DIRECTORY_LEAVE_TEST_OK = {
           {"make.exe[1]: Leaving directory `/cygdrive/c/TeamCity/'", "1", "/cygdrive/c/TeamCity/"},
           {"   GNUmake: Leaving directory `~/home/build1'", null, "~/home/build1"},
           {"make[2]: Leaving directory `somedir'", "2", "somedir"}
   };
-  String[] DIRECTORY_LEAVE_TEST_ERR = {
+  private final String[] DIRECTORY_LEAVE_TEST_ERR = {
           "make.exe1]: Leaving directory `/cygdrive/c/TeamCity/'",
           "make Leaving directOOry `~/home/build1'",
           "make[2]: Leaving directory somedir"
   };
 
-  String[][] MAKING_IN_TEST_OK = {
+  private final String[][] MAKING_IN_TEST_OK = {
           {"Making all in ."},
           {"  Making something in somewhere"},
           {"Making some\\thing in so-a:de:r"}
   };
-  String[] MAKING_IN_TEST_ERR = {
+  private final String[] MAKING_IN_TEST_ERR = {
           "Makeng a in b",
           "making a a in b",
   };

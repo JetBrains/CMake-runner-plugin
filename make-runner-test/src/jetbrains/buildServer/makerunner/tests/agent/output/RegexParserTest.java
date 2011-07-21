@@ -16,10 +16,12 @@
 
 package jetbrains.buildServer.makerunner.tests.agent.output;
 
-import jetbrains.buildServer.makerunner.agent.util.RegexPattern;
+import jetbrains.buildServer.BaseTestCase;
 import jetbrains.buildServer.makerunner.agent.util.RegexParser;
+import jetbrains.buildServer.makerunner.agent.util.RegexPattern;
 import jetbrains.buildServer.makerunner.agent.util.Severity;
-import junit.framework.TestCase;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.io.InputStream;
 import java.util.List;
@@ -27,7 +29,7 @@ import java.util.List;
 /**
  * @author Vladislav.Rassokhin
  */
-public class RegexParserTest extends TestCase {
+public class RegexParserTest extends BaseTestCase {
 
   private static final int SAMPLE_PARSER_PATTERNS_COUNT = 3;
   private static final String[] SAMPLE_PARSER_PATTERNS_REGEX = {"error: (.*)", "warning .*", ".*"};
@@ -35,33 +37,35 @@ public class RegexParserTest extends TestCase {
   private static final Severity[] SAMPLE_PARSER_PATTERNS_SEVERITY = {Severity.ERROR, Severity.WARN, Severity.INFO};
   private static final boolean[] SAMPLE_PARSER_PATTERNS_EAT = {true, false, true};
 
+  @Test
   public void testLoadingSample() throws Exception {
     final InputStream parserConfigStream = this.getClass().getResourceAsStream("/sample-parser.xml");
-    assertNotNull(parserConfigStream);
+    Assert.assertNotNull(parserConfigStream);
     final RegexParser parser = RegexParser.deserialize(parserConfigStream);
-    assertNotNull(parser);
-    assertEquals("Sample output parser", parser.getId());
-    assertEquals("jetbrains.buildServer.makerunner.agent.output.SampleRegexParser", parser.getName());
+    Assert.assertNotNull(parser);
+    Assert.assertEquals(parser.getId(), "Sample output parser");
+    Assert.assertEquals(parser.getName(), "jetbrains.buildServer.makerunner.agent.output.SampleRegexParser");
 
     final List<RegexPattern> patterns = parser.getPatterns();
-    assertEquals(SAMPLE_PARSER_PATTERNS_COUNT, patterns.size());
+    Assert.assertEquals(patterns.size(), SAMPLE_PARSER_PATTERNS_COUNT);
 
     for (int i = 0; i < SAMPLE_PARSER_PATTERNS_COUNT; i++) {
       final RegexPattern pattern = patterns.get(i);
-      assertEquals(SAMPLE_PARSER_PATTERNS_REGEX[i], pattern.getPattern().pattern());
-      assertEquals(SAMPLE_PARSER_PATTERNS_DESCRIPTION_EXPR[i], pattern.getDescriptionExpression());
-      assertEquals(SAMPLE_PARSER_PATTERNS_SEVERITY[i], pattern.getSeverity());
-      assertEquals(SAMPLE_PARSER_PATTERNS_EAT[i], pattern.getEatLine());
+      Assert.assertEquals(pattern.getPattern().pattern(), SAMPLE_PARSER_PATTERNS_REGEX[i]);
+      Assert.assertEquals(pattern.getDescriptionExpression(), SAMPLE_PARSER_PATTERNS_DESCRIPTION_EXPR[i]);
+      Assert.assertEquals(pattern.getSeverity(), SAMPLE_PARSER_PATTERNS_SEVERITY[i]);
+      Assert.assertEquals(pattern.getEatLine(), SAMPLE_PARSER_PATTERNS_EAT[i]);
     }
   }
 
+  @Test
   public void testLoadingOriginal() throws Exception {
     final InputStream parserConfigStream = this.getClass().getResourceAsStream("/make-parser.xml");
-    assertNotNull(parserConfigStream);
+    Assert.assertNotNull(parserConfigStream);
     final RegexParser parser = RegexParser.deserialize(parserConfigStream);
-    assertNotNull(parser);
-    assertEquals("GNU Make output parser", parser.getId());
-    assertFalse(parser.getPatterns().isEmpty());
+    Assert.assertNotNull(parser);
+    Assert.assertEquals(parser.getId(), "GNU Make output parser");
+    Assert.assertFalse(parser.getPatterns().isEmpty());
   }
 
 }

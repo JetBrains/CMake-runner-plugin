@@ -29,11 +29,8 @@ public interface Logger {
 
   void warning(@NotNull String message);
 
-  void debug(@NotNull String message);
-
   void blockStart(@NotNull String name);
 
   void blockFinish(@NotNull String name);
 
-  void info(@NotNull String message);
 }
