@@ -23,7 +23,6 @@ import jetbrains.buildServer.agent.runner.ProcessListener;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
 import jetbrains.buildServer.makerunner.agent.output.OutputListener;
-import jetbrains.buildServer.makerunner.agent.util.FileUtil;
 import jetbrains.buildServer.makerunner.agent.util.OSUtil;
 import jetbrains.buildServer.makerunner.agent.util.SimpleMakeLogger;
 import jetbrains.buildServer.runner.BuildFileRunnerUtil;

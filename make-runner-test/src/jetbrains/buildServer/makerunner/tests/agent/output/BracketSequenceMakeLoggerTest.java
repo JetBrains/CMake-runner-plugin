@@ -17,7 +17,6 @@
 package jetbrains.buildServer.makerunner.tests.agent.output;
 
 import jetbrains.buildServer.BaseTestCase;
-import junit.framework.TestCase;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

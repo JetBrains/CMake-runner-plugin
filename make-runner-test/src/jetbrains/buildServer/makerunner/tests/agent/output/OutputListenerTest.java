@@ -29,8 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static jetbrains.buildServer.makerunner.tests.agent.output.MakeOutputFoldingGenerator.generateLeaveMessage;
-import static jetbrains.buildServer.makerunner.tests.agent.output.MakeOutputFoldingGenerator.generateStartingTargetMessage;
+import static jetbrains.buildServer.makerunner.tests.agent.output.MakeOutputFoldingGenerator.*;
 
 /**
  * @author Vladislav.Rassokhin
@@ -45,20 +44,36 @@ public class OutputListenerTest extends TestCase {
 
     {
       final File workingDirectory = new File("");
+      final String wdAp = workingDirectory.getAbsolutePath();
       mll.processStarted("make", workingDirectory);
-      mll.onStandardOutput(generateStartingTargetMessage("all", "."));
-      mll.onStandardOutput(generateStartingTargetMessage("all", "b"));
-      mll.onStandardOutput(generateLeaveMessage("b", 1));
-      mll.onStandardOutput(generateStartingTargetMessage("all", "c"));
-      mll.onStandardOutput(generateLeaveMessage("c", 1));
-      mll.onStandardOutput(generateLeaveMessage(workingDirectory.getName(), -1));
-      mll.onStandardOutput(generateStartingTargetMessage("clean", "."));
-      mll.onStandardOutput(generateLeaveMessage(workingDirectory.getName(), -1));
+      mll.onStandardOutput(generateEnterMessage(wdAp, -1));
+
+      mll.onStandardOutput(generateEnterMessage(wdAp + "/b", 1));
+      mll.onStandardOutput(generateLeaveMessage(wdAp + "/b", 1));
+      mll.onStandardOutput(generateEnterMessage(wdAp + "/c", 1));
+      mll.onStandardOutput(generateLeaveMessage(wdAp + "/c", 1));
+
+      mll.onStandardOutput(generateEnterMessage(wdAp + "/a", 1));
+      mll.onStandardOutput(generateEnterMessage(wdAp + "/a/d", 2));
+      mll.onStandardOutput(generateLeaveMessage(wdAp + "/a/d", 2));
+      mll.onStandardOutput(generateLeaveMessage(wdAp + "/a", 1));
+
+      mll.onStandardOutput(generateEnterMessage(wdAp, 1));
+      mll.onStandardOutput(generateLeaveMessage(wdAp, 1));
+
+
+      mll.onStandardOutput(generateEnterMessage(wdAp + "/c", 1));
+      mll.onStandardOutput(generateLeaveMessage(wdAp + "/c", 1));
+
+      mll.onStandardOutput(generateEnterMessage(wdAp, 1));
+      mll.onStandardOutput(generateLeaveMessage(wdAp, 1));
+
+      mll.onStandardOutput(generateLeaveMessage(wdAp, -1));
       mll.processFinished(0);
     }
 
     Assert.assertTrue(logger.isSequenceCorrect());
-    Assert.assertEquals(logger.getSequence(), "(()())()");
+    Assert.assertEquals(logger.getSequence(), "(()()(())())");
   }
 
   @Test
@@ -81,20 +96,36 @@ public class OutputListenerTest extends TestCase {
 
     {
       final File workingDirectory = new File("");
+      final String wdAp = workingDirectory.getAbsolutePath();
       mll.processStarted("make", workingDirectory);
-      mll.onStandardOutput(generateStartingTargetMessage("all", "."));
-      mll.onStandardOutput(generateStartingTargetMessage("all", "b"));
-      mll.onStandardOutput(generateLeaveMessage("b", 1));
-      mll.onStandardOutput(generateStartingTargetMessage("all", "c"));
-      mll.onStandardOutput(generateLeaveMessage("c", 1));
-      mll.onStandardOutput(generateLeaveMessage(workingDirectory.getName(), 0));
-      mll.onStandardOutput(generateStartingTargetMessage("clean", "."));
-      mll.onStandardOutput(generateLeaveMessage(workingDirectory.getName(), 0));
+      mll.onStandardOutput(generateEnterMessage(wdAp, -1));
+
+      mll.onStandardOutput(generateEnterMessage(wdAp + "/b", 1));
+      mll.onStandardOutput(generateLeaveMessage(wdAp + "/b", 1));
+      mll.onStandardOutput(generateEnterMessage(wdAp + "/c", 1));
+      mll.onStandardOutput(generateLeaveMessage(wdAp + "/c", 1));
+
+      mll.onStandardOutput(generateEnterMessage(wdAp + "/a", 1));
+      mll.onStandardOutput(generateEnterMessage(wdAp + "/a/d", 2));
+      mll.onStandardOutput(generateLeaveMessage(wdAp + "/a/d", 2));
+      mll.onStandardOutput(generateLeaveMessage(wdAp + "/a", 1));
+
+      mll.onStandardOutput(generateEnterMessage(wdAp, 1));
+      mll.onStandardOutput(generateLeaveMessage(wdAp, 1));
+
+
+      mll.onStandardOutput(generateEnterMessage(wdAp + "/c", 1));
+      mll.onStandardOutput(generateLeaveMessage(wdAp + "/c", 1));
+
+      mll.onStandardOutput(generateEnterMessage(wdAp, 1));
+      mll.onStandardOutput(generateLeaveMessage(wdAp, 1));
+
+      mll.onStandardOutput(generateLeaveMessage(wdAp, -1));
       mll.processFinished(0);
     }
 
     Assert.assertTrue(logger.isSequenceCorrect());
-    Assert.assertEquals(logger.getSequence(), "(/(b)b(c)c)/(/)/");
+    Assert.assertEquals(logger.getSequence(), "(.(b)b(c)c(a(d)d)a(c)c).");
   }
 
   @Test
@@ -115,8 +146,8 @@ public class OutputListenerTest extends TestCase {
     final File workingDir = new File("");
     mll.processStarted("make", workingDir);
     for (final String t : targets) {
-      mll.onStandardOutput(generateStartingTargetMessage(t, "."));
-      mll.onStandardOutput(generateLeaveMessage(workingDir.getName(), 0));
+      mll.onStandardOutput(generateEnterMessage(workingDir.getAbsolutePath(), -1));
+      mll.onStandardOutput(generateLeaveMessage(workingDir.getAbsolutePath(), -1));
     }
     mll.processFinished(0);
 

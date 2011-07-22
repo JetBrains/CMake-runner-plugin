@@ -26,6 +26,17 @@ import org.testng.annotations.Test;
  */
 public class MakeParserManagerTest extends BaseTestCase {
 
+  private final String[][] DIRECTORY_ENTER_TEST_OK = {
+          {"make.exe[1]: Entering directory `/cygdrive/c/TeamCity/'", "1", "/cygdrive/c/TeamCity/"},
+          {"   GNUmake: Entering directory `~/home/build1'", null, "~/home/build1"},
+          {"make[2]: Entering directory `somedir'", "2", "somedir"}
+  };
+  private final String[] DIRECTORY_ENTER_TEST_ERR = {
+          "make.exe1]: Entering directory `/cygdrive/c/TeamCity/'",
+          "make Entering directory `~/home/build1'",
+          "make[2]: Entering directory somedir"
+  };
+
   private final String[][] DIRECTORY_LEAVE_TEST_OK = {
           {"make.exe[1]: Leaving directory `/cygdrive/c/TeamCity/'", "1", "/cygdrive/c/TeamCity/"},
           {"   GNUmake: Leaving directory `~/home/build1'", null, "~/home/build1"},
@@ -46,6 +57,12 @@ public class MakeParserManagerTest extends BaseTestCase {
           "Makeng a in b",
           "making a a in b",
   };
+
+  @Test
+  public void testParsingEnterDirectory() throws Exception {
+    MatchingTester.testMatching(MakeParserManager.DIRECTORY_ENTER_PATTERN, DIRECTORY_ENTER_TEST_OK);
+    MatchingTester.testNonMatching(MakeParserManager.DIRECTORY_ENTER_PATTERN, DIRECTORY_ENTER_TEST_ERR);
+  }
 
   @Test
   public void testParsingLeaveDirectory() throws Exception {

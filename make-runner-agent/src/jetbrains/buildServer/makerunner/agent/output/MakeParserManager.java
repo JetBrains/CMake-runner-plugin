@@ -91,6 +91,11 @@ public class MakeParserManager extends Manager {
         getLogger().message(line);
       }
       toPrintAfterDirectoryStart.clear();
+    } else if (isLastTargetDirectory(directory)) {
+      for (final String line : toPrintAfterDirectoryStart) {
+        getLogger().message(line);
+      }
+      toPrintAfterDirectoryStart.clear();
     }
   }
 
@@ -181,7 +186,7 @@ public class MakeParserManager extends Manager {
   }
 
   @NotNull
-  public String getPrevTargetDirectory() {
+  private String getPrevTargetDirectory() {
     return hasTargets() ? myTargetsStack.peek().getDirectory() : myWorkingDirectory.get().getAbsolutePath();
   }
 

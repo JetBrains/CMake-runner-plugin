@@ -26,7 +26,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -140,7 +139,7 @@ public class MakeParserTest extends BaseTestCase {
     Assert.assertNotNull(myParser);
   }
 
-  void runParserMessagesCheck(@NotNull final String[] lines, @Nullable final Integer estimateErrors, @Nullable final Integer estimateWarnings, @Nullable final Integer estimateMessages, @Nullable final Integer estimateSpecial) throws IOException {
+  void runParserMessagesCheck(@NotNull final String[] lines, @Nullable final Integer estimateErrors, @Nullable final Integer estimateWarnings, @Nullable final Integer estimateMessages, @Nullable final Integer estimateSpecial) {
     Assert.assertNotNull(myParser);
 
     final CounterLogger logger = new CounterLogger();

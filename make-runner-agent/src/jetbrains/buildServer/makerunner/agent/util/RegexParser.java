@@ -38,18 +38,9 @@ import java.util.regex.Pattern;
  * @author Vladislav.Rassokhin
  */
 public class RegexParser {
-  private String myId;
-  private String myName;
+  private final String myId;
+  private final String myName;
   private final List<RegexPattern> myPatterns = new ArrayList<RegexPattern>();
-
-  /**
-   * Default constructor will initialize the parser with the name of the class
-   * using reflection mechanism.
-   */
-  public RegexParser() {
-    myName = this.getClass().getSimpleName();
-    myId = this.getClass().getCanonicalName();
-  }
 
   /**
    * Constructor to initialize ID and name of the error parser.
@@ -60,39 +51,6 @@ public class RegexParser {
   public RegexParser(final String id, final String name) {
     myName = name;
     myId = id;
-  }
-
-  public void setId(final String id) {
-    myId = id;
-  }
-
-  public void setName(final String name) {
-    myName = name;
-  }
-
-  /**
-   * Add new {@link RegexPattern}.
-   *
-   * @param pattern - new pattern
-   */
-  public void addPattern(final RegexPattern pattern) {
-    myPatterns.add(pattern);
-  }
-
-  /**
-   * Remove pattern from processing.
-   *
-   * @param pattern - pattern to remove
-   */
-  public void removePattern(final RegexPattern pattern) {
-    myPatterns.remove(pattern);
-  }
-
-  /**
-   * Remove all patterns.
-   */
-  public void clearPatterns() {
-    myPatterns.clear();
   }
 
   /**
