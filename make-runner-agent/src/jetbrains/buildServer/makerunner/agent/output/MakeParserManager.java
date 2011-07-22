@@ -23,9 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Stack;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -54,7 +52,7 @@ public class MakeParserManager extends Manager {
   }
 
   private boolean isLastTargetDirectory(@NotNull final String dir) {
-    return hasTargets() && myTargetsStack.peek().getDirectory().equals(dir);
+    return hasTargets() && new File(myTargetsStack.peek().getDirectory()).equals(new File(dir));
   }
 
   private boolean isLastTargetLevel(final int level) {
@@ -62,66 +60,75 @@ public class MakeParserManager extends Manager {
   }
 
   boolean isWorkingDirectory(@Nullable final String dir) {
-    return myWorkingDirectory.get().getName().equals(dir);
+    return myWorkingDirectory.get().equals(new File(dir));
+  }
+
+  void directoryStart(final String directory, int level) {
+    if (!hasTargets()) {
+      // Starting new Main task
+      final String targetName = getNextMainTarget();
+      final String targetDescription = targetName != null ? "Making " + targetName + " in ." : "Making unknown target in .";
+      myTargetsStack.push(new Target(myWorkingDirectory.get().getAbsolutePath(), targetDescription, 0));
+      getLogger().blockStart(targetDescription);
+
+      if (isWorkingDirectory(directory)) {
+        for (final String line : toPrintAfterDirectoryStart) {
+          getLogger().message(line);
+        }
+        toPrintAfterDirectoryStart.clear();
+        return;
+      }
+    }
+    final String relativePath = jetbrains.buildServer.util.FileUtil.getRelativePath(new File(getPrevTargetDirectory()), new File(directory));
+    if (!isWorkingDirectory(directory) && !".".equals(relativePath)) {
+      if (level == -1) level = getPrevTargetLevel() + 1;
+      final String description = toPrintAfterDirectoryStart.isEmpty() ? relativePath : toPrintAfterDirectoryStart.peek();
+      @SuppressWarnings({"ConstantConditions"})
+      final Target mt = new Target(directory, description, level);
+      myTargetsStack.push(mt);
+      getLogger().blockStart(description);
+      for (final String line : toPrintAfterDirectoryStart) {
+        getLogger().message(line);
+      }
+      toPrintAfterDirectoryStart.clear();
+    }
+  }
+
+  void directoryFinish(final String directory, final int level) {
+    if (!isLastTargetDirectory(directory)) return;
+    if (isLastTargetLevel(level)) {
+      final Target mt = myTargetsStack.pop();
+      getLogger().blockFinish(mt.getDescription());
+    } else {
+      checkMainTaskFinished(directory);
+    }
+  }
+
+  int getPrevTargetLevel() {
+    return hasTargets() ? myTargetsStack.peek().getLevel() : -1;
   }
 
   private void checkMainTaskFinished(@Nullable final String dirName) {
-    checkMainTaskExist();
-    if (isWorkingDirectory(dirName) && isLastTargetDirectory(".")) {
+    if (isWorkingDirectory(dirName) && isLastTargetDirectory(myWorkingDirectory.get().getAbsolutePath())) {
       getLogger().blockFinish(myTargetsStack.pop().getDescription());
     }
   }
 
-  void startNextMainTask() {
-    if (myMainMakeTasks.get() == null) return;
-    if (myMainMakeTasksIterator == null) {
-      myMainMakeTasksIterator = myMainMakeTasks.get().listIterator();
-    }
-    if (myMainMakeTasksIterator.hasNext()) {
-      final String targetName = myMainMakeTasksIterator.next();
-      final String targetDescription = "Making " + targetName + " in /";
-      myTargetsStack.push(new Target(targetName, ".", targetDescription, 0));
-      getLogger().blockStart(targetDescription);
-    }
+  private boolean initMainTasksIterator() {
+    if (myMainMakeTasksIterator != null) return true;
+    if (myMainMakeTasks.get() == null) return false;
+    myMainMakeTasksIterator = myMainMakeTasks.get().listIterator();
+    return true;
   }
 
-  void targetStart(final String name, final String directory, final String description, int level) {
-    checkMainTaskExist();
-    if (level == -1) level = getPrevTargetLevel() + 1;
-    final Target mt = new Target(name, directory, description, level);
-    myTargetsStack.push(mt);
-    getLogger().blockStart(description);
-  }
-
-  int getPrevTargetLevel() {
-    checkMainTaskExist();
-    return myTargetsStack.peek().getLevel();
-  }
-
-  void targetFinish() {
-    final Target mt = myTargetsStack.pop();
-    getLogger().blockFinish(mt.getDescription());
-    checkMainTaskFinished(mt.getDirectory());
-  }
-
-  void targetFinish(final int level) {
-    if (!isLastTargetLevel(level)) return;
-    final Target mt = myTargetsStack.pop();
-    getLogger().blockFinish(mt.getDescription());
-    checkMainTaskFinished(mt.getDirectory());
-  }
-
-  private void checkMainTaskExist() {
-    // Checks that we have at least one main target
-    if (!hasTargets()) {
-      startNextMainTask();
-    }
-  }
+  private final Queue<String> toPrintAfterDirectoryStart = new ArrayDeque<String>();
 
   public void finishAllTargets() {
     // Closing all opened targets in exit.
-    while (hasTargets()) {
-      targetFinish();
+    while (!myTargetsStack.isEmpty()) {
+      final Target mt = myTargetsStack.pop();
+      getLogger().blockFinish(mt.getDescription());
+//      checkMainTaskFinished(mt.getDirectory());
     }
   }
 
@@ -129,39 +136,57 @@ public class MakeParserManager extends Manager {
   private static final String MAKING_IN = ".*[Mm]aking (\\S+) in (\\S+)";
   @NonNls
   private static final String DIRECTORY_LEAVE = ".*[Mm]ake[^\\[\\]]*(?:\\[(\\d+)\\])?: Leaving directory `(.*)'";
+  @NonNls
+  private static final String DIRECTORY_ENTER = ".*[Mm]ake[^\\[\\]]*(?:\\[(\\d+)\\])?: Entering directory `(.*)'";
 
   public static final Pattern MAKING_IN_PATTERN = Pattern.compile(MAKING_IN);
   public static final Pattern DIRECTORY_LEAVE_PATTERN = Pattern.compile(DIRECTORY_LEAVE);
+  public static final Pattern DIRECTORY_ENTER_PATTERN = Pattern.compile(DIRECTORY_ENTER);
 
   @Override
   protected boolean specialParse(@NotNull final String text) {
-
-    Matcher m = MAKING_IN_PATTERN.matcher(text);
+    Matcher m;
+    m = MAKING_IN_PATTERN.matcher(text);
     if (m.find()) {
-      final String directory = m.group(2);
-      if (!directory.equals(".")) {
-        targetStart(text, directory, text, -1);
-      }
-      getLogger().message(text);
+      toPrintAfterDirectoryStart.add(text);
       return true;
     }
 
-    m = DIRECTORY_LEAVE_PATTERN.matcher(text);
+    m = DIRECTORY_ENTER_PATTERN.matcher(text);
     if (m.find()) {
-      getLogger().message(text);
-      final String dirShortName = new File(m.group(2)).getName();
+      final String dirName = m.group(2);
       final String levelStr = m.group(1);
-      int level = -1;
+      int level = 0;
       if (levelStr != null) {
         level = Integer.parseInt(levelStr);
       }
-      if (isLastTargetDirectory(dirShortName)) {
-        targetFinish(level);
+      directoryStart(dirName, level);
+      getLogger().message(text);
+      return true;
+    }
+    m = DIRECTORY_LEAVE_PATTERN.matcher(text);
+    if (m.find()) {
+      getLogger().message(text);
+      final String dirName = m.group(2);
+      final String levelStr = m.group(1);
+      int level = 0;
+      if (levelStr != null) {
+        level = Integer.parseInt(levelStr);
       }
-      checkMainTaskFinished(dirShortName);
+      directoryFinish(dirName, level);
       return true;
     }
 
     return super.specialParse(text);
+  }
+
+  @NotNull
+  public String getPrevTargetDirectory() {
+    return hasTargets() ? myTargetsStack.peek().getDirectory() : myWorkingDirectory.get().getAbsolutePath();
+  }
+
+  @Nullable
+  private String getNextMainTarget() {
+    return initMainTasksIterator() && myMainMakeTasksIterator.hasNext() ? myMainMakeTasksIterator.next() : null;
   }
 }

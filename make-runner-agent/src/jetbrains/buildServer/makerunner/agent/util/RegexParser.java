@@ -139,7 +139,7 @@ public class RegexParser {
           return true;
         }
       } catch (Exception e) {
-        manager.parsingError("Error parsing line [" + line + "]" + e.getMessage());
+        manager.parsingError("Error parsing line [" + line + "]" + StringUtil.stackTrace(e));  // TODO: using 'debug' param
       }
     }
     return false;

@@ -23,28 +23,20 @@ import org.jetbrains.annotations.NotNull;
  */
 class Target {
   @NotNull
-  private final String myName;
-  @NotNull
   private final String myDirectory;
   @NotNull
   private final String myDescription;
   private final int myLevel;
 
-  public Target(@NotNull final String name, @NotNull final String directory, @NotNull final String myDescription, int level) {
-    this.myName = name;
+  public Target(@NotNull final String directory, @NotNull final String description, final int level) {
     this.myDirectory = directory;
-    this.myDescription = myDescription;
+    this.myDescription = description;
     this.myLevel = level;
   }
 
   @NotNull
   public String getDirectory() {
     return myDirectory;
-  }
-
-  @NotNull
-  public String getName() {
-    return myName;
   }
 
   @NotNull

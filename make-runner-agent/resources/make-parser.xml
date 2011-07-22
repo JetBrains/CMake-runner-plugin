@@ -21,32 +21,30 @@
 
   <!-- Folding targets (Additional parsing)-->
   <pattern regex="Making (\S+) in (\S+)"/>
+  <pattern regex=".*make.*: Entering directory `(.*)'"/>
   <pattern regex=".*make.*: Leaving directory `(.*)'"/>
-
-  <!-- do nothing-->
-  <pattern regex=".*make.*: Entering directory `(.*)'" severity="INFO"/>
 
 
   <!-- Makefile errors/warnings -->
-  <pattern regex="(.*):(\d*): (\*\*\* .*)" output-expr="In file '$1' at line '$2' : '$3'" severity="ERROR"/>
-  <pattern regex="(.*[Mm]akefile):(\d*): warning: (.*)" output-expr="In file '$1' at line '$2' : '$3'" severity="WARN"/>
-  <pattern regex="(.*):(\d*): (\S*: No such file or directory)" output-expr="In file '$1' at line '$2' : '$3'"
-           severity="WARN"/>
+  <pattern regex="(.*):(\d*): (\*\*\* .*)" severity="ERROR"/>
+  <pattern regex="(.*[Mm]akefile):(\d*): warning: (.*)" severity="WARN"/>
+  <pattern regex="(.*):(\d*): (\S*: No such file or directory)" severity="WARN"/>
 
   <!-- Targets errors/warnings-->
-  <pattern regex="No rule to make target `(.*)'\." severity="ERROR"/>
-  <pattern regex=".*make.*: (Target (.*) not remade because of errors.)" output-expr="$1" severity="ERROR"/>
+  <pattern regex="No rule to make target `(.*)'.*" severity="ERROR"/>
+  <pattern regex=".*make.*: (Target (.*) not remade because of errors.)" severity="ERROR"/>
 
-  <pattern regex=".*make.*: \*\*\* (\[\S+\] .*)" output-expr="$1" severity="ERROR"/>
-  <pattern regex=".*make.*:(.*Error.*\(ignored\))" output-expr="$1" severity="INFO"/>
-  <pattern regex=".*make.*: \*\*\* (.*)" output-expr="$1" severity="ERROR"/>
+  <pattern regex=".*make.*: \*\*\* (\[\S+\] .*)" severity="ERROR"/>
+  <pattern regex=".*make.*:(.*Error.*\(ignored\))" severity="INFO"/>
+  <pattern regex=".*make.*: \*\*\* (.*)" severity="ERROR"/>
   <pattern regex="Error:\s*(.*)" severity="ERROR"/>
 
   <pattern regex=".*command not found.*" severity="ERROR"/>
-  <pattern regex=".*command not found.*" severity="ERROR"/>
+
+  <pattern regex="\s*\*\*\*.*" severity="ERROR"/>
 
 
-  <pattern regex=".*make.*\[.*\] (Error [\-]?\d*.*)" output-expr="$1" severity="WARN"/>
-  <pattern regex=".*make.*: (Circular .* dependency dropped.)" output-expr="$1" severity="WARN"/>
+  <pattern regex=".*make.*\[.*\] (Error [\-]?\d*.*)" severity="WARN"/>
+  <pattern regex=".*make.*: (Circular .* dependency dropped.)" severity="WARN"/>
 
 </parser>
