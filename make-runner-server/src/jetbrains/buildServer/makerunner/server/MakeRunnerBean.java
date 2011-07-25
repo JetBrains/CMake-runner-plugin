@@ -41,6 +41,11 @@ public class MakeRunnerBean {
     return MakeRunnerConstants.RUNNER_MAKE_KEEP_GOING;
   }
 
+  @NotNull
+  public String getRedirectStderrKey() {
+    return MakeRunnerConstants.RUNNER_REDIRECT_STDERR;
+  }
+
   public String getMakeProgramPathKey() {
     return MakeRunnerConstants.RUNNER_MAKE_PROGRAM_PATH;
   }

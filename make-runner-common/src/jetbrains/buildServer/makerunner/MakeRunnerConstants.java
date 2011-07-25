@@ -28,6 +28,7 @@ public interface MakeRunnerConstants {
   String RUNNER_MAKE_TASKS = "ui.makeRunner.make.tasks";
   String RUNNER_MAKE_ADDITIONAL_CMD_PARAMS = "ui.makeRunner.make.additional.cmd.params";
   String RUNNER_MAKE_KEEP_GOING = "ui.makeRunner.make.keep.going";
+  String RUNNER_REDIRECT_STDERR = "ui.makeRunner.redirect.stderr";
   String RUNNER_MAKE_PROGRAM_PATH = "ui.makeRunner.make.program.path";
 
   // Make arguments

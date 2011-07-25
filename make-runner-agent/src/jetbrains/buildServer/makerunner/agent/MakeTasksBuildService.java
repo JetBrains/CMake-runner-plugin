@@ -97,11 +97,13 @@ public class MakeTasksBuildService extends BuildServiceAdapter {
     myMakeTasks.set(splitMakeTasks(makeTasksStr));
 
 
+    final boolean redirectStdErr = Boolean.valueOf(runnerParameters.get(RUNNER_REDIRECT_STDERR));
     // Result:
-    return OSUtil.makeOSSpecific(new SimpleProgramCommandLine(environment,
+    final SimpleProgramCommandLine pcl = new SimpleProgramCommandLine(environment,
             getWorkingDirectory().getAbsolutePath(),
             programPath,
-            arguments));
+            arguments);
+    return redirectStdErr ? OSUtil.makeOSSpecific(pcl) : pcl;
   }
 
   @NotNull

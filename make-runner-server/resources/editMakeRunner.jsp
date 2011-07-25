@@ -75,6 +75,9 @@
       <props:checkboxProperty name="${bean.keepGoingKey}"/>
       <label for="${bean.keepGoingKey}">Keep-going after first error (collect more errors)</label>
       <br/>
+      <props:checkboxProperty name="${bean.redirectStderrKey}"/>
+      <label for="${bean.redirectStderrKey}">Redirect stderr into stdout (output will be synchronized)</label>
+      <br/>
     </td>
   </tr>
 </l:settingsGroup>

@@ -49,6 +49,8 @@
     <ul style="list-style: none; padding-left: 0; margin-left: 0; margin-top: 0.1em; margin-bottom: 0.1em;">
       <li>Keep-going after first error (collect more errors): <strong><props:displayCheckboxValue
               name="${bean.keepGoingKey}"/></strong></li>
+      <li>Redirect stderr into stdout (output will be synchronized): <strong><props:displayCheckboxValue
+              name="${bean.redirectStderrKey}"/></strong></li>
     </ul>
   </div>
 </div>
