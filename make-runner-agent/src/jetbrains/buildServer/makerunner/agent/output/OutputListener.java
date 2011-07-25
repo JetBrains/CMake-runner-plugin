@@ -18,6 +18,7 @@ package jetbrains.buildServer.makerunner.agent.output;
 
 import jetbrains.buildServer.agent.runner.ProcessListenerAdapter;
 import jetbrains.buildServer.makerunner.agent.util.Logger;
+import jetbrains.buildServer.makerunner.agent.util.PathUtil;
 import jetbrains.buildServer.makerunner.agent.util.RegexParser;
 import jetbrains.buildServer.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
@@ -47,7 +48,7 @@ public class OutputListener extends ProcessListenerAdapter {
 
   @Override
   public void processStarted(@NotNull final String programCommandLine, @NotNull final File workingDirectory) {
-    myWorkingDirectory.set(workingDirectory);
+    myWorkingDirectory.set(new File(PathUtil.toUnixStylePath(workingDirectory.getAbsolutePath())));
   }
 
   @Override

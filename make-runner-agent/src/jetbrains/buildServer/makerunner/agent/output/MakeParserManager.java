@@ -18,6 +18,7 @@ package jetbrains.buildServer.makerunner.agent.output;
 
 import jetbrains.buildServer.makerunner.agent.util.Logger;
 import jetbrains.buildServer.makerunner.agent.util.Manager;
+import jetbrains.buildServer.makerunner.agent.util.PathUtil;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -60,7 +61,7 @@ public class MakeParserManager extends Manager {
   }
 
   boolean isWorkingDirectory(@Nullable final String dir) {
-    return myWorkingDirectory.get().equals(new File(dir));
+    return myWorkingDirectory.get().equals(new File(PathUtil.toUnixStylePath(dir)));
   }
 
   void directoryStart(final String directory, int level) {
@@ -79,7 +80,7 @@ public class MakeParserManager extends Manager {
         return;
       }
     }
-    final String relativePath = jetbrains.buildServer.util.FileUtil.getRelativePath(new File(getPrevTargetDirectory()), new File(directory));
+    final String relativePath = getRelativePath(getPrevTargetDirectory(), directory);
     if (!isWorkingDirectory(directory) && !".".equals(relativePath)) {
       if (level == -1) level = getPrevTargetLevel() + 1;
       final String description = toPrintAfterDirectoryStart.isEmpty() ? relativePath : toPrintAfterDirectoryStart.peek();
@@ -91,7 +92,7 @@ public class MakeParserManager extends Manager {
         getLogger().message(line);
       }
       toPrintAfterDirectoryStart.clear();
-    } else if (isLastTargetDirectory(directory)) {
+    } else if (isWorkingDirectory(directory)) {
       for (final String line : toPrintAfterDirectoryStart) {
         getLogger().message(line);
       }
@@ -99,7 +100,14 @@ public class MakeParserManager extends Manager {
     }
   }
 
-  void directoryFinish(final String directory, final int level) {
+  private String getRelativePath(final String base, final String directory) {
+    final File base1 = new File(PathUtil.toUnixStylePath(base));
+    final File dir = new File(PathUtil.toUnixStylePath(directory));
+    return jetbrains.buildServer.util.FileUtil.getRelativePath(base1, dir);
+  }
+
+  void directoryFinish(String directory, final int level) {
+    directory = PathUtil.toUnixStylePath(directory);
     if (!isLastTargetDirectory(directory)) return;
     if (isLastTargetLevel(level)) {
       final Target mt = myTargetsStack.pop();
