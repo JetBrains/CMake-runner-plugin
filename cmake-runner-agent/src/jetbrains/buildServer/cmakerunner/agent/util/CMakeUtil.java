@@ -40,6 +40,7 @@ public class CMakeUtil {
     final Collection<String> availableGenerators = getAvailableGenerators(agentConfiguration.getTempDirectory());
     final String genName = agentConfiguration.getConfigurationParameters().get(CMakeRunnerConstants.UI_MAKEFILE_GENERATOR);
     final CMakeGenerator generator = CMakeGenerator.valueOf(genName);
+    if (generator == CMakeGenerator.DEFAULT) return !availableGenerators.isEmpty();
     return availableGenerators.contains(generator.getNormalName());
   }
 
