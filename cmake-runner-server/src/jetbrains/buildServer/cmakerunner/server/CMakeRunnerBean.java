@@ -17,8 +17,11 @@
 package jetbrains.buildServer.cmakerunner.server;
 
 
+import jetbrains.buildServer.cmakerunner.CMakeGenerator;
 import jetbrains.buildServer.cmakerunner.CMakeRunnerConstants;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
 
 /**
  * @author Vladislav.Rassokhin
@@ -28,13 +31,62 @@ public class CMakeRunnerBean {
 
   // Keys
   @NotNull
-  public String getAdditionalCmdParamsKey() {
-    return CMakeRunnerConstants.RUNNER_MAKE_ADDITIONAL_CMD_PARAMS;
+  public String getAdditionalParamsKey() {
+    return CMakeRunnerConstants.UI_ADDITIONAL_PARAMS;
   }
 
   @NotNull
   public String getRedirectStderrKey() {
-    return CMakeRunnerConstants.RUNNER_REDIRECT_STDERR;
+    return CMakeRunnerConstants.UI_REDIRECT_STDERR;
   }
 
+  @NotNull
+  public Map<String, CMakeGenerator> getGeneratorsMap() {
+    return CMakeGenerator.NAME_TO_GENERATOR_MAP;
+  }
+
+  @NotNull
+  public String getMakefileGeneratorKey() {
+    return CMakeRunnerConstants.UI_MAKEFILE_GENERATOR;
+  }
+
+  @NotNull
+  public String getDeveloperWarningsKey() {
+    return CMakeRunnerConstants.UI_DEVELOPER_WARNINGS;
+  }
+
+  @NotNull
+  public String getWarnUninitializedKey() {
+    return CMakeRunnerConstants.UI_WARN_UNINITIALIZED;
+  }
+
+  @NotNull
+  public String getWarnUnusedVarsKey() {
+    return CMakeRunnerConstants.UI_WARN_UNUSED_VARS;
+  }
+
+  @NotNull
+  public String getNoWarnUnusedCliKey() {
+    return CMakeRunnerConstants.UI_NO_WARN_UNUSED_CLI;
+  }
+
+  @NotNull
+  public String getPrintTraceKey() {
+    return CMakeRunnerConstants.UI_PRINT_TRACE;
+  }
+
+  @NotNull
+  public String getDebugModeKey() {
+    return CMakeRunnerConstants.UI_DEBUG_MODE;
+  }
+
+  @NotNull
+  public String getAdditionalDebugOptions() {
+    return CMakeRunnerConstants.UI_ADDITIONAL_DEBUG_OPTIONS;
+  }
+
+  @NotNull
+  public String getCmakeCommandKey() {
+    return CMakeRunnerConstants.UI_CMAKE_COMMAND;
+  }
 }

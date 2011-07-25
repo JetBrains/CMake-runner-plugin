@@ -1,12 +1,18 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Vladislav.Rassokhin">
     <words>
+      <w>borland</w>
       <w>cmake</w>
+      <w>codeblocks</w>
       <w>deserialize</w>
       <w>maked</w>
       <w>makefile</w>
+      <w>makefiles</w>
       <w>makerunner</w>
+      <w>mingw</w>
+      <w>msys</w>
       <w>multiline</w>
+      <w>nmake</w>
       <w>nullable</w>
       <w>onclick</w>
       <w>openapi</w>
@@ -15,6 +21,8 @@
       <w>stderr</w>
       <w>teamcity</w>
       <w>vladislav</w>
+      <w>watcom</w>
+      <w>wmake</w>
     </words>
   </dictionary>
 </component>

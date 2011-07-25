@@ -19,12 +19,14 @@ package jetbrains.buildServer.cmakerunner.server;/*
  * @author : Vladislav.Rassokhin
  */
 
+import jetbrains.buildServer.cmakerunner.CMakeGenerator;
 import jetbrains.buildServer.cmakerunner.CMakeRunnerConstants;
 import jetbrains.buildServer.serverSide.PropertiesProcessor;
 import jetbrains.buildServer.serverSide.RunType;
 import jetbrains.buildServer.serverSide.RunTypeRegistry;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -69,6 +71,13 @@ public class CMakeRunnerRunType extends RunType {
 
   @Override
   public Map<String, String> getDefaultRunnerProperties() {
-    return null;
+    final String trueStr = Boolean.toString(true);
+    final String falseStr = Boolean.toString(false);
+
+    final Map<String, String> ret = new HashMap<String, String>();
+    ret.put(CMakeRunnerConstants.UI_NO_WARN_UNUSED_CLI, trueStr);
+    ret.put(CMakeRunnerConstants.UI_MAKEFILE_GENERATOR, CMakeGenerator.DEFAULT.getNormalName());
+
+    return ret;
   }
 }

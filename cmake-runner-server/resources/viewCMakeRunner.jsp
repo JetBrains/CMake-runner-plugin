@@ -39,7 +39,7 @@
 <%--</div>--%>
 
 <div class="parameter">
-  Additional CMake command line parameters: <strong><props:displayValue name="${bean.additionalCmdParamsKey}"
+  Additional CMake command line parameters: <strong><props:displayValue name="${bean.additionalParamsKey}"
                                                                         emptyValue="not specified"/></strong>
 </div>
 

@@ -11,7 +11,7 @@
         </fileset>
       </configuration>
     </facet>
-    <facet type="web" name="make-runner-server">
+    <facet type="web" name="cmake-runner-server">
       <configuration>
         <webroots>
           <root url="file://$MODULE_DIR$/resources" relative="/plugins/make-runner" />
