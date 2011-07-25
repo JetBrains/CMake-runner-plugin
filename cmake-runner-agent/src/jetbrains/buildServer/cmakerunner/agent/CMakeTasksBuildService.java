@@ -18,9 +18,13 @@ package jetbrains.buildServer.cmakerunner.agent;
 
 import jetbrains.buildServer.RunBuildException;
 import jetbrains.buildServer.agent.runner.BuildServiceAdapter;
+import jetbrains.buildServer.agent.runner.ProcessListener;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
+import jetbrains.buildServer.cmakerunner.CMakeGenerator;
+import jetbrains.buildServer.cmakerunner.agent.output.OutputListener;
 import jetbrains.buildServer.cmakerunner.agent.util.OSUtil;
+import jetbrains.buildServer.cmakerunner.agent.util.SimpleLogger;
 import jetbrains.buildServer.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -62,6 +66,17 @@ public class CMakeTasksBuildService extends BuildServiceAdapter {
 
 
     // CMake options
+
+    final String generatorName = runnerParameters.get(UI_MAKEFILE_GENERATOR);
+    CMakeGenerator generator = CMakeGenerator.valueOf(generatorName);
+    if (generator == null) {
+      generator = CMakeGenerator.DEFAULT;
+    }
+
+    if (generator != CMakeGenerator.DEFAULT) {
+      arguments.add(RUNNER_MAKEFILE_GENERATOR);
+      arguments.add(generator.getNormalName());
+    }
 
     final Boolean devWarn = Boolean.valueOf(runnerParameters.get(UI_DEVELOPER_WARNINGS));
     arguments.add(devWarn ? RUNNER_DEVELOPER_WARNINGS_ON : RUNNER_DEVELOPER_WARNINGS_OFF);
@@ -105,11 +120,11 @@ public class CMakeTasksBuildService extends BuildServiceAdapter {
     myFilesToDelete.clear();
   }
 
-//  @NotNull
-//  @Override
-//  public List<ProcessListener> getListeners() {
-//    return Collections.<ProcessListener>singletonList(new OutputListener(new SimpleMakeLogger(getLogger()), myMakeTasks));
-//  }
+  @NotNull
+  @Override
+  public List<ProcessListener> getListeners() {
+    return Collections.<ProcessListener>singletonList(new OutputListener(new SimpleLogger(getLogger())));
+  }
 
   private void addCustomArguments(@NotNull final List<String> args, @Nullable final String parameters) {
     if (StringUtil.isEmptyOrSpaces(parameters)) return;
