@@ -113,7 +113,7 @@ public class MakeParserManager extends Manager {
       final Target mt = myTargetsStack.pop();
       getLogger().blockFinish(mt.getDescription());
     } else {
-      checkMainTaskFinished(directory);
+      checkMainTaskFinished(directory, level);
     }
   }
 
@@ -121,8 +121,8 @@ public class MakeParserManager extends Manager {
     return hasTargets() ? myTargetsStack.peek().getLevel() : -1;
   }
 
-  private void checkMainTaskFinished(@Nullable final String dirName) {
-    if (isWorkingDirectory(dirName) && isLastTargetDirectory(myWorkingDirectory.get().getAbsolutePath())) {
+  private void checkMainTaskFinished(@Nullable final String dirName, final int level) {
+    if (level <= 1 && isWorkingDirectory(dirName) && isLastTargetDirectory(myWorkingDirectory.get().getAbsolutePath())) {
       getLogger().blockFinish(myTargetsStack.pop().getDescription());
     }
   }
