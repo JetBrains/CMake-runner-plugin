@@ -45,6 +45,6 @@ public class CMakeRunnerCommandLineServiceFactory implements CommandLineBuildSer
   }
 
   public boolean canRun(@NotNull final BuildAgentConfiguration agentConfiguration) {
-    return OSUtil.isOSSupported() && CMakeUtil.isGeneratorSupported(agentConfiguration);
+    return OSUtil.isOSSupported() && CMakeUtil.isAgentSupported(agentConfiguration);
   }
 }
