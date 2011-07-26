@@ -39,7 +39,7 @@ public class OutputListener extends ProcessListenerAdapter {
 
   @Override
   public void onErrorOutput(@NotNull final String text) {
-    myLogger.error(text);
+    myLogger.warning(text);
   }
 
   @Override
