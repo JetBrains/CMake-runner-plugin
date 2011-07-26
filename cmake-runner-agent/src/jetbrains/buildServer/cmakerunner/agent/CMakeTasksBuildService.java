@@ -102,6 +102,9 @@ public class CMakeTasksBuildService extends BuildServiceAdapter {
     // Other arguments
     addCustomArguments(arguments, runnerParameters.get(UI_ADDITIONAL_PARAMS));
 
+    // Directory contains CMakeLists.txt
+    arguments.add(".");
+
     final boolean redirectStdErr = Boolean.valueOf(runnerParameters.get(UI_REDIRECT_STDERR));
     // Result:
     final SimpleProgramCommandLine pcl = new SimpleProgramCommandLine(environment,
