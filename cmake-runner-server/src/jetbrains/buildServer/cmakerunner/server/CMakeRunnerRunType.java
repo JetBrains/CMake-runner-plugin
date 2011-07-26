@@ -75,8 +75,17 @@ public class CMakeRunnerRunType extends RunType {
     final String falseStr = Boolean.toString(false);
 
     final Map<String, String> ret = new HashMap<String, String>();
-    ret.put(CMakeRunnerConstants.UI_NO_WARN_UNUSED_CLI, trueStr);
-    ret.put(CMakeRunnerConstants.UI_MAKEFILE_GENERATOR, CMakeGenerator.DEFAULT.getNormalName());
+
+    ret.put(CMakeRunnerConstants.UI_REDIRECT_STDERR, trueStr);
+
+    ret.put(CMakeRunnerConstants.UI_DEVELOPER_WARNINGS, trueStr);
+    ret.put(CMakeRunnerConstants.UI_WARN_UNINITIALIZED, trueStr);
+    ret.put(CMakeRunnerConstants.UI_WARN_UNUSED_VARS, trueStr);
+    ret.put(CMakeRunnerConstants.UI_PRINT_TRACE, falseStr);
+    ret.put(CMakeRunnerConstants.UI_DEBUG_MODE, falseStr);
+    ret.put(CMakeRunnerConstants.UI_NO_WARN_UNUSED_CLI, falseStr);
+
+    ret.put(CMakeRunnerConstants.UI_MAKEFILE_GENERATOR, CMakeGenerator.DEFAULT.name());
 
     return ret;
   }
