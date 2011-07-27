@@ -22,8 +22,10 @@
 
     <echo message="replacing tokens in teamcity-plugin.xml file under ${home}"/>
 
-    <condition property="build.number" value="${build.special.name}">
-      <isset property="build.special.name"/>
+    <condition property="build.number" else="${build.special.name}">
+      <not>
+        <isset property="build.special.name"/>
+      </not>
     </condition>
 
     <condition property="build.number" value="snapshot" else="${build.number}">
