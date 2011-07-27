@@ -131,7 +131,7 @@ public class OSUtil {
   @NotNull
   private static final String SCRIPT_RUNNER_EXE_UNIX_KEY = "SHELL";
   @NotNull
-  private static final String RUNNER_SCRIPT_UNIX = " $@ 2>&1";
+  private static final String RUNNER_SCRIPT_UNIX = " \"$@\" 2>&1";
   @NotNull
   private static final String OS_NOT_SUPPORTED = "OS not supported";
 
