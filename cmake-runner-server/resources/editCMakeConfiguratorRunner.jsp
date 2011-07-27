@@ -52,7 +52,8 @@
 <tr>
   <th><label for="${bean.generatorKey}">Generator: </label></th>
   <td id="generator">
-    <input type="text" id="${bean.generatorKey}" name="prop:${bean.generatorKey}"/>
+    <c:set var="generatorValue"><c:out value="${propertiesBean.properties[bean.generatorKey]}"/></c:set>
+    <input type="text" id="${bean.generatorKey}" name="prop:${bean.generatorKey}" value="${generatorValue}"/>
     <span class="smallNote" id="${bean.generatorsNames}.description">You can choose generator from list or enter some other name. Use 'Default' or leave blank for using system default generator.</span>
     <script type="text/javascript">
       jQuery(document).ready(function() {
