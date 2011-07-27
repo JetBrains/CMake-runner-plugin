@@ -17,11 +17,14 @@
 package jetbrains.buildServer.cmakerunner.server;
 
 
+import jetbrains.buildServer.cmakerunner.CMakeBuildType;
 import jetbrains.buildServer.cmakerunner.CMakeGenerator;
 import jetbrains.buildServer.cmakerunner.CMakeRunnerConstants;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * @author Vladislav.Rassokhin
@@ -41,13 +44,13 @@ public class CMakeRunnerBean {
   }
 
   @NotNull
-  public Map<String, CMakeGenerator> getGeneratorsMap() {
-    return CMakeGenerator.NAME_TO_GENERATOR_MAP;
+  public String getGeneratorKey() {
+    return CMakeRunnerConstants.UI_MAKEFILE_GENERATOR;
   }
 
   @NotNull
-  public String getMakefileGeneratorKey() {
-    return CMakeRunnerConstants.UI_MAKEFILE_GENERATOR;
+  public String getBuildTypeKey() {
+    return CMakeRunnerConstants.UI_CMAKE_BUILD_TYPE;
   }
 
   @NotNull
@@ -88,5 +91,21 @@ public class CMakeRunnerBean {
   @NotNull
   public String getCmakeCommandKey() {
     return CMakeRunnerConstants.UI_CMAKE_COMMAND;
+  }
+
+  public Collection<CMakeBuildType> getBuildTypesSet() {
+    return Arrays.asList(CMakeBuildType.values());
+  }
+
+  public String getSourcePathKey() {
+    return CMakeRunnerConstants.UI_SOURCE_PATH;
+  }
+
+  public ArrayList<String> getGeneratorsNames() {
+    final ArrayList<String> ret = new ArrayList<String>();
+    for (final String s : CMakeGenerator.KNOWN_GENERATORS) {
+      ret.add("\"" + s + '\"');
+    }
+    return ret;
   }
 }

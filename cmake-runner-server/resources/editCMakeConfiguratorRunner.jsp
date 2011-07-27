@@ -31,56 +31,46 @@
 
 <forms:workingDirectory/>
 
-<%--<tr>--%>
-<%--<th>--%>
-<%--<props:radioButtonProperty name="use-custom-build-file" value="" id="customMakefile1"--%>
-<%--checked="${empty propertiesBean.properties['use-custom-build-file']}"/>--%>
-<%--<label for="customMakefile1">Path to a CMakeList.txt:</label>--%>
-<%--</th>--%>
-<%--<td>--%>
-<%--<props:textProperty name="build-file-path" className="longField" maxlength="256"/>--%>
-<%--<span class="error" id="error_build-file-path"></span>--%>
-<%--<span class="smallNote">Enter CMakeList.txt path if you don't want to use a default one. Specified path should be relative to the checkout directory.</span>--%>
-<%--</td>--%>
-<%--</tr>--%>
-<%--<tr>--%>
-<%--<th>--%>
-<%--<props:radioButtonProperty name="use-custom-build-file" value="true" id="customMakefile2"--%>
-<%--/>--%>
-<%--<label for="customMakefile2">Makefile content:</label>--%>
-<%--</th>--%>
-<%--<td>--%>
-<%--<props:multilineProperty expanded="${propertiesBean.properties['use-custom-build-file'] == true}"--%>
-<%--name="custom-build-file-content" rows="10" cols="58" linkTitle="Type the Makefile content"--%>
-<%--onkeydown="$('custom2').checked = true;" className="longField"/>--%>
-<%--<span class="error" id="error_build-file"></span>--%>
-<%--</td>--%>
-<%--</tr>--%>
-<%--<tr>--%>
-<%--<th><label for="${bean.tasksKey}">Make tasks: </label></th>--%>
-<%--<td><props:textProperty name="${bean.tasksKey}" className="longField" maxlength="256"/>--%>
-<%--<span class="smallNote">Enter tasks names separated by space character if you don't want to use default (first non-prune) task.<br/>E.g. 'test' or 'clean test'.</span>--%>
-<%--</td>--%>
-<%--</tr>--%>
 <tr>
-  <th><label for="${bean.additionalParamsKey}">Additional parameters: </label></th>
-  <td><props:textProperty name="${bean.additionalParamsKey}" className="longField" maxlength="256"/>
-    <span class="smallNote">If isn't empty these parameters will be added to 'cmake' command line.</span>
+  <th><label for="${bean.sourcePathKey}">Path to source (CMakeList.txt): </label></th>
+  <td>
+    <props:textProperty name="${bean.sourcePathKey}" className="longField" maxlength="256"/>
+    <span class="smallNote">Enter path to source relative to working directory or leave blank for use '.' .</span>
   </td>
 </tr>
 
 <tr>
-  <th><label for="${bean.makefileGeneratorKey}">Generator: </label></th>
+  <th><label for="${bean.additionalParamsKey}">Additional parameters: </label></th>
+  <td>
+    <props:multilineProperty name="${bean.additionalParamsKey}"
+                             expanded="${not empty propertiesBean.properties[bean.additionalParamsKey]}"
+                             className="longField" rows="10" cols="58" linkTitle="Type additional parameters"/>
+    <span class="error" id="error_${bean.additionalParamsKey}"></span>
+  </td>
+</tr>
+
+<tr>
+  <th><label for="${bean.generatorKey}">Generator: </label></th>
   <td id="generator">
-    <props:selectProperty name="${bean.makefileGeneratorKey}">
-      <c:forEach items="${bean.generatorsMap}" var="item">
-        <props:option value="${item.value}">${item.key}</props:option>
+    <input type="text" id="${bean.generatorKey}" name="prop:${bean.generatorKey}"/>
+    <span class="smallNote" id="${bean.generatorsNames}.description">You can choose generator from list or enter some other name. Use 'Default' or leave blank for using system default generator.</span>
+    <script type="text/javascript">
+      jQuery(document).ready(function() {
+        jQuery("#${bean.generatorKey}").autocomplete({source: ${bean.generatorsNames}});
+        jQuery("#${bean.generatorKey}").placeholder();
+      });
+    </script>
+  </td>
+</tr>
+
+<tr>
+  <th><label for="${bean.buildTypeKey}">Build type: </label></th>
+  <td id="buildType">
+    <props:selectProperty name="${bean.buildTypeKey}">
+      <c:forEach items="${bean.buildTypesSet}" var="item">
+        <props:option value="${item}">${item.normalName}</props:option>
       </c:forEach>
     </props:selectProperty>
-
-    <c:forEach items="${bean.generatorsMap}" var="item">
-      <span class="smallNote" id="${item.value}.description">${item.value.description}</span>
-    </c:forEach>
   </td>
 </tr>
 
@@ -137,20 +127,12 @@
 
 
 <script type="text/javascript">
-  jQuery("input[name='prop:${bean.developerWarningsKey}']").click(function() {
+  jQuery("input[name=\"prop\\:${bean.developerWarningsKey}\"]").click(function() {
     if (jQuery(this).val() != 'true') {
-      jQuery('${bean.additionalDebugOptions} > input').attr("disabled", true);
+      jQuery('#${bean.additionalDebugOptions} > input').attr("disabled", true);
     } else {
-      jQuery('${bean.additionalDebugOptions} > input').removeAttr("disabled");
+      jQuery('#${bean.additionalDebugOptions} > input').removeAttr("disabled");
     }
-  });
-  jQuery("input[name='prop:${bean.makefileGeneratorKey}']").change(function () {
-    var v = jQuery(this).val();
-    alert(v);
-    jQuery("#generator > .smallNote").hide();
-    jQuery("#generator > .smallNote[id='" + v + ".description']").show();
-  });
-
-  jQuery("#generator > .smallNote").hide();
+  })
 
 </script>

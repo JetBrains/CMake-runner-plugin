@@ -19,7 +19,6 @@ package jetbrains.buildServer.cmakerunner.server;/*
  * @author : Vladislav.Rassokhin
  */
 
-import jetbrains.buildServer.cmakerunner.CMakeGenerator;
 import jetbrains.buildServer.cmakerunner.CMakeRunnerConstants;
 import jetbrains.buildServer.serverSide.PropertiesProcessor;
 import jetbrains.buildServer.serverSide.RunType;
@@ -61,12 +60,12 @@ public class CMakeRunnerRunType extends RunType {
 
   @Override
   public String getEditRunnerParamsJspFilePath() {
-    return "editCMakeRunner.jsp";
+    return "editCMakeConfiguratorRunner.jsp";
   }
 
   @Override
   public String getViewRunnerParamsJspFilePath() {
-    return "viewCMakeRunner.jsp";
+    return "viewCMakeConfiguratorRunner.jsp";
   }
 
   @Override
@@ -81,11 +80,11 @@ public class CMakeRunnerRunType extends RunType {
     ret.put(CMakeRunnerConstants.UI_DEVELOPER_WARNINGS, trueStr);
     ret.put(CMakeRunnerConstants.UI_WARN_UNINITIALIZED, trueStr);
     ret.put(CMakeRunnerConstants.UI_WARN_UNUSED_VARS, trueStr);
-    ret.put(CMakeRunnerConstants.UI_PRINT_TRACE, falseStr);
-    ret.put(CMakeRunnerConstants.UI_DEBUG_MODE, falseStr);
-    ret.put(CMakeRunnerConstants.UI_NO_WARN_UNUSED_CLI, falseStr);
+//    ret.put(CMakeRunnerConstants.UI_PRINT_TRACE, falseStr);
+//    ret.put(CMakeRunnerConstants.UI_DEBUG_MODE, falseStr);
+//    ret.put(CMakeRunnerConstants.UI_NO_WARN_UNUSED_CLI, falseStr);
 
-    ret.put(CMakeRunnerConstants.UI_MAKEFILE_GENERATOR, CMakeGenerator.DEFAULT.name());
+    ret.put(CMakeRunnerConstants.UI_MAKEFILE_GENERATOR, "Default");
 
     return ret;
   }

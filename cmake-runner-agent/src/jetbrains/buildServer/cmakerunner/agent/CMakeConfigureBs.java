@@ -21,7 +21,7 @@ import jetbrains.buildServer.agent.runner.BuildServiceAdapter;
 import jetbrains.buildServer.agent.runner.ProcessListener;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
-import jetbrains.buildServer.cmakerunner.CMakeGenerator;
+import jetbrains.buildServer.cmakerunner.CMakeBuildType;
 import jetbrains.buildServer.cmakerunner.agent.output.OutputListener;
 import jetbrains.buildServer.cmakerunner.agent.util.OSUtil;
 import jetbrains.buildServer.cmakerunner.agent.util.SimpleLogger;
@@ -37,7 +37,7 @@ import static jetbrains.buildServer.cmakerunner.CMakeRunnerConstants.*;
 /**
  * @author : Vladislav.Rassokhin
  */
-public class CMakeTasksBuildService extends BuildServiceAdapter {
+public class CMakeConfigureBS extends BuildServiceAdapter {
   // Tmp files set
   @NotNull
   private final Set<File> myFilesToDelete = new HashSet<File>();
@@ -52,7 +52,8 @@ public class CMakeTasksBuildService extends BuildServiceAdapter {
 
     final List<String> arguments = new ArrayList<String>();
     final Map<String, String> runnerParameters = getRunnerParameters(); // all server-ui options
-    final Map<String, String> environment = new HashMap<String, String>(getBuildParameters().getEnvironmentVariables());
+    final Map<String, String> environment = new HashMap<String, String>(System.getenv());
+    environment.putAll(getBuildParameters().getEnvironmentVariables());
 
     // Path to 'cmake'
     String programPath = runnerParameters.get(UI_CMAKE_COMMAND);
@@ -67,15 +68,11 @@ public class CMakeTasksBuildService extends BuildServiceAdapter {
 
     // CMake options
 
-    final String generatorName = runnerParameters.get(UI_MAKEFILE_GENERATOR);
-    CMakeGenerator generator = CMakeGenerator.valueOf(generatorName);
-    if (generator == null) {
-      generator = CMakeGenerator.DEFAULT;
-    }
+    final String generator = runnerParameters.get(UI_MAKEFILE_GENERATOR);
 
-    if (generator != CMakeGenerator.DEFAULT) {
+    if (generator != null && !generator.equalsIgnoreCase("Default")) {
       arguments.add(RUNNER_MAKEFILE_GENERATOR);
-      arguments.add(generator.getNormalName());
+      arguments.add("\"" + generator + "\"");
     }
 
     final Boolean devWarn = Boolean.valueOf(runnerParameters.get(UI_DEVELOPER_WARNINGS));
@@ -99,11 +96,27 @@ public class CMakeTasksBuildService extends BuildServiceAdapter {
       }
     }
 
+    final String buildTypeName = runnerParameters.get(UI_CMAKE_BUILD_TYPE);
+    CMakeBuildType buildType = null;
+    for (final CMakeBuildType type : Arrays.asList(CMakeBuildType.values())) {
+      if (type.getNormalName().equals(buildTypeName)) {
+        buildType = type;
+        break;
+      }
+    }
+    if (buildType != null && buildType != CMakeBuildType.Default) {
+      arguments.add(getVariableToArgument(RUNNER_CMAKE_BUILD_TYPE, buildType.getNormalName()));
+    }
+
     // Other arguments
     addCustomArguments(arguments, runnerParameters.get(UI_ADDITIONAL_PARAMS));
 
     // Directory contains CMakeLists.txt
-    arguments.add(".");
+    String sourcePath = runnerParameters.get(UI_SOURCE_PATH);
+    if (sourcePath == null) {
+      sourcePath = ".";
+    }
+    arguments.add(sourcePath);
 
     final boolean redirectStdErr = Boolean.valueOf(runnerParameters.get(UI_REDIRECT_STDERR));
     // Result:
@@ -137,6 +150,16 @@ public class CMakeTasksBuildService extends BuildServiceAdapter {
       if (StringUtil.isEmptyOrSpaces(line)) continue;
       args.addAll(StringUtil.splitHonorQuotes(line));
     }
+  }
+
+  private void addVariablesToArguments(@NotNull final List<String> args, @NotNull final Map<String, String> variables) {
+    for (final Map.Entry<String, String> entry : variables.entrySet()) {
+      args.add(getVariableToArgument(entry.getKey(), entry.getValue()));
+    }
+  }
+
+  private String getVariableToArgument(@NotNull final String name, @NotNull final String value) {
+    return "-D" + name + "=" + value;
   }
 
 }

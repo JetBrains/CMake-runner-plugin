@@ -16,75 +16,41 @@
 
 package jetbrains.buildServer.cmakerunner;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Collections;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * @author Vladislav.Rassokhin
  */
 @SuppressWarnings({"UnusedDeclaration"})
-public enum CMakeGenerator {
-  DEFAULT("System default", "System default generator"),
-  // TODO: add descriptions
-
-  BORLAND_MAKEFILES("Borland Makefiles", ""),
-  MSYS_MAKEFILES("MSYS Makefiles", ""),
-  MINGW_MAKEFILES("MinGW Makefiles", ""),
-  NMAKE_MAKEFILES("NMake Makefiles", ""),
-  NMAKE_MAKEFILES_JOM("NMake Makefiles JOM", ""),
-  UNIX_MAKEFILES("Unix Makefiles", ""),
-  VISUAL_STUDIO_10("Visual Studio 10", ""),
-  VISUAL_STUDIO_10_WIN64("Visual Studio 10 Win64", ""),
-  VISUAL_STUDIO_6("Visual Studio 6", ""),
-  VISUAL_STUDIO_7("Visual Studio 7", ""),
-  VISUAL_STUDIO_7_NET_2003("Visual Studio 7 .NET 2003", ""),
-  VISUAL_STUDIO_8_2005("Visual Studio 8 2005", ""),
-  VISUAL_STUDIO_8_2005_WIN64("Visual Studio 8 2005 Win64", ""),
-  VISUAL_STUDIO_9_2008("Visual Studio 9 2008", ""),
-  VISUAL_STUDIO_9_2008_WIN64("Visual Studio 9 2008 Win64", ""),
-  WATCOM_WMAKE("Watcom WMake", ""),
-  CODEBLOCKS_MINGW_MAKEFILES("CodeBlocks - MinGW Makefiles", ""),
-  CODEBLOCKS_NMAKE_MAKEFILES("CodeBlocks - NMake Makefiles", ""),
-  CODEBLOCKS_UNIX_MAKEFILES("CodeBlocks - Unix Makefiles", ""),
-  ECLIPSE_CDT4_MINGW_MAKEFILES("Eclipse CDT4 - MinGW Makefiles", ""),
-  ECLIPSE_CDT4_NMAKE_MAKEFILES("Eclipse CDT4 - NMake Makefiles", ""),
-  ECLIPSE_CDT4_UNIX_MAKEFILES("Eclipse CDT4 - Unix Makefiles", "");
-
-
-  private final String myNormalName;
-  private final String myDescription;
-  @NotNull
-  public static final SortedMap<String, CMakeGenerator> NAME_TO_GENERATOR_MAP;
+public class CMakeGenerator {
+  public static Collection<String> KNOWN_GENERATORS = new HashSet<String>();
 
   static {
-    final SortedMap<String, CMakeGenerator> map = new TreeMap<String, CMakeGenerator>();
-    for (final CMakeGenerator generator : values()) {
-      map.put(generator.getNormalName(), generator);
-    }
-
-    NAME_TO_GENERATOR_MAP = Collections.unmodifiableSortedMap(map);
-  }
-
-  CMakeGenerator(@NotNull final String normalName, @NotNull final String description) {
-    myNormalName = normalName;
-    myDescription = description;
-  }
-
-  @NotNull
-  public String getDescription() {
-    return myDescription;
-  }
-
-  @NotNull
-  public String getNormalName() {
-    return myNormalName;
-  }
-
-  @Override
-  public String toString() {
-    return getNormalName();
+    KNOWN_GENERATORS.add("Default");
+    KNOWN_GENERATORS.add("Borland Makefiles");
+    KNOWN_GENERATORS.add("MSYS Makefiles");
+    KNOWN_GENERATORS.add("MinGW Makefiles");
+    KNOWN_GENERATORS.add("NMake Makefiles");
+    KNOWN_GENERATORS.add("NMake Makefiles JOM");
+    KNOWN_GENERATORS.add("Unix Makefiles");
+    KNOWN_GENERATORS.add("Visual Studio 10");
+    KNOWN_GENERATORS.add("Visual Studio 10 Win64");
+    KNOWN_GENERATORS.add("Visual Studio 6");
+    KNOWN_GENERATORS.add("Visual Studio 7");
+    KNOWN_GENERATORS.add("Visual Studio 7 .NET 2003");
+    KNOWN_GENERATORS.add("Visual Studio 8 2005");
+    KNOWN_GENERATORS.add("Visual Studio 8 2005 Win64");
+    KNOWN_GENERATORS.add("Visual Studio 9 2008");
+    KNOWN_GENERATORS.add("Visual Studio 9 2008 Win64");
+    KNOWN_GENERATORS.add("Watcom WMake");
+    KNOWN_GENERATORS.add("CodeBlocks - MinGW Makefiles");
+    KNOWN_GENERATORS.add("CodeBlocks - NMake Makefiles");
+    KNOWN_GENERATORS.add("CodeBlocks - Unix Makefiles");
+    KNOWN_GENERATORS.add("Eclipse CDT4 - MinGW Makefiles");
+    KNOWN_GENERATORS.add("Eclipse CDT4 - NMake Makefiles");
+    KNOWN_GENERATORS.add("Eclipse CDT4 - Unix Makefiles");
+    KNOWN_GENERATORS.add("KDevelop 3");
+    KNOWN_GENERATORS.add("KDevelop 3 - Unix Makefiles");
   }
 }

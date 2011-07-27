@@ -36,41 +36,50 @@ public interface CMakeRunnerConstants {
 
   @NotNull
   @NonNls
-  String UI_ADDITIONAL_PARAMS = "ui.cmakeRunner.additional.cmd.params";
+  String UI_ADDITIONAL_PARAMS = "ui-cmakeRunner-additional-cmd-params";
   @NotNull
   @NonNls
-  String UI_REDIRECT_STDERR = "ui.cmakeRunner.redirect.stderr";
+  String UI_REDIRECT_STDERR = "ui-cmakeRunner-redirect-stderr";
   @NotNull
   @NonNls
-  String UI_MAKEFILE_GENERATOR = "ui.cmakeRunner.makefile.generator";
+  String UI_MAKEFILE_GENERATOR = "ui-cmakeRunner-makefile-generator";
   @NotNull
   @NonNls
-  String UI_DEVELOPER_WARNINGS = "ui.cmakeRunner.developer.warnings";
+  String UI_DEVELOPER_WARNINGS = "ui-cmakeRunner-developer-warnings";
 
   @NotNull
   @NonNls
-  String UI_WARN_UNINITIALIZED = "ui.cmakeRunner.warn.uninitialized";
+  String UI_WARN_UNINITIALIZED = "ui-cmakeRunner-warn-uninitialized";
   @NotNull
   @NonNls
-  String UI_WARN_UNUSED_VARS = "ui.cmakeRunner.warn.unused.vars";
+  String UI_WARN_UNUSED_VARS = "ui-cmakeRunner-warn-unused-vars";
   @NotNull
   @NonNls
-  String UI_NO_WARN_UNUSED_CLI = "ui.cmakeRunner.no.warn.unused.cli";
+  String UI_NO_WARN_UNUSED_CLI = "ui-cmakeRunner-no-warn-unused-cli";
 
   @NotNull
   @NonNls
-  String UI_PRINT_TRACE = "ui.cmakeRunner.print.trace";
+  String UI_PRINT_TRACE = "ui-cmakeRunner-print-trace";
   @NotNull
   @NonNls
-  String UI_DEBUG_MODE = "ui.cmakeRunner.debug.mode";
+  String UI_DEBUG_MODE = "ui-cmakeRunner-debug-mode";
 
   @NotNull
   @NonNls
-  String UI_ADDITIONAL_DEBUG_OPTIONS = "ui.cmakeRunner.additionalDebugOptions";
+  String UI_ADDITIONAL_DEBUG_OPTIONS = "ui-cmakeRunner-additionalDebugOptions";
 
   @NotNull
   @NonNls
-  String UI_CMAKE_COMMAND = "ui.cmakeRunner.cmake.command";
+  String UI_CMAKE_COMMAND = "ui-cmakeRunner-cmake-command";
+
+  @NotNull
+  @NonNls
+  String UI_CMAKE_BUILD_TYPE = "ui-cmakeRunner-cmake-build-type";
+
+  @NotNull
+  @NonNls
+  String UI_SOURCE_PATH = "ui-cmakeRunner-source-path";
+
 
 //  String RUNNER_MAKE_ADDITIONAL_CMD_PARAMS = "";
 //  String RUNNER_REDIRECT_STDERR = "";
@@ -102,5 +111,8 @@ public interface CMakeRunnerConstants {
   @NonNls
   String RUNNER_DEBUG_MODE = "--debug-output";
 
+  @NotNull
+  @NonNls
+  String RUNNER_CMAKE_BUILD_TYPE = "CMAKE_BUILD_TYPE";
 
 }

@@ -28,10 +28,10 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author : Vladislav.Rassokhin
  */
-public class CMakeRunnerCommandLineServiceFactory implements CommandLineBuildServiceFactory, AgentBuildRunnerInfo {
+public class CMakeConfigureCLSFactory implements CommandLineBuildServiceFactory, AgentBuildRunnerInfo {
   @NotNull
   public CommandLineBuildService createService() {
-    return new CMakeTasksBuildService();
+    return new CMakeConfigureBS();
   }
 
   @NotNull

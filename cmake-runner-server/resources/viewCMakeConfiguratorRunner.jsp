@@ -19,24 +19,16 @@
 <jsp:useBean id="bean" class="jetbrains.buildServer.cmakerunner.server.CMakeRunnerBean"/>
 <jsp:useBean id="propertiesBean" scope="request" type="jetbrains.buildServer.controllers.BasePropertiesBean"/>
 
-<%--<div class="parameter">--%>
-<%--Makefile:--%>
-<%--<c:choose>--%>
-<%--<c:when test="${empty propertiesBean.properties['use-custom-build-file'] or propertiesBean.properties['use-custom-build-file'] == false}">--%>
-<%--<props:displayValue name="build-file-path" emptyValue="<Using GNU Make default makefile>"/>--%>
-<%--</c:when>--%>
-<%--<c:when test="${propertiesBean.properties['use-custom-build-file'] == true}">--%>
-<%--<props:displayValue name="custom-build-file-content" emptyValue="<empty>" showInPopup="true"--%>
-<%--popupTitle="Makefile content" popupLinkText="view Makefile content"/>--%>
-<%--</c:when>--%>
-<%--</c:choose>--%>
-<%--</div>--%>
-
-<props:viewWorkingDirectory/>
 
 <div class="parameter">
   CMake program path (CMAKE_COMMAND):
   <strong><props:displayValue name="${bean.cmakeCommandKey}" emptyValue="<default>"/></strong>
+</div>
+<props:viewWorkingDirectory/>
+
+<div class="parameter">
+  Path to source (CMakeList.txt):
+  <strong><props:displayValue name="${bean.sourcePathKey}" emptyValue="<not specified>"/></strong>
 </div>
 
 <div class="parameter">
@@ -46,7 +38,12 @@
 
 <div class="parameter">
   Generator:
-  <strong><props:displayValue name="${bean.makefileGeneratorKey}" emptyValue="DEFAULT"/></strong>
+  <strong><props:displayValue name="${bean.generatorKey}" emptyValue="Default"/></strong>
+</div>
+
+<div class="parameter">
+  Build type:
+  <strong><props:displayValue name="${bean.buildTypeKey}" emptyValue="DEFAULT"/></strong>
 </div>
 
 <div class="parameter">
@@ -63,7 +60,7 @@
   <div class="nestedParameter">
     <ul style="list-style: none; padding-left: 0; margin-left: 0; margin-top: 0.1em; margin-bottom: 0.1em;">
       <li>Print developer debugging information:
-        <strong><props:displayValue name="${bean.developerWarningsKey}"/></strong></li>
+        <strong><props:displayCheckboxValue name="${bean.developerWarningsKey}"/></strong></li>
 
       <li>Print a warning when an uninitialized variable is used:
         <strong><props:displayCheckboxValue name="${bean.warnUninitializedKey}"/></strong></li>

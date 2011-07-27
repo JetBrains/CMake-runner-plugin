@@ -17,7 +17,6 @@
 package jetbrains.buildServer.cmakerunner.agent.util;
 
 import jetbrains.buildServer.agent.BuildAgentConfiguration;
-import jetbrains.buildServer.cmakerunner.CMakeGenerator;
 import jetbrains.buildServer.cmakerunner.CMakeRunnerConstants;
 import jetbrains.buildServer.util.StringUtil;
 
@@ -42,11 +41,10 @@ public class CMakeUtil {
     final Collection<String> availableGenerators = getAvailableGenerators();
     final String genName = agentConfiguration.getConfigurationParameters().get(CMakeRunnerConstants.UI_MAKEFILE_GENERATOR);
     if (genName == null) return true;
-    final CMakeGenerator generator = CMakeGenerator.valueOf(genName);
-    if (generator == CMakeGenerator.DEFAULT) {
+    if (genName.equalsIgnoreCase("default")) {
       return !availableGenerators.isEmpty();
     } else {
-      return availableGenerators.contains(generator.getNormalName());
+      return availableGenerators.contains(genName);
     }
   }
 
