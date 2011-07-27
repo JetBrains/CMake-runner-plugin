@@ -72,7 +72,7 @@ public class CMakeConfigureBS extends BuildServiceAdapter {
 
     if (generator != null && !generator.equalsIgnoreCase("Default")) {
       arguments.add(RUNNER_MAKEFILE_GENERATOR);
-      arguments.add("\"" + generator + "\"");
+      arguments.add(generator);
     }
 
     final Boolean devWarn = Boolean.valueOf(runnerParameters.get(UI_DEVELOPER_WARNINGS));

@@ -17,14 +17,14 @@
 package jetbrains.buildServer.cmakerunner;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.TreeSet;
 
 /**
  * @author Vladislav.Rassokhin
  */
 @SuppressWarnings({"UnusedDeclaration"})
 public class CMakeGenerator {
-  public static Collection<String> KNOWN_GENERATORS = new HashSet<String>();
+  public static Collection<String> KNOWN_GENERATORS = new TreeSet<String>();
 
   static {
     KNOWN_GENERATORS.add("Default");
@@ -50,7 +50,7 @@ public class CMakeGenerator {
     KNOWN_GENERATORS.add("Eclipse CDT4 - MinGW Makefiles");
     KNOWN_GENERATORS.add("Eclipse CDT4 - NMake Makefiles");
     KNOWN_GENERATORS.add("Eclipse CDT4 - Unix Makefiles");
-    KNOWN_GENERATORS.add("KDevelop 3");
-    KNOWN_GENERATORS.add("KDevelop 3 - Unix Makefiles");
+    KNOWN_GENERATORS.add("KDevelop3");
+    KNOWN_GENERATORS.add("KDevelop3 - Unix Makefiles");
   }
 }
