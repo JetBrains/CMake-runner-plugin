@@ -20,7 +20,7 @@ import jetbrains.buildServer.agent.AgentBuildRunnerInfo;
 import jetbrains.buildServer.agent.BuildAgentConfiguration;
 import jetbrains.buildServer.agent.runner.CommandLineBuildService;
 import jetbrains.buildServer.agent.runner.CommandLineBuildServiceFactory;
-import jetbrains.buildServer.cmakerunner.CMakeRunnerConstants;
+import jetbrains.buildServer.cmakerunner.CMakeConfigureConstants;
 import jetbrains.buildServer.cmakerunner.agent.util.CMakeUtil;
 import jetbrains.buildServer.cmakerunner.agent.util.OSUtil;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +31,7 @@ import org.jetbrains.annotations.NotNull;
 public class CMakeConfigureCLSFactory implements CommandLineBuildServiceFactory, AgentBuildRunnerInfo {
   @NotNull
   public CommandLineBuildService createService() {
-    return new CMakeConfigureBS();
+    return new CMakeConfigureBuildService();
   }
 
   @NotNull
@@ -41,7 +41,7 @@ public class CMakeConfigureCLSFactory implements CommandLineBuildServiceFactory,
 
   @NotNull
   public String getType() {
-    return CMakeRunnerConstants.RUNNER_TYPE;
+    return CMakeConfigureConstants.TYPE;
   }
 
   public boolean canRun(@NotNull final BuildAgentConfiguration agentConfiguration) {

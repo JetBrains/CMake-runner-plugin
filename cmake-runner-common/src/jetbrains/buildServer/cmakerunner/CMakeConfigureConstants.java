@@ -17,101 +17,74 @@
 package jetbrains.buildServer.cmakerunner;
 
 import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author : Vladislav.Rassokhin
  */
-public interface CMakeRunnerConstants {
-  @NotNull
+public interface CMakeConfigureConstants {
   @NonNls
-  String RUNNER_TYPE = "cmake-runner";
+  String TYPE = "cmake-configure";
 
-  @NotNull
   @NonNls
-  String RUNNER_DESCRIPTION = "Runner for use CMake";
-  @NotNull
+  String DESCRIPTION = "Using CMake for configure project";
   @NonNls
-  String RUNNER_DISPLAY_NAME = "CMake";
+  String DISPLAY_NAME = "CMake configure";
 
-  @NotNull
   @NonNls
-  String UI_ADDITIONAL_PARAMS = "ui-cmakeRunner-additional-cmd-params";
-  @NotNull
-  @NonNls
-  String UI_REDIRECT_STDERR = "ui-cmakeRunner-redirect-stderr";
-  @NotNull
-  @NonNls
-  String UI_MAKEFILE_GENERATOR = "ui-cmakeRunner-makefile-generator";
-  @NotNull
-  @NonNls
-  String UI_DEVELOPER_WARNINGS = "ui-cmakeRunner-developer-warnings";
+  String UI_PREFIX = "ui-" + TYPE + "-";
 
-  @NotNull
   @NonNls
-  String UI_WARN_UNINITIALIZED = "ui-cmakeRunner-warn-uninitialized";
-  @NotNull
+  String UI_ADDITIONAL_PARAMS = UI_PREFIX + "additional-cmd-params";
   @NonNls
-  String UI_WARN_UNUSED_VARS = "ui-cmakeRunner-warn-unused-vars";
-  @NotNull
+  String UI_REDIRECT_STDERR = UI_PREFIX + "redirect-stderr";
   @NonNls
-  String UI_NO_WARN_UNUSED_CLI = "ui-cmakeRunner-no-warn-unused-cli";
+  String UI_MAKEFILE_GENERATOR = UI_PREFIX + "makefile-generator";
+  @NonNls
+  String UI_DEVELOPER_WARNINGS = UI_PREFIX + "developer-warnings";
 
-  @NotNull
   @NonNls
-  String UI_PRINT_TRACE = "ui-cmakeRunner-print-trace";
-  @NotNull
+  String UI_WARN_UNINITIALIZED = UI_PREFIX + "warn-uninitialized";
   @NonNls
-  String UI_DEBUG_MODE = "ui-cmakeRunner-debug-mode";
-
-  @NotNull
+  String UI_WARN_UNUSED_VARS = UI_PREFIX + "warn-unused-vars";
   @NonNls
-  String UI_ADDITIONAL_DEBUG_OPTIONS = "ui-cmakeRunner-additionalDebugOptions";
+  String UI_NO_WARN_UNUSED_CLI = UI_PREFIX + "no-warn-unused-cli";
 
-  @NotNull
   @NonNls
-  String UI_CMAKE_COMMAND = "ui-cmakeRunner-cmake-command";
-
-  @NotNull
+  String UI_PRINT_TRACE = UI_PREFIX + "print-trace";
   @NonNls
-  String UI_CMAKE_BUILD_TYPE = "ui-cmakeRunner-cmake-build-type";
+  String UI_DEBUG_MODE = UI_PREFIX + "debug-mode";
 
-  @NotNull
   @NonNls
-  String UI_SOURCE_PATH = "ui-cmakeRunner-source-path";
+  String UI_ADDITIONAL_DEBUG_OPTIONS = UI_PREFIX + "additionalDebugOptions";
 
+  @NonNls
+  String UI_CMAKE_COMMAND = UI_PREFIX + "cmake-command";
 
-//  String RUNNER_MAKE_ADDITIONAL_CMD_PARAMS = "";
-//  String RUNNER_REDIRECT_STDERR = "";
+  @NonNls
+  String UI_CMAKE_BUILD_TYPE = UI_PREFIX + "cmake-build-type";
 
-  @NotNull
+  @NonNls
+  String UI_SOURCE_PATH = UI_PREFIX + "source-path";
+
   @NonNls
   String RUNNER_MAKEFILE_GENERATOR = "-G";
-  @NotNull
   @NonNls
   String RUNNER_DEVELOPER_WARNINGS_ON = "-Wdev";
-  @NotNull
   @NonNls
   String RUNNER_DEVELOPER_WARNINGS_OFF = "-Wno-dev";
 
-  @NotNull
   @NonNls
   String RUNNER_WARN_UNINITIALIZED = "--warn-uninitialized";
-  @NotNull
   @NonNls
   String RUNNER_WARN_UNUSED_VARS = "--warn-unused-vars";
-  @NotNull
   @NonNls
   String RUNNER_NO_WARN_UNUSED_CLI = "--no-warn-unused-cli";
 
-  @NotNull
   @NonNls
   String RUNNER_PRINT_TRACE = "--trace";
-  @NotNull
   @NonNls
   String RUNNER_DEBUG_MODE = "--debug-output";
 
-  @NotNull
   @NonNls
   String RUNNER_CMAKE_BUILD_TYPE = "CMAKE_BUILD_TYPE";
 

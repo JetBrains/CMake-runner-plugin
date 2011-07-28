@@ -18,7 +18,7 @@
 <%@ taglib prefix="l" tagdir="/WEB-INF/tags/layout" %>
 <%@ taglib prefix="forms" tagdir="/WEB-INF/tags/forms" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:useBean id="bean" class="jetbrains.buildServer.cmakerunner.server.CMakeRunnerBean"/>
+<jsp:useBean id="bean" class="jetbrains.buildServer.cmakerunner.server.CMakeConfigureBean"/>
 <jsp:useBean id="propertiesBean" scope="request" type="jetbrains.buildServer.controllers.BasePropertiesBean"/>
 
 <tr>

@@ -17,7 +17,7 @@
 package jetbrains.buildServer.cmakerunner.agent.util;
 
 import jetbrains.buildServer.agent.BuildAgentConfiguration;
-import jetbrains.buildServer.cmakerunner.CMakeRunnerConstants;
+import jetbrains.buildServer.cmakerunner.CMakeConfigureConstants;
 import jetbrains.buildServer.util.StringUtil;
 
 import java.io.BufferedReader;
@@ -39,7 +39,7 @@ public class CMakeUtil {
 
   public static boolean isGeneratorSupported(final BuildAgentConfiguration agentConfiguration) {
     final Collection<String> availableGenerators = getAvailableGenerators();
-    final String genName = agentConfiguration.getConfigurationParameters().get(CMakeRunnerConstants.UI_MAKEFILE_GENERATOR);
+    final String genName = agentConfiguration.getConfigurationParameters().get(CMakeConfigureConstants.UI_MAKEFILE_GENERATOR);
     if (genName == null) return true;
     if (genName.equalsIgnoreCase("default")) {
       return !availableGenerators.isEmpty();
@@ -84,7 +84,7 @@ public class CMakeUtil {
 
   public static boolean isCMakeExist(final BuildAgentConfiguration agentConf) {
     final Map<String, String> buildParams = agentConf.getConfigurationParameters();
-    final String cmakeCommandStr = buildParams.get(CMakeRunnerConstants.UI_CMAKE_COMMAND);
+    final String cmakeCommandStr = buildParams.get(CMakeConfigureConstants.UI_CMAKE_COMMAND);
     File cmakeFile = null;
     if (cmakeCommandStr != null) {
       final File workDirectory = agentConf.getWorkDirectory();

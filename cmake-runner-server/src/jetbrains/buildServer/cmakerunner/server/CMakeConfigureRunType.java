@@ -19,7 +19,7 @@ package jetbrains.buildServer.cmakerunner.server;/*
  * @author : Vladislav.Rassokhin
  */
 
-import jetbrains.buildServer.cmakerunner.CMakeRunnerConstants;
+import jetbrains.buildServer.cmakerunner.CMakeConfigureConstants;
 import jetbrains.buildServer.serverSide.PropertiesProcessor;
 import jetbrains.buildServer.serverSide.RunType;
 import jetbrains.buildServer.serverSide.RunTypeRegistry;
@@ -29,27 +29,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class CMakeRunnerRunType extends RunType {
+public class CMakeConfigureRunType extends RunType {
 
-  public CMakeRunnerRunType(final RunTypeRegistry runTypeRegistry) {
+  public CMakeConfigureRunType(final RunTypeRegistry runTypeRegistry) {
     runTypeRegistry.registerRunType(this);
   }
 
   @NotNull
   @Override
   public String getType() {
-    return CMakeRunnerConstants.RUNNER_TYPE;
+    return CMakeConfigureConstants.TYPE;
   }
 
   @Override
   public String getDisplayName() {
-    return CMakeRunnerConstants.RUNNER_DISPLAY_NAME;
+    return CMakeConfigureConstants.DISPLAY_NAME;
 
   }
 
   @Override
   public String getDescription() {
-    return CMakeRunnerConstants.RUNNER_DESCRIPTION;
+    return CMakeConfigureConstants.DESCRIPTION;
   }
 
   @Override
@@ -75,16 +75,16 @@ public class CMakeRunnerRunType extends RunType {
 
     final Map<String, String> ret = new HashMap<String, String>();
 
-    ret.put(CMakeRunnerConstants.UI_REDIRECT_STDERR, trueStr);
+    ret.put(CMakeConfigureConstants.UI_REDIRECT_STDERR, trueStr);
 
-    ret.put(CMakeRunnerConstants.UI_DEVELOPER_WARNINGS, trueStr);
-    ret.put(CMakeRunnerConstants.UI_WARN_UNINITIALIZED, trueStr);
-    ret.put(CMakeRunnerConstants.UI_WARN_UNUSED_VARS, trueStr);
+    ret.put(CMakeConfigureConstants.UI_DEVELOPER_WARNINGS, trueStr);
+    ret.put(CMakeConfigureConstants.UI_WARN_UNINITIALIZED, trueStr);
+    ret.put(CMakeConfigureConstants.UI_WARN_UNUSED_VARS, trueStr);
 //    ret.put(CMakeRunnerConstants.UI_PRINT_TRACE, falseStr);
 //    ret.put(CMakeRunnerConstants.UI_DEBUG_MODE, falseStr);
 //    ret.put(CMakeRunnerConstants.UI_NO_WARN_UNUSED_CLI, falseStr);
 
-    ret.put(CMakeRunnerConstants.UI_MAKEFILE_GENERATOR, "Default");
+    ret.put(CMakeConfigureConstants.UI_MAKEFILE_GENERATOR, "Default");
 
     return ret;
   }

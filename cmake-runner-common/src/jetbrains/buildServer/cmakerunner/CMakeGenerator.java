@@ -29,8 +29,16 @@ public class CMakeGenerator {
   static {
     KNOWN_GENERATORS.add("Default");
     KNOWN_GENERATORS.add("Borland Makefiles");
-    KNOWN_GENERATORS.add("MSYS Makefiles");
+    KNOWN_GENERATORS.add("CodeBlocks - MinGW Makefiles");
+    KNOWN_GENERATORS.add("CodeBlocks - NMake Makefiles");
+    KNOWN_GENERATORS.add("CodeBlocks - Unix Makefiles");
+    KNOWN_GENERATORS.add("Eclipse CDT4 - MinGW Makefiles");
+    KNOWN_GENERATORS.add("Eclipse CDT4 - NMake Makefiles");
+    KNOWN_GENERATORS.add("Eclipse CDT4 - Unix Makefiles");
+    KNOWN_GENERATORS.add("KDevelop3");
+    KNOWN_GENERATORS.add("KDevelop3 - Unix Makefiles");
     KNOWN_GENERATORS.add("MinGW Makefiles");
+    KNOWN_GENERATORS.add("MSYS Makefiles");
     KNOWN_GENERATORS.add("NMake Makefiles");
     KNOWN_GENERATORS.add("NMake Makefiles JOM");
     KNOWN_GENERATORS.add("Unix Makefiles");
@@ -44,13 +52,5 @@ public class CMakeGenerator {
     KNOWN_GENERATORS.add("Visual Studio 9 2008");
     KNOWN_GENERATORS.add("Visual Studio 9 2008 Win64");
     KNOWN_GENERATORS.add("Watcom WMake");
-    KNOWN_GENERATORS.add("CodeBlocks - MinGW Makefiles");
-    KNOWN_GENERATORS.add("CodeBlocks - NMake Makefiles");
-    KNOWN_GENERATORS.add("CodeBlocks - Unix Makefiles");
-    KNOWN_GENERATORS.add("Eclipse CDT4 - MinGW Makefiles");
-    KNOWN_GENERATORS.add("Eclipse CDT4 - NMake Makefiles");
-    KNOWN_GENERATORS.add("Eclipse CDT4 - Unix Makefiles");
-    KNOWN_GENERATORS.add("KDevelop3");
-    KNOWN_GENERATORS.add("KDevelop3 - Unix Makefiles");
   }
 }

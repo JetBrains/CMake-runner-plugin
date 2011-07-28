@@ -32,12 +32,12 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.*;
 
-import static jetbrains.buildServer.cmakerunner.CMakeRunnerConstants.*;
+import static jetbrains.buildServer.cmakerunner.CMakeConfigureConstants.*;
 
 /**
  * @author : Vladislav.Rassokhin
  */
-public class CMakeConfigureBS extends BuildServiceAdapter {
+public class CMakeConfigureBuildService extends BuildServiceAdapter {
   // Tmp files set
   @NotNull
   private final Set<File> myFilesToDelete = new HashSet<File>();

@@ -19,78 +19,79 @@ package jetbrains.buildServer.cmakerunner.server;
 
 import jetbrains.buildServer.cmakerunner.CMakeBuildType;
 import jetbrains.buildServer.cmakerunner.CMakeGenerator;
-import jetbrains.buildServer.cmakerunner.CMakeRunnerConstants;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import static jetbrains.buildServer.cmakerunner.CMakeConfigureConstants.*;
+
 /**
  * @author Vladislav.Rassokhin
  */
 @SuppressWarnings({"SameReturnValue"})
-public class CMakeRunnerBean {
+public class CMakeConfigureBean {
 
   // Keys
   @NotNull
   public String getAdditionalParamsKey() {
-    return CMakeRunnerConstants.UI_ADDITIONAL_PARAMS;
+    return UI_ADDITIONAL_PARAMS;
   }
 
   @NotNull
   public String getRedirectStderrKey() {
-    return CMakeRunnerConstants.UI_REDIRECT_STDERR;
+    return UI_REDIRECT_STDERR;
   }
 
   @NotNull
   public String getGeneratorKey() {
-    return CMakeRunnerConstants.UI_MAKEFILE_GENERATOR;
+    return UI_MAKEFILE_GENERATOR;
   }
 
   @NotNull
   public String getBuildTypeKey() {
-    return CMakeRunnerConstants.UI_CMAKE_BUILD_TYPE;
+    return UI_CMAKE_BUILD_TYPE;
   }
 
   @NotNull
   public String getDeveloperWarningsKey() {
-    return CMakeRunnerConstants.UI_DEVELOPER_WARNINGS;
+    return UI_DEVELOPER_WARNINGS;
   }
 
   @NotNull
   public String getWarnUninitializedKey() {
-    return CMakeRunnerConstants.UI_WARN_UNINITIALIZED;
+    return UI_WARN_UNINITIALIZED;
   }
 
   @NotNull
   public String getWarnUnusedVarsKey() {
-    return CMakeRunnerConstants.UI_WARN_UNUSED_VARS;
+    return UI_WARN_UNUSED_VARS;
   }
 
   @NotNull
   public String getNoWarnUnusedCliKey() {
-    return CMakeRunnerConstants.UI_NO_WARN_UNUSED_CLI;
+    return UI_NO_WARN_UNUSED_CLI;
   }
 
   @NotNull
   public String getPrintTraceKey() {
-    return CMakeRunnerConstants.UI_PRINT_TRACE;
+    return UI_PRINT_TRACE;
   }
 
   @NotNull
   public String getDebugModeKey() {
-    return CMakeRunnerConstants.UI_DEBUG_MODE;
+    return UI_DEBUG_MODE;
   }
 
   @NotNull
   public String getAdditionalDebugOptions() {
-    return CMakeRunnerConstants.UI_ADDITIONAL_DEBUG_OPTIONS;
+    return UI_ADDITIONAL_DEBUG_OPTIONS;
   }
 
   @NotNull
   public String getCmakeCommandKey() {
-    return CMakeRunnerConstants.UI_CMAKE_COMMAND;
+    return UI_CMAKE_COMMAND;
   }
 
   public Collection<CMakeBuildType> getBuildTypesSet() {
@@ -98,7 +99,7 @@ public class CMakeRunnerBean {
   }
 
   public String getSourcePathKey() {
-    return CMakeRunnerConstants.UI_SOURCE_PATH;
+    return UI_SOURCE_PATH;
   }
 
   public ArrayList<String> getGeneratorsNames() {
