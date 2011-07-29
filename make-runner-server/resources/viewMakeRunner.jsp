@@ -35,22 +35,25 @@
 <props:viewWorkingDirectory/>
 
 <div class="parameter">
-  Make tasks: <strong><props:displayValue name="${bean.tasksKey}" emptyValue="default"/></strong>
+  Make tasks: <strong><props:displayValue name="${bean.tasksKey}" emptyValue="not specfied"/></strong>
 </div>
 
+<div class="parameter">
+  Make program path: <strong><props:displayValue name="${bean.makeProgramPathKey}" emptyValue="not specfied"/></strong>
+</div>
 <div class="parameter">
   Additional Make command line parameters: <strong><props:displayValue name="${bean.additionalCmdParamsKey}"
                                                                        emptyValue="not specified"/></strong>
 </div>
 
 <div class="parameter">
-  Launching Parameters:
+  Other options:
   <div class="nestedParameter">
     <ul style="list-style: none; padding-left: 0; margin-left: 0; margin-top: 0.1em; margin-bottom: 0.1em;">
-      <li>Keep-going after first error (collect more errors): <strong><props:displayCheckboxValue
-              name="${bean.keepGoingKey}"/></strong></li>
-      <li>Redirect stderr into stdout (output will be synchronized): <strong><props:displayCheckboxValue
-              name="${bean.redirectStderrKey}"/></strong></li>
+      <li>Keep-going after first error:
+        <strong><props:displayCheckboxValue name="${bean.keepGoingKey}"/></strong></li>
+      <li>Synchronise stdorr and stdout messages (redirect stderr into stdout):
+        <strong><props:displayCheckboxValue name="${bean.redirectStderrKey}"/></strong></li>
     </ul>
   </div>
 </div>

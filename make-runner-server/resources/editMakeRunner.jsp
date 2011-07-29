@@ -20,64 +20,64 @@
 <jsp:useBean id="bean" class="jetbrains.buildServer.makerunner.server.MakeRunnerBean"/>
 <jsp:useBean id="propertiesBean" scope="request" type="jetbrains.buildServer.controllers.BasePropertiesBean"/>
 
-<tr>
-  <th><label for="${bean.makeProgramPathKey}">Make program path: </label></th>
-  <td><props:textProperty name="${bean.makeProgramPathKey}" className="longField" maxlength="256"/>
-    <span class="smallNote">Enter path to make program or leave blank for using default 'make'.</span>
-  </td>
-</tr>
-<tr>
-  <th>
-    <props:radioButtonProperty name="use-custom-build-file" value="" id="customMakefile1"
-                               onclick="BS.MakeRunner.updateCustomBuildFile()"
-                               checked="${empty propertiesBean.properties['use-custom-build-file']}"/>
-    <label for="customMakefile1">Path to a Makefile:</label>
-  </th>
-  <td>
-    <props:textProperty name="build-file-path" className="longField" maxlength="256"/>
-    <span class="error" id="error_build-file-path"></span>
-    <span class="smallNote">Enter Makefile path if you don't want to use a default one. Specified path should be relative to the checkout directory.</span>
-  </td>
-</tr>
-<tr>
-  <th>
-    <props:radioButtonProperty name="use-custom-build-file" value="true" id="customMakefile2"
-                               onclick="BS.MakeRunner.updateCustomBuildFile()"/>
-    <label for="customMakefile2">Makefile content:</label>
-  </th>
-  <td>
-    <props:multilineProperty expanded="${propertiesBean.properties['use-custom-build-file'] == true}"
-                             name="custom-build-file-content" rows="10" cols="58" linkTitle="Type the Makefile content"
-                             onkeydown="$('custom2').checked = true;" className="longField"/>
-    <span class="error" id="error_build-file"></span>
-  </td>
-</tr>
-<forms:workingDirectory/>
-<tr>
-  <th><label for="${bean.tasksKey}">Make tasks: </label></th>
-  <td><props:textProperty name="${bean.tasksKey}" className="longField" maxlength="256"/>
-    <span class="smallNote">Enter tasks names separated by space character if you don't want to use default (first non-prune) task.<br/>E.g. 'test' or 'clean test'.</span>
-  </td>
-</tr>
-<tr>
-  <th><label for="${bean.additionalCmdParamsKey}">Additional Make command line parameters: </label></th>
-  <td><props:textProperty name="${bean.additionalCmdParamsKey}" className="longField" maxlength="256"/>
-    <span class="smallNote">If isn't empty these parameters will be added to 'make' command line.</span>
-  </td>
-</tr>
-
-<l:settingsGroup title="Launching Parameters">
+<l:settingsGroup title="Make parameters">
   <tr>
     <th>
-      <label>Debug: </label>
+      <props:radioButtonProperty name="use-custom-build-file" value="" id="customMakefile1"
+                                 onclick="BS.MakeRunner.updateCustomBuildFile()"
+                                 checked="${empty propertiesBean.properties['use-custom-build-file']}"/>
+      <label for="customMakefile1">Path to a Makefile:</label>
+    </th>
+    <td>
+      <props:textProperty name="build-file-path" className="longField" maxlength="256"/>
+      <span class="error" id="error_build-file-path"></span>
+      <span class="smallNote">Enter Makefile path if you don't want to use a default one. Specified path should be relative to the working directory.</span>
+    </td>
+  </tr>
+  <tr>
+    <th>
+      <props:radioButtonProperty name="use-custom-build-file" value="true" id="customMakefile2"
+                                 onclick="BS.MakeRunner.updateCustomBuildFile()"/>
+      <label for="customMakefile2">Makefile content:</label>
+    </th>
+    <td>
+      <props:multilineProperty expanded="${propertiesBean.properties['use-custom-build-file'] == true}"
+                               name="custom-build-file-content" rows="10" cols="58"
+                               linkTitle="Type the Makefile content"
+                               onkeydown="$('custom2').checked = true;" className="longField"/>
+      <span class="error" id="error_build-file"></span>
+    </td>
+  </tr>
+  <forms:workingDirectory/>
+  <tr>
+    <th><label for="${bean.tasksKey}">Make tasks: </label></th>
+    <td><props:textProperty name="${bean.tasksKey}" className="longField" maxlength="256"/>
+      <span class="smallNote">Enter tasks names separated by space character if you don't want to use default (first non-prune) task.<br/>E.g. 'test' or 'clean test'.</span>
+    </td>
+  </tr>
+  <tr>
+    <th><label for="${bean.makeProgramPathKey}">Make program path: </label></th>
+    <td><props:textProperty name="${bean.makeProgramPathKey}" className="longField" maxlength="256"/>
+      <span class="smallNote">Enter path to make program or leave blank for using default 'make'.</span>
+    </td>
+  </tr>
+  <tr>
+    <th>
+      <label>Other options: </label>
     </th>
     <td>
       <props:checkboxProperty name="${bean.keepGoingKey}"/>
-      <label for="${bean.keepGoingKey}">Keep-going after first error (collect more errors)</label>
+      <label for="${bean.keepGoingKey}">Keep-going after first error</label>
       <br/>
       <props:checkboxProperty name="${bean.redirectStderrKey}"/>
-      <label for="${bean.redirectStderrKey}">Redirect stderr into stdout (output will be synchronized)</label>
+      <label for="${bean.redirectStderrKey}">Synchronise stdorr and stdout messages (redirect stderr into stdout)</label>
       <br/>
+    </td>
+  </tr>
+  <tr>
+    <th><label for="${bean.additionalCmdParamsKey}">Additional Make command line parameters: </label></th>
+    <td><props:textProperty name="${bean.additionalCmdParamsKey}" className="longField" maxlength="256"/>
+      <span class="smallNote">If isn't empty these parameters will be added to 'make' command line.</span>
     </td>
   </tr>
 </l:settingsGroup>
