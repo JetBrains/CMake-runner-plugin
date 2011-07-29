@@ -60,12 +60,12 @@ public class CMakeConfigureRunType extends RunType {
 
   @Override
   public String getEditRunnerParamsJspFilePath() {
-    return "editCMakeConfiguratorRunner.jsp";
+    return "../cmake-runner/editCMakeConfiguratorRunner.jsp";
   }
 
   @Override
   public String getViewRunnerParamsJspFilePath() {
-    return "viewCMakeConfiguratorRunner.jsp";
+    return "../cmake-runner/viewCMakeConfiguratorRunner.jsp";
   }
 
   @Override
