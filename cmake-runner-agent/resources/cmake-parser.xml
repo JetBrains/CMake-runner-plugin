@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright 2000-2011 JetBrains s.r.o.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<parser id="CMake output parser" name="jetbrains.buildServer.cmakerunner.agent.output.CMakeRegexpParser"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="parser-configuration.xsd">
+
+  <!-- Warnings/errors matching -->
+  <pattern regex="[^\-]*CMake Warning (\([^\(\)]*\) )?at (.*):(\d+) (\([^\(\)]*\)):" severity="WARN"/>
+  <pattern regex="[^\-]*CMake Warning (\([^\(\)]*\) )?in (.*):" severity="WARN"/>
+  <pattern regex="[^\-]*CMake Error (\([^\(\)]*\) )?at (.*):(\d+) (\([^\(\)]*\)):" severity="ERROR"/>
+  <pattern regex="[^\-]*CMake Error (\([^\(\)]*\) )?in (.*):" severity="ERROR"/>
+
+  <!-- Out states -->
+  <pattern regex="-- Configuring incomplete, errors occurred!" severity="ERROR"/>
+
+  <!-- Call stack parsing -->
+  <pattern regex="[^\-]*Call Stack \(most recent call first\):" severity="WARN"/>
+  <pattern regex="[^\-]*.+\.((cmake)|(txt)):\d+ \(.*\)" severity="WARN"/>
+
+  <!-- Errors descriptions -->
+  <pattern regex="[^\-]*Could NOT find.*" severity="ERROR"/>
+
+  <!-- Warnings descriptions -->
+  <pattern regex="[^\-]*CMake no longer defines.*" severity="WARN"/>
+  <pattern regex="[^\-]*unused variable \(.*\) '.*'" severity="WARN"/>
+
+</parser>

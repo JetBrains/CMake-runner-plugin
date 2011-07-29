@@ -18,28 +18,39 @@ package jetbrains.buildServer.cmakerunner.agent.output;
 
 import jetbrains.buildServer.agent.runner.ProcessListenerAdapter;
 import jetbrains.buildServer.cmakerunner.agent.util.Logger;
+import jetbrains.buildServer.cmakerunner.agent.util.ParserManager;
+import jetbrains.buildServer.cmakerunner.agent.util.RegexParser;
+import jetbrains.buildServer.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author Vladislav.Rassokhin
  */
 public class OutputListener extends ProcessListenerAdapter {
-  private final Logger myLogger;
+  private final RegexParser myRegexParser;
+  private final ParserManager myContext;
 
   public OutputListener(@NotNull final Logger logger) {
-    myLogger = logger;
+    myContext = new ParserManager(logger);
+    myRegexParser = loadParser(logger, "/cmake-parser.xml"); //TODO: extract "/cmake-parser.xml" as variable?
   }
 
   @Override
   public void onStandardOutput(@NotNull final String text) {
-    myLogger.message(text);
+    if (!myRegexParser.processLine(text, myContext)) {
+      myContext.getLogger().message(text);
+    }
   }
 
   @Override
   public void onErrorOutput(@NotNull final String text) {
-    myLogger.warning(text);
+    if (!myRegexParser.processLine(text, myContext)) {
+      myContext.getLogger().error(text);
+    }
   }
 
   @Override
@@ -48,5 +59,28 @@ public class OutputListener extends ProcessListenerAdapter {
 
   @Override
   public void processFinished(final int exitCode) {
+  }
+
+
+  @NotNull
+  private RegexParser loadParser(@NotNull final Logger logger, @NotNull final String configFileName) {
+    final InputStream parserConfigStream = this.getClass().getResourceAsStream(configFileName);
+    RegexParser parser = null;
+    if (parserConfigStream == null) {
+      logger.warning("Parser configuration not found");
+    } else {
+      try {
+        parser = RegexParser.deserialize(parserConfigStream);
+      } catch (IOException e) {
+        logger.warning("Parser read fail: " + StringUtil.stackTrace(e));
+      }
+    }
+    if (parser == null) {
+      // Cannot deserialize parser config
+      // Using default empty parser
+      logger.warning("Using default empty parser");
+      parser = new RegexParser("default empty parser", "default empty parser");
+    }
+    return parser;
   }
 }
