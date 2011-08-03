@@ -17,8 +17,9 @@
 package jetbrains.buildServer.cmakerunner.regexparser;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.SingleValueConverter;
-import com.thoughtworks.xstream.converters.enums.EnumSingleValueConverter;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import jetbrains.buildServer.messages.XStreamHolder;
 import jetbrains.buildServer.util.StringUtil;
 import jetbrains.buildServer.xstream.XStreamWrapper;
@@ -29,7 +30,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * {@code RegexParser} is an parser designed to use regular expressions in order
@@ -37,9 +37,17 @@ import java.util.regex.Pattern;
  *
  * @author Vladislav.Rassokhin
  */
+@XStreamAlias("parser")
 public class RegexParser {
+  @XStreamAlias("id")
+  @XStreamAsAttribute
   private final String myId;
+
+  @XStreamAlias("name")
+  @XStreamAsAttribute
   private final String myName;
+
+  @XStreamImplicit(itemFieldName = "pattern")
   private final List<RegexPattern> myPatterns = new ArrayList<RegexPattern>();
 
   /**
@@ -51,14 +59,6 @@ public class RegexParser {
   public RegexParser(final String id, final String name) {
     myName = name;
     myId = id;
-  }
-
-  /**
-   * Method toString() for debugging purposes.
-   */
-  @Override
-  public String toString() {
-    return "id=" + myId + ", name=" + myName;
   }
 
   /**
@@ -80,6 +80,10 @@ public class RegexParser {
    */
   public List<RegexPattern> getPatterns() {
     return myPatterns;
+  }
+
+  public void addPattern(@NotNull final RegexPattern pattern) {
+    myPatterns.add(pattern);
   }
 
 
@@ -138,45 +142,15 @@ public class RegexParser {
     }
   }
 
-  private static class PatternConverter implements SingleValueConverter {
-    public String toString(final Object o) {
-      return ((Pattern) o).pattern();
-    }
-
-    public Object fromString(final String s) {
-      return Pattern.compile(s);
-    }
-
-    public boolean canConvert(final Class aClass) {
-      return Pattern.class.equals(aClass);
-    }
-  }
-
   @NotNull
   private static XStreamHolder createXStreamHolder() {
     return new XStreamHolder() {
       @Override
       protected void configureXStream(final XStream xStream) {
-        xStream.alias("parser", RegexParser.class);
-
-        xStream.aliasField("id", RegexParser.class, "myId");
-        xStream.aliasField("name", RegexParser.class, "myName");
-        xStream.useAttributeFor(RegexParser.class, "myId");
-        xStream.useAttributeFor(RegexParser.class, "myName");
-        xStream.addImplicitCollection(RegexParser.class, "myPatterns");
-
-        xStream.alias("pattern", RegexPattern.class);
-        xStream.aliasField("regex", RegexPattern.class, "myPattern");
-        xStream.aliasField("severity", RegexPattern.class, "mySeverity");
-        xStream.aliasField("output-expr", RegexPattern.class, "myDescriptionExpression");
-        xStream.aliasField("eat-line", RegexPattern.class, "myEatLine");
-        xStream.useAttributeFor(RegexPattern.class, "myPattern");
-        xStream.useAttributeFor(RegexPattern.class, "mySeverity");
-        xStream.useAttributeFor(RegexPattern.class, "myDescriptionExpression");
-        xStream.useAttributeFor(RegexPattern.class, "myEatLine");
-        xStream.registerConverter(new EnumSingleValueConverter(Severity.class));
-        xStream.registerConverter(new PatternConverter());
+        xStream.processAnnotations(RegexParser.class);
+        xStream.processAnnotations(RegexPattern.class);
       }
     };
   }
+
 }

@@ -16,6 +16,10 @@
 
 package jetbrains.buildServer.cmakerunner.regexparser;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+import com.thoughtworks.xstream.annotations.XStreamConverter;
+import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.regex.Matcher;
@@ -24,14 +28,25 @@ import java.util.regex.Pattern;
 /**
  * @author Vladislav.Rassokhin
  */
+@XStreamAlias("pattern")
 public class RegexPattern {
   private static final Severity DEFAULT_SEVERITY = Severity.SPECIAL;
   private static final String DEFAULT_DESCRIPTION_EXPR = "$0";
   private static final boolean DEFAULT_EAT_LINE = true;
 
+  @XStreamAlias("regex")
+  @XStreamAsAttribute
+  @XStreamConverter(PatternConverter.class)
   private final Pattern myPattern;
+  @XStreamAlias("output-expr")
+  @XStreamAsAttribute
   private String myDescriptionExpression;
+  @XStreamAlias("severity")
+  @XStreamAsAttribute
+//  @XStreamConverter(SeverityConverter.class)
   private Severity mySeverity;
+  @XStreamAlias("eat-line")
+  @XStreamAsAttribute
   private Boolean myEatLine;
 
   public RegexPattern(@NotNull final Pattern pattern, @NotNull final String descriptionExpression, @NotNull final Severity severity, final boolean eatLine) {
@@ -51,6 +66,10 @@ public class RegexPattern {
 
   public Severity getSeverity() {
     return mySeverity;
+  }
+
+  public boolean getEatLine() {
+    return myEatLine;
   }
 
   private String parseStr(@NotNull final Matcher matcher, @NotNull final String str) {
@@ -103,10 +122,6 @@ public class RegexPattern {
     parserManager.log(getDescription(matcher), mySeverity);
   }
 
-  public boolean getEatLine() {
-    return myEatLine;
-  }
-
   /**
    * Special for XStream. Setting null params to defaults.
    *
@@ -119,4 +134,31 @@ public class RegexPattern {
     if (mySeverity == null) mySeverity = DEFAULT_SEVERITY;
     return this;
   }
+
+  @Override
+  public boolean equals(final Object o) {
+    if (o instanceof RegexPattern) {
+      final RegexPattern rp = (RegexPattern) o;
+      return this.myEatLine.equals(rp.myEatLine)
+              && this.mySeverity.equals(rp.mySeverity)
+              && this.myDescriptionExpression.equals(rp.myDescriptionExpression)
+              && this.myPattern.pattern().equals(rp.myPattern.pattern());
+    }
+    return super.equals(o);
+  }
+
+  public static class PatternConverter extends AbstractSingleValueConverter {
+    public String toString(final Object o) {
+      return ((Pattern) o).pattern();
+    }
+
+    public Object fromString(final String s) {
+      return Pattern.compile(s);
+    }
+
+    public boolean canConvert(final Class aClass) {
+      return Pattern.class.equals(aClass);
+    }
+  }
+
 }
