@@ -4,7 +4,7 @@
     <facet type="Spring" name="Spring">
       <configuration>
         <fileset id="fileset1" name="make-runner-server" removed="false">
-          <file>file://$MODULE_DIR$/src/META-INF/build-server-plugin-makerunner.xml</file>
+          <file>file://$MODULE_DIR$/src/META-INF/build-server-plugin-cmakerunner.xml</file>
           <file>jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/server.jar!/META-INF/buildServerSpring.xml</file>
           <file>jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/server.jar!/META-INF/buildServerPermissions.xml</file>
           <file>file://$MODULE_DIR$/fake-teamcity-server-plugin-context.xml</file>

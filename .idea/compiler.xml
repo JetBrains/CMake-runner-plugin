@@ -14,6 +14,7 @@
       <entry name="?*.dtd" />
       <entry name="?*.tld" />
       <entry name="?*.ftl" />
+      <entry name="?*.jsp" />
       <entry name="?*.txt" />
       <entry name="?*.xsd" />
     </wildcardResourcePatterns>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
   ~ Copyright 2000-2011 JetBrains s.r.o.
   ~
@@ -15,16 +15,10 @@
   ~ limitations under the License.
   -->
 
-<teamcity-plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                 xsi:noNamespaceSchemaLocation="urn:schemas-jetbrains-com:teamcity-plugin-v1-xml">
-  <info>
-    <name>cmake-runner</name>
-    <display-name>CMake and GNU Make tools support</display-name>
-    <version>@Plugin_Version@</version>
-    <vendor>
-      <name>@Plugin_Vendor@</name>
-      <url>@Plugin_Vendor_Url@</url>
-    </vendor>
-  </info>
-  <deployment use-separate-classloader="true"/>
-</teamcity-plugin>
+<parser id="Sample output parser" name="jetbrains.buildServer.makerunner.agent.output.SampleRegexParser"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../make-runner-agent/resources/parser-configuration.xsd">
+  <pattern regex="error: (.*)" output-expr="$1" severity="ERROR" eat-line="true"/>
+  <pattern regex="warning .*" output-expr="$0" severity="WARN" eat-line="false"/>
+  <pattern regex=".*" output-expr="$0" severity="INFO" eat-line="true"/>
+</parser>

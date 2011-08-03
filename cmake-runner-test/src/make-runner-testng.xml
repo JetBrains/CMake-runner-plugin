@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd">
+<suite name="make-runner">
+  <test name="all tests">
+    <packages>
+      <package name="jetbrains.buildServer.makerunner.tests.*"/>
+    </packages>
+  </test>
+</suite>

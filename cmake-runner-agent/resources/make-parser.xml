@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright 2000-2011 JetBrains s.r.o.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<parser id="GNU Make output parser" name="jetbrains.buildServer.makerunner.agent.output.MakeRegexpParser"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="parser-configuration.xsd">
+
+  <!-- Folding targets (Additional parsing)-->
+  <pattern regex="Making (\S+) in (\S+)"/>
+  <pattern regex=".*make.*: Entering directory `(.*)'"/>
+  <pattern regex=".*make.*: Leaving directory `(.*)'"/>
+
+
+  <!-- Makefile errors/warnings -->
+  <pattern regex="(.*):(\d*): (\*\*\* .*)" severity="ERROR"/>
+  <pattern regex="(.*[Mm]akefile):(\d*): warning: (.*)" severity="WARN"/>
+  <pattern regex="(.*):(\d*): (\S*: No such file or directory)" severity="WARN"/>
+
+  <!-- Targets errors/warnings-->
+  <pattern regex="No rule to make target `(.*)'.*" severity="ERROR"/>
+  <pattern regex=".*make.*: (Target (.*) not remade because of errors.)" severity="ERROR"/>
+
+  <pattern regex=".*make.*: \*\*\* (\[\S+\] .*)" severity="ERROR"/>
+  <pattern regex=".*make.*:(.*Error.*\(ignored\))" severity="INFO"/>
+  <pattern regex=".*make.*: \*\*\* (.*)" severity="ERROR"/>
+  <pattern regex="Error:\s*(.*)" severity="ERROR"/>
+
+  <pattern regex=".*command not found.*" severity="ERROR"/>
+
+  <pattern regex="\s*\*\*\*.*" severity="ERROR"/>
+
+
+  <pattern regex=".*make.*\[.*\] (Error [\-]?\d*.*)" severity="WARN"/>
+  <pattern regex=".*make.*: (Circular .* dependency dropped.)" severity="WARN"/>
+
+</parser>

@@ -19,4 +19,5 @@
 
 <beans default-autowire="constructor">
   <bean class="jetbrains.buildServer.cmakerunner.server.CMakeConfigureRunType"/>
+  <bean class="jetbrains.buildServer.makerunner.server.MakeRunnerRunType"/>
 </beans>

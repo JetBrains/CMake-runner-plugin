@@ -4,7 +4,7 @@
     <facet type="Spring" name="Spring">
       <configuration>
         <fileset id="fileset1" name="My Fileset" removed="false">
-          <file>file://$MODULE_DIR$/src/META-INF/build-agent-plugin-makerunner.xml</file>
+          <file>file://$MODULE_DIR$/src/META-INF/build-agent-plugin-cmakerunner.xml</file>
           <file>jar://$teamcitydistribution$/buildAgent/lib/agent.jar!/META-INF/buildAgentSpring.xml</file>
           <file>jar://$teamcitydistribution$/buildAgent/lib/agent.jar!/META-INF/buildAgentPlugins.xml</file>
         </fileset>

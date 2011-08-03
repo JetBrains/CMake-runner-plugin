@@ -20,4 +20,5 @@
 
 <beans default-autowire="constructor">
   <bean class="jetbrains.buildServer.cmakerunner.agent.CMakeConfigureCLSFactory"/>
+  <bean class="jetbrains.buildServer.makerunner.agent.MakeRunnerCommandLineServiceFactory"/>
 </beans>
