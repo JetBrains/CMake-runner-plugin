@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.makerunner.agent.output;
+package jetbrains.buildServer.cmakerunner.agent.output;
 
+import jetbrains.buildServer.cmakerunner.agent.util.PathUtil;
 import jetbrains.buildServer.cmakerunner.regexparser.Logger;
-import jetbrains.buildServer.makerunner.agent.util.PathUtil;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -200,5 +200,33 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
   @Nullable
   private String getNextMainTarget() {
     return initMainTasksIterator() && myMainMakeTasksIterator.hasNext() ? myMainMakeTasksIterator.next() : null;
+  }
+
+  static class Target {
+    @NotNull
+    private final String myDirectory;
+    @NotNull
+    private final String myDescription;
+    private final int myLevel;
+
+    public Target(@NotNull final String directory, @NotNull final String description, final int level) {
+      this.myDirectory = directory;
+      this.myDescription = description;
+      this.myLevel = level;
+    }
+
+    @NotNull
+    public String getDirectory() {
+      return myDirectory;
+    }
+
+    @NotNull
+    public String getDescription() {
+      return myDescription;
+    }
+
+    public int getLevel() {
+      return myLevel;
+    }
   }
 }

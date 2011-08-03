@@ -17,7 +17,7 @@
 package jetbrains.buildServer.makerunner.tests.agent.output;
 
 import jetbrains.buildServer.BaseTestCase;
-import jetbrains.buildServer.makerunner.agent.output.MakeParserManager;
+import jetbrains.buildServer.cmakerunner.agent.output.MakeParserManager;
 import jetbrains.buildServer.makerunner.tests.util.MatchingTester;
 import org.testng.annotations.Test;
 

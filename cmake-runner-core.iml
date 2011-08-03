@@ -8,6 +8,7 @@
       <excludeFolder url="file://$MODULE_DIR$/cmake-runner-common" />
       <excludeFolder url="file://$MODULE_DIR$/cmake-runner-server" />
       <excludeFolder url="file://$MODULE_DIR$/cmake-runner-test" />
+      <excludeFolder url="file://$MODULE_DIR$/regex-parser" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

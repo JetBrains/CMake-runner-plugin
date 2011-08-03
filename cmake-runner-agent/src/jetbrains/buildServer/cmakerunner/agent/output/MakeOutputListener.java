@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.makerunner.agent.output;
+package jetbrains.buildServer.cmakerunner.agent.output;
 
 import jetbrains.buildServer.agent.runner.ProcessListenerAdapter;
+import jetbrains.buildServer.cmakerunner.agent.util.PathUtil;
 import jetbrains.buildServer.cmakerunner.regexparser.Logger;
 import jetbrains.buildServer.cmakerunner.regexparser.ParserLoader;
 import jetbrains.buildServer.cmakerunner.regexparser.RegexParser;
-import jetbrains.buildServer.makerunner.agent.util.PathUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * @author Vladislav.Rassokhin
  */
-public class OutputListener extends ProcessListenerAdapter {
+public class MakeOutputListener extends ProcessListenerAdapter {
   @NotNull
   private final AtomicReference<File> myWorkingDirectory;
   @NotNull
@@ -38,7 +38,7 @@ public class OutputListener extends ProcessListenerAdapter {
   @NotNull
   private final RegexParser myRegexParser;
 
-  public OutputListener(@NotNull final Logger logger, @NotNull final AtomicReference<List<String>> makeTasks) {
+  public MakeOutputListener(@NotNull final Logger logger, @NotNull final AtomicReference<List<String>> makeTasks) {
     myWorkingDirectory = new AtomicReference<File>();
     myContext = new MakeParserManager(logger, myWorkingDirectory, makeTasks);
     //TODO: extract "/make-parser.xml" as variable?

@@ -21,7 +21,6 @@ import jetbrains.buildServer.agent.runner.BuildServiceAdapter;
 import jetbrains.buildServer.agent.runner.ProcessListener;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
-import jetbrains.buildServer.cmakerunner.CMakeBuildType;
 import jetbrains.buildServer.cmakerunner.agent.output.CMakeConfigureOutputListener;
 import jetbrains.buildServer.cmakerunner.agent.util.OSUtil;
 import jetbrains.buildServer.cmakerunner.agent.util.SimpleLogger;
@@ -32,12 +31,12 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.*;
 
-import static jetbrains.buildServer.cmakerunner.CMakeConfigureConstants.*;
+import static jetbrains.buildServer.cmakerunner.CMakeBuildConstants.*;
 
 /**
  * @author : Vladislav.Rassokhin
  */
-public class CMakeConfigureBuildService extends BuildServiceAdapter {
+public class CMakeBuildBS extends BuildServiceAdapter {
   // Tmp files set
   @NotNull
   private final Set<File> myFilesToDelete = new HashSet<File>();
@@ -68,55 +67,35 @@ public class CMakeConfigureBuildService extends BuildServiceAdapter {
 
     // CMake options
 
-    final String generator = runnerParameters.get(UI_MAKEFILE_GENERATOR);
+    // Getting parameters
+    final String buildPath = runnerParameters.get(UI_BUILD_PATH); // Directory contains CMakeCache.txt, etc.  relative to working directory
+    final String buildTarget = runnerParameters.get(UI_BUILD_TARGET);
+    final String buildConfiguration = runnerParameters.get(UI_BUILD_CONFIGURATION);
+    final Boolean buildCleanFirst = Boolean.valueOf(runnerParameters.get(UI_BUILD_CLEAN_FIRST));
 
-    if (generator != null && !generator.equalsIgnoreCase("Default")) {
-      arguments.add(RUNNER_MAKEFILE_GENERATOR);
-      arguments.add(generator);
+
+    arguments.add("--build");
+    arguments.add(buildPath != null ? buildPath : "."); // May be removed, use working dir instead
+
+    if (!StringUtil.isEmptyOrSpaces(buildTarget)) {
+      arguments.add("--target");
+      arguments.add(buildTarget);
     }
-
-    final Boolean devWarn = Boolean.valueOf(runnerParameters.get(UI_DEVELOPER_WARNINGS));
-    arguments.add(devWarn ? RUNNER_DEVELOPER_WARNINGS_ON : RUNNER_DEVELOPER_WARNINGS_OFF);
-
-    if (devWarn) {
-      if (Boolean.valueOf(runnerParameters.get(UI_WARN_UNINITIALIZED))) {
-        arguments.add(RUNNER_WARN_UNINITIALIZED);
-      }
-      if (Boolean.valueOf(runnerParameters.get(UI_WARN_UNUSED_VARS))) {
-        arguments.add(RUNNER_WARN_UNUSED_VARS);
-      }
-      if (Boolean.valueOf(runnerParameters.get(UI_NO_WARN_UNUSED_CLI))) {
-        arguments.add(RUNNER_NO_WARN_UNUSED_CLI);
-      }
-      if (Boolean.valueOf(runnerParameters.get(UI_PRINT_TRACE))) {
-        arguments.add(RUNNER_PRINT_TRACE);
-      }
-      if (Boolean.valueOf(runnerParameters.get(UI_DEBUG_MODE))) {
-        arguments.add(RUNNER_DEBUG_MODE);
-      }
+    if (!StringUtil.isEmptyOrSpaces(buildConfiguration)) {
+      arguments.add("--config");
+      arguments.add(buildConfiguration);
     }
-
-    final String buildTypeName = runnerParameters.get(UI_CMAKE_BUILD_TYPE);
-    CMakeBuildType buildType = null;
-    for (final CMakeBuildType type : Arrays.asList(CMakeBuildType.values())) {
-      if (type.getNormalName().equals(buildTypeName)) {
-        buildType = type;
-        break;
-      }
-    }
-    if (buildType != null && buildType != CMakeBuildType.Default) {
-      arguments.add(getVariableToArgument(RUNNER_CMAKE_BUILD_TYPE, buildType.getNormalName()));
+    if (buildCleanFirst) {
+      arguments.add("--clean-first");
     }
 
     // Other arguments
     addCustomArguments(arguments, runnerParameters.get(UI_ADDITIONAL_PARAMS));
 
-    // Directory contains CMakeLists.txt
-    String sourcePath = runnerParameters.get(UI_SOURCE_PATH);
-    if (sourcePath == null) {
-      sourcePath = ".";
-    }
-    arguments.add(sourcePath);
+    // Native tool arguments
+    arguments.add("--");
+    addCustomArguments(arguments, runnerParameters.get(UI_NATIVE_TOOL_PARAMS));
+
 
     final boolean redirectStdErr = Boolean.valueOf(runnerParameters.get(UI_REDIRECT_STDERR));
     // Result:

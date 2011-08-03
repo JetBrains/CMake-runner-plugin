@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.makerunner.agent.util;
+package jetbrains.buildServer.cmakerunner.agent.util;
 
 import com.intellij.openapi.util.SystemInfo;
 

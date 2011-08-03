@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.makerunner.agent;
+package jetbrains.buildServer.cmakerunner.agent;
 
 import com.intellij.util.containers.HashMap;
 import jetbrains.buildServer.RunBuildException;
@@ -22,9 +22,9 @@ import jetbrains.buildServer.agent.runner.BuildServiceAdapter;
 import jetbrains.buildServer.agent.runner.ProcessListener;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
+import jetbrains.buildServer.cmakerunner.agent.output.MakeOutputListener;
+import jetbrains.buildServer.cmakerunner.agent.util.OSUtil;
 import jetbrains.buildServer.cmakerunner.agent.util.SimpleLogger;
-import jetbrains.buildServer.makerunner.agent.output.OutputListener;
-import jetbrains.buildServer.makerunner.agent.util.OSUtil;
 import jetbrains.buildServer.runner.BuildFileRunnerUtil;
 import jetbrains.buildServer.util.PropertiesUtil;
 import jetbrains.buildServer.util.StringUtil;
@@ -126,7 +126,7 @@ public class MakeTasksBuildService extends BuildServiceAdapter {
   @NotNull
   @Override
   public List<ProcessListener> getListeners() {
-    return Collections.<ProcessListener>singletonList(new OutputListener(new SimpleLogger(getLogger()), myMakeTasks));
+    return Collections.<ProcessListener>singletonList(new MakeOutputListener(new SimpleLogger(getLogger()), myMakeTasks));
   }
 
   @Nullable

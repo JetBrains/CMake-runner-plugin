@@ -22,8 +22,10 @@
   <!-- Warnings/errors matching -->
   <pattern regex="[^\-]*CMake Warning (\([^\(\)]*\) )?at (.*):(\d+) (\([^\(\)]*\)):" severity="WARN"/>
   <pattern regex="[^\-]*CMake Warning (\([^\(\)]*\) )?in (.*):" severity="WARN"/>
+  <pattern regex="[^\-]*CMake Warning:(.*)" severity="WARN"/>
   <pattern regex="[^\-]*CMake Error (\([^\(\)]*\) )?at (.*):(\d+) (\([^\(\)]*\)):" severity="ERROR"/>
   <pattern regex="[^\-]*CMake Error (\([^\(\)]*\) )?in (.*):" severity="ERROR"/>
+  <pattern regex="[^\-]*CMake Error:(.*)" severity="ERROR"/>
 
   <!-- Out states -->
   <pattern regex="-- Configuring incomplete, errors occurred!" severity="ERROR"/>

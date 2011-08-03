@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.makerunner.agent;
+package jetbrains.buildServer.cmakerunner.agent;
 
 import jetbrains.buildServer.agent.AgentBuildRunnerInfo;
 import jetbrains.buildServer.agent.BuildAgentConfiguration;
 import jetbrains.buildServer.agent.runner.CommandLineBuildService;
 import jetbrains.buildServer.agent.runner.CommandLineBuildServiceFactory;
 import jetbrains.buildServer.cmakerunner.MakeRunnerConstants;
-import jetbrains.buildServer.makerunner.agent.util.OSUtil;
+import jetbrains.buildServer.cmakerunner.agent.util.OSUtil;
 import org.jetbrains.annotations.NotNull;
 
 /**

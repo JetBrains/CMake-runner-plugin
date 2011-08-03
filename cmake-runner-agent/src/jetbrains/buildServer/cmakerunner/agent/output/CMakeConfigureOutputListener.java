@@ -28,11 +28,11 @@ import java.io.File;
 /**
  * @author Vladislav.Rassokhin
  */
-public class OutputListener extends ProcessListenerAdapter {
+public class CMakeConfigureOutputListener extends ProcessListenerAdapter {
   private final RegexParser myRegexParser;
   private final ParserManager myContext;
 
-  public OutputListener(@NotNull final Logger logger) {
+  public CMakeConfigureOutputListener(@NotNull final Logger logger) {
     myContext = new ParserManager(logger);
     //TODO: extract "/cmake-parser.xml" as variable?
     RegexParser regexParser = ParserLoader.loadParser("/cmake-parser.xml", this.getClass());

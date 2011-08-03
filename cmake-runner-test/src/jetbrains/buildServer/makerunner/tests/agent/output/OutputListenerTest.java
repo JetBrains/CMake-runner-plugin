@@ -16,8 +16,8 @@
 
 package jetbrains.buildServer.makerunner.tests.agent.output;
 
+import jetbrains.buildServer.cmakerunner.agent.output.MakeOutputListener;
 import jetbrains.buildServer.cmakerunner.regexparser.LoggerAdapter;
-import jetbrains.buildServer.makerunner.agent.output.OutputListener;
 import junit.framework.TestCase;
 import org.jetbrains.annotations.NotNull;
 import org.testng.Assert;
@@ -41,7 +41,7 @@ public class OutputListenerTest extends TestCase {
   public void testTargetsFolding() throws Exception {
     final BracketSequenceMakeLogger logger = new BracketSequenceMakeLogger();
     final AtomicReference<List<String>> makeTasks = new AtomicReference<List<String>>(Arrays.asList("all", "clean"));
-    final OutputListener mll = new OutputListener(logger, makeTasks);
+    final MakeOutputListener mll = new MakeOutputListener(logger, makeTasks);
 
     {
       final File workingDirectory = new File("");
@@ -93,7 +93,7 @@ public class OutputListenerTest extends TestCase {
       }
     };
     final AtomicReference<List<String>> makeTasks = new AtomicReference<List<String>>(Arrays.asList("all", "clean"));
-    final OutputListener mll = new OutputListener(logger, makeTasks);
+    final MakeOutputListener mll = new MakeOutputListener(logger, makeTasks);
 
     {
       final File workingDirectory = new File("");
@@ -142,7 +142,7 @@ public class OutputListenerTest extends TestCase {
     final TargetsCollector tc = new TargetsCollector();
     final List<String> targets = Arrays.asList("all", "clean");
     final AtomicReference<List<String>> makeTasks = new AtomicReference<List<String>>(targets);
-    final OutputListener mll = new OutputListener(tc, makeTasks);
+    final MakeOutputListener mll = new MakeOutputListener(tc, makeTasks);
 
     final File workingDir = new File("");
     mll.processStarted("make", workingDir);

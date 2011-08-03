@@ -20,5 +20,6 @@
 
 <beans default-autowire="constructor">
   <bean class="jetbrains.buildServer.cmakerunner.agent.CMakeConfigureCLBSFactory"/>
-  <bean class="jetbrains.buildServer.makerunner.agent.MakeRunnerCLBSFactory"/>
+  <bean class="jetbrains.buildServer.cmakerunner.agent.CMakeBuildCLBSFactory"/>
+  <bean class="jetbrains.buildServer.cmakerunner.agent.MakeRunnerCLBSFactory"/>
 </beans>
