@@ -14,14 +14,23 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.cmakerunner.agent.util;
+package jetbrains.buildServer.cmakerunner.regexparser;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Vladislav.Rassokhin
  */
-public enum Severity {
-  WARN,
-  ERROR,
-  INFO,
-  SPECIAL
+public interface Logger {
+
+  void message(@NotNull String message);
+
+  void error(@NotNull String message);
+
+  void warning(@NotNull String message);
+
+  void blockStart(@NotNull String name);
+
+  void blockFinish(@NotNull String name);
+
 }

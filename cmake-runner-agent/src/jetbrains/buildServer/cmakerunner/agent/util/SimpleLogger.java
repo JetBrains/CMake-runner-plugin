@@ -17,7 +17,7 @@
 package jetbrains.buildServer.cmakerunner.agent.util;
 
 import jetbrains.buildServer.agent.BuildProgressLogger;
-import jetbrains.buildServer.messages.DefaultMessagesInfo;
+import jetbrains.buildServer.cmakerunner.regexparser.LoggerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -53,6 +53,6 @@ public class SimpleLogger extends LoggerAdapter {
 
   @Override
   public void blockFinish(@NotNull final String name) {
-    myBuildLogger.activityFinished(name, DefaultMessagesInfo.BLOCK_TYPE_TARGET);
+    myBuildLogger.targetFinished(name);
   }
 }

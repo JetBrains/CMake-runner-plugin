@@ -14,23 +14,27 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.cmakerunner.agent.util;
+package jetbrains.buildServer.cmakerunner.regexparser;
 
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Vladislav.Rassokhin
  */
-public interface Logger {
+public class LoggerAdapter implements Logger {
+  public void message(@NotNull final String message) {
+  }
 
-  void message(@NotNull String message);
+  public void error(@NotNull final String message) {
+  }
 
-  void error(@NotNull String message);
+  public void warning(@NotNull final String message) {
+  }
 
-  void warning(@NotNull String message);
+  public void blockStart(@NotNull final String name) {
+  }
 
-  void blockStart(@NotNull String name);
-
-  void blockFinish(@NotNull String name);
+  public void blockFinish(@NotNull final String name) {
+  }
 
 }

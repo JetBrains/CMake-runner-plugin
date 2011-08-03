@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.cmakerunner.agent.util;
+package jetbrains.buildServer.cmakerunner.regexparser;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -79,7 +79,7 @@ public class RegexPattern {
    * Parse a line of build output and register error/warning for
    * Problems view.
    *
-   * @param line    - one line of output.
+   * @param line          - one line of output.
    * @param parserManager - {@link ParserManager}.
    * @return {@code true} if error/warning/info problem was found.
    */
@@ -96,7 +96,7 @@ public class RegexPattern {
   /**
    * Log matched string into {@link ParserManager}.
    *
-   * @param matcher - matcher to parse the input line.
+   * @param matcher       - matcher to parse the input line.
    * @param parserManager - {@link ParserManager}.
    */
   protected void applyToManager(final Matcher matcher, final ParserManager parserManager) {

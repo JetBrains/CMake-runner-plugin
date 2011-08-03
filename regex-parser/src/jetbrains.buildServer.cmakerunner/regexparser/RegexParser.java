@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.cmakerunner.agent.util;
+package jetbrains.buildServer.cmakerunner.regexparser;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.SingleValueConverter;
@@ -86,7 +86,7 @@ public class RegexParser {
   /**
    * Parse a line of build output.
    *
-   * @param line    - line of the input
+   * @param line          - line of the input
    * @param parserManager - parsing manager
    * @return true if parser recognized and accepted line, false otherwise
    */

@@ -14,27 +14,14 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.cmakerunner.agent.util;
-
-import org.jetbrains.annotations.NotNull;
+package jetbrains.buildServer.cmakerunner.regexparser;
 
 /**
  * @author Vladislav.Rassokhin
  */
-public class LoggerAdapter implements Logger {
-  public void message(@NotNull final String message) {
-  }
-
-  public void error(@NotNull final String message) {
-  }
-
-  public void warning(@NotNull final String message) {
-  }
-
-  public void blockStart(@NotNull final String name) {
-  }
-
-  public void blockFinish(@NotNull final String name) {
-  }
-
+public enum Severity {
+  WARN,
+  ERROR,
+  INFO,
+  SPECIAL
 }

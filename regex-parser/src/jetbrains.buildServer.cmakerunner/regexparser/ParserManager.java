@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.cmakerunner.agent.util;
+package jetbrains.buildServer.cmakerunner.regexparser;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -56,6 +56,6 @@ public class ParserManager {
   }
 
   public void parsingError(@NotNull final String message) {
-    myLogger.warning("CMake parser: error parsing: " + message);
+    myLogger.warning("Parsing error: " + message);
   }
 }
