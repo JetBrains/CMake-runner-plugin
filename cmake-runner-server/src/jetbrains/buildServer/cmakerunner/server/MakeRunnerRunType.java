@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.makerunner.server;
+package jetbrains.buildServer.cmakerunner.server;
 
 
 /**
  * @author : Vladislav.Rassokhin
  */
 
-import jetbrains.buildServer.makerunner.MakeRunnerConstants;
+import jetbrains.buildServer.cmakerunner.MakeRunnerConstants;
 import jetbrains.buildServer.serverSide.PropertiesProcessor;
 import jetbrains.buildServer.serverSide.RunType;
 import jetbrains.buildServer.serverSide.RunTypeRegistry;
@@ -39,18 +39,18 @@ public class MakeRunnerRunType extends RunType {
   @NotNull
   @Override
   public String getType() {
-    return MakeRunnerConstants.RUNNER_TYPE;
+    return MakeRunnerConstants.TYPE;
   }
 
   @Override
   public String getDisplayName() {
-    return MakeRunnerConstants.RUNNER_DISPLAY_NAME;
+    return MakeRunnerConstants.DISPLAY_NAME;
 
   }
 
   @Override
   public String getDescription() {
-    return MakeRunnerConstants.RUNNER_DESCRIPTION;
+    return MakeRunnerConstants.DESCRIPTION;
   }
 
   @Override
@@ -61,12 +61,12 @@ public class MakeRunnerRunType extends RunType {
 
   @Override
   public String getEditRunnerParamsJspFilePath() {
-    return "editMakeRunner.jsp";
+    return "../cmake-runner/editMakeRunner.jsp";
   }
 
   @Override
   public String getViewRunnerParamsJspFilePath() {
-    return "viewMakeRunner.jsp";
+    return "../cmake-runner/viewMakeRunner.jsp";
   }
 
   @Override

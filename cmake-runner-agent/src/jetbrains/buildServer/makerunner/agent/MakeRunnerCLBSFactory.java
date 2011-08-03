@@ -14,24 +14,23 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.cmakerunner.agent;
+package jetbrains.buildServer.makerunner.agent;
 
 import jetbrains.buildServer.agent.AgentBuildRunnerInfo;
 import jetbrains.buildServer.agent.BuildAgentConfiguration;
 import jetbrains.buildServer.agent.runner.CommandLineBuildService;
 import jetbrains.buildServer.agent.runner.CommandLineBuildServiceFactory;
-import jetbrains.buildServer.cmakerunner.CMakeConfigureConstants;
-import jetbrains.buildServer.cmakerunner.agent.util.CMakeUtil;
-import jetbrains.buildServer.cmakerunner.agent.util.OSUtil;
+import jetbrains.buildServer.cmakerunner.MakeRunnerConstants;
+import jetbrains.buildServer.makerunner.agent.util.OSUtil;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author : Vladislav.Rassokhin
  */
-public class CMakeConfigureCLSFactory implements CommandLineBuildServiceFactory, AgentBuildRunnerInfo {
+public class MakeRunnerCLBSFactory implements CommandLineBuildServiceFactory, AgentBuildRunnerInfo {
   @NotNull
   public CommandLineBuildService createService() {
-    return new CMakeConfigureBuildService();
+    return new MakeTasksBuildService();
   }
 
   @NotNull
@@ -41,10 +40,10 @@ public class CMakeConfigureCLSFactory implements CommandLineBuildServiceFactory,
 
   @NotNull
   public String getType() {
-    return CMakeConfigureConstants.TYPE;
+    return MakeRunnerConstants.TYPE;
   }
 
   public boolean canRun(@NotNull final BuildAgentConfiguration agentConfiguration) {
-    return OSUtil.isOSSupported() && CMakeUtil.isAgentSupported(agentConfiguration);
+    return OSUtil.isOSSupported() && OSUtil.isCLIExist(agentConfiguration.getBuildParameters().getEnvironmentVariables());
   }
 }

@@ -17,7 +17,7 @@
 <%@ taglib prefix="props" tagdir="/WEB-INF/tags/props" %>
 <%@ taglib prefix="l" tagdir="/WEB-INF/tags/layout" %>
 <%@ taglib prefix="forms" tagdir="/WEB-INF/tags/forms" %>
-<jsp:useBean id="bean" class="jetbrains.buildServer.makerunner.server.MakeRunnerBean"/>
+<jsp:useBean id="bean" class="jetbrains.buildServer.cmakerunner.server.MakeRunnerBean"/>
 <jsp:useBean id="propertiesBean" scope="request" type="jetbrains.buildServer.controllers.BasePropertiesBean"/>
 
 <l:settingsGroup title="Make parameters">

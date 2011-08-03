@@ -17,9 +17,9 @@
 package jetbrains.buildServer.makerunner.tests.agent.output;
 
 import jetbrains.buildServer.BaseTestCase;
-import jetbrains.buildServer.makerunner.agent.util.LoggerAdapter;
-import jetbrains.buildServer.makerunner.agent.util.Manager;
-import jetbrains.buildServer.makerunner.agent.util.RegexParser;
+import jetbrains.buildServer.cmakerunner.regexparser.LoggerAdapter;
+import jetbrains.buildServer.cmakerunner.regexparser.ParserManager;
+import jetbrains.buildServer.cmakerunner.regexparser.RegexParser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.testng.Assert;
@@ -143,7 +143,7 @@ public class MakeParserTest extends BaseTestCase {
     Assert.assertNotNull(myParser);
 
     final CounterLogger logger = new CounterLogger();
-    final Manager context = new Manager(logger) {
+    final ParserManager context = new ParserManager(logger) {
       @Override
       protected boolean specialParse(@NotNull final String line) {
         ((CounterLogger) getLogger()).special();

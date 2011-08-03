@@ -16,8 +16,8 @@
 
 package jetbrains.buildServer.makerunner.tests.agent.output;
 
+import jetbrains.buildServer.cmakerunner.regexparser.LoggerAdapter;
 import jetbrains.buildServer.makerunner.agent.output.OutputListener;
-import jetbrains.buildServer.makerunner.agent.util.LoggerAdapter;
 import junit.framework.TestCase;
 import org.jetbrains.annotations.NotNull;
 import org.testng.Assert;
@@ -29,7 +29,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static jetbrains.buildServer.makerunner.tests.agent.output.MakeOutputFoldingGenerator.*;
+import static jetbrains.buildServer.makerunner.tests.agent.output.MakeOutputFoldingGenerator.generateEnterMessage;
+import static jetbrains.buildServer.makerunner.tests.agent.output.MakeOutputFoldingGenerator.generateLeaveMessage;
 
 /**
  * @author Vladislav.Rassokhin

@@ -16,8 +16,7 @@
 
 package jetbrains.buildServer.makerunner.agent.output;
 
-import jetbrains.buildServer.makerunner.agent.util.Logger;
-import jetbrains.buildServer.makerunner.agent.util.Manager;
+import jetbrains.buildServer.cmakerunner.regexparser.Logger;
 import jetbrains.buildServer.makerunner.agent.util.PathUtil;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +31,7 @@ import java.util.regex.Pattern;
 /**
  * @author Vladislav.Rassokhin
  */
-public class MakeParserManager extends Manager {
+public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexparser.ParserManager {
   @NotNull
   private final Stack<Target> myTargetsStack = new Stack<Target>();
   @NotNull

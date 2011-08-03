@@ -22,9 +22,9 @@ import jetbrains.buildServer.agent.runner.BuildServiceAdapter;
 import jetbrains.buildServer.agent.runner.ProcessListener;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
+import jetbrains.buildServer.cmakerunner.agent.util.SimpleLogger;
 import jetbrains.buildServer.makerunner.agent.output.OutputListener;
 import jetbrains.buildServer.makerunner.agent.util.OSUtil;
-import jetbrains.buildServer.makerunner.agent.util.SimpleMakeLogger;
 import jetbrains.buildServer.runner.BuildFileRunnerUtil;
 import jetbrains.buildServer.util.PropertiesUtil;
 import jetbrains.buildServer.util.StringUtil;
@@ -35,7 +35,7 @@ import java.io.File;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static jetbrains.buildServer.makerunner.MakeRunnerConstants.*;
+import static jetbrains.buildServer.cmakerunner.MakeRunnerConstants.*;
 import static jetbrains.buildServer.runner.BuildFileRunnerConstants.BUILD_FILE_PATH_KEY;
 
 /**
@@ -63,7 +63,7 @@ public class MakeTasksBuildService extends BuildServiceAdapter {
 
     // Path to 'make'
 
-    String programPath = runnerParameters.get(RUNNER_MAKE_PROGRAM_PATH);
+    String programPath = runnerParameters.get(UI_MAKE_PROGRAM_PATH);
     if (programPath == null) {
       programPath = DEFAULT_MAKE_PROGRAM;
     }
@@ -83,21 +83,21 @@ public class MakeTasksBuildService extends BuildServiceAdapter {
     }
 
     // Keep-going
-    if (Boolean.valueOf(runnerParameters.get(RUNNER_MAKE_KEEP_GOING))) {
+    if (Boolean.valueOf(runnerParameters.get(UI_MAKE_KEEP_GOING))) {
       arguments.add(MAKE_CMDLINE_OPTIONS_KEEP_GOING);
     }
 
     // Other arguments
-    addCustomArguments(arguments, runnerParameters.get(RUNNER_MAKE_ADDITIONAL_CMD_PARAMS));
+    addCustomArguments(arguments, runnerParameters.get(UI_MAKE_ADDITIONAL_CMD_PARAMS));
 
     // Tasks names
-    final String makeTasksStr = runnerParameters.get(RUNNER_MAKE_TASKS);
+    final String makeTasksStr = runnerParameters.get(UI_MAKE_TASKS);
     addCustomArguments(arguments, makeTasksStr);
 
     myMakeTasks.set(splitMakeTasks(makeTasksStr));
 
 
-    final boolean redirectStdErr = Boolean.valueOf(runnerParameters.get(RUNNER_REDIRECT_STDERR));
+    final boolean redirectStdErr = Boolean.valueOf(runnerParameters.get(UI_REDIRECT_STDERR));
     // Result:
     final SimpleProgramCommandLine pcl = new SimpleProgramCommandLine(environment,
             getWorkingDirectory().getAbsolutePath(),
@@ -126,7 +126,7 @@ public class MakeTasksBuildService extends BuildServiceAdapter {
   @NotNull
   @Override
   public List<ProcessListener> getListeners() {
-    return Collections.<ProcessListener>singletonList(new OutputListener(new SimpleMakeLogger(getLogger()), myMakeTasks));
+    return Collections.<ProcessListener>singletonList(new OutputListener(new SimpleLogger(getLogger()), myMakeTasks));
   }
 
   @Nullable

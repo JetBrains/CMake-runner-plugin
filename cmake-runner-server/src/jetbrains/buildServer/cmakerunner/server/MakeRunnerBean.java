@@ -14,27 +14,39 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.makerunner.agent.util;
+package jetbrains.buildServer.cmakerunner.server;
 
+import jetbrains.buildServer.cmakerunner.MakeRunnerConstants;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Vladislav.Rassokhin
  */
-public class LoggerAdapter implements Logger {
-  public void message(@NotNull final String message) {
+@SuppressWarnings({"SameReturnValue"})
+public class MakeRunnerBean {
+
+  // Keys
+  @NotNull
+  public String getTasksKey() {
+    return MakeRunnerConstants.UI_MAKE_TASKS;
   }
 
-  public void error(@NotNull final String message) {
+  @NotNull
+  public String getAdditionalCmdParamsKey() {
+    return MakeRunnerConstants.UI_MAKE_ADDITIONAL_CMD_PARAMS;
   }
 
-  public void warning(@NotNull final String message) {
+  @NotNull
+  public String getKeepGoingKey() {
+    return MakeRunnerConstants.UI_MAKE_KEEP_GOING;
   }
 
-  public void blockStart(@NotNull final String name) {
+  @NotNull
+  public String getRedirectStderrKey() {
+    return MakeRunnerConstants.UI_REDIRECT_STDERR;
   }
 
-  public void blockFinish(@NotNull final String name) {
+  public String getMakeProgramPathKey() {
+    return MakeRunnerConstants.UI_MAKE_PROGRAM_PATH;
   }
-
 }

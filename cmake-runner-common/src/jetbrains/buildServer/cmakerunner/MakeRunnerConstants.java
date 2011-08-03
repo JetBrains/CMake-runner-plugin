@@ -14,25 +14,40 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.makerunner;
+package jetbrains.buildServer.cmakerunner;
+
+import org.jetbrains.annotations.NonNls;
 
 /**
  * @author : Vladislav.Rassokhin
  */
 public interface MakeRunnerConstants {
-  String RUNNER_TYPE = "make-runner";
+  @NonNls
+  String TYPE = "make-runner";
 
-  String RUNNER_DESCRIPTION = "Runner for executing Make tasks";
-  String RUNNER_DISPLAY_NAME = "GNU Make";
+  @NonNls
+  String DESCRIPTION = "Runner for executing Make tasks";
+  @NonNls
+  String DISPLAY_NAME = "GNU Make";
 
-  String RUNNER_MAKE_TASKS = "ui.makeRunner.make.tasks";
-  String RUNNER_MAKE_ADDITIONAL_CMD_PARAMS = "ui.makeRunner.make.additional.cmd.params";
-  String RUNNER_MAKE_KEEP_GOING = "ui.makeRunner.make.keep.going";
-  String RUNNER_REDIRECT_STDERR = "ui.makeRunner.redirect.stderr";
-  String RUNNER_MAKE_PROGRAM_PATH = "ui.makeRunner.make.program.path";
+  @NonNls
+  String UI_PREFIX = "ui-" + TYPE + "-";
+
+  @NonNls
+  String UI_MAKE_TASKS = UI_PREFIX + "make-tasks";
+  @NonNls
+  String UI_MAKE_ADDITIONAL_CMD_PARAMS = UI_PREFIX + "additional-cmd-params";
+  @NonNls
+  String UI_MAKE_KEEP_GOING = UI_PREFIX + "keep-going";
+  @NonNls
+  String UI_REDIRECT_STDERR = UI_PREFIX + "redirect-stderr";
+  @NonNls
+  String UI_MAKE_PROGRAM_PATH = UI_PREFIX + "make-program-path";
 
   // Make arguments
+  @NonNls
   String MAKE_CMDLINE_OPTIONS_MAKEFILE = "--file";
+  @NonNls
   String MAKE_CMDLINE_OPTIONS_KEEP_GOING = "--keep-going";
 
 }

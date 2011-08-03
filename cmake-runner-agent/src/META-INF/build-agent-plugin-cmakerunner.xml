@@ -19,6 +19,6 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans default-autowire="constructor">
-  <bean class="jetbrains.buildServer.cmakerunner.agent.CMakeConfigureCLSFactory"/>
-  <bean class="jetbrains.buildServer.makerunner.agent.MakeRunnerCommandLineServiceFactory"/>
+  <bean class="jetbrains.buildServer.cmakerunner.agent.CMakeConfigureCLBSFactory"/>
+  <bean class="jetbrains.buildServer.makerunner.agent.MakeRunnerCLBSFactory"/>
 </beans>

@@ -18,6 +18,7 @@
     <orderEntry type="library" name="Annotations" level="project" />
     <orderEntry type="library" scope="TEST" name="Testing Libs" level="project" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="regex-parser" />
   </component>
 </module>
 

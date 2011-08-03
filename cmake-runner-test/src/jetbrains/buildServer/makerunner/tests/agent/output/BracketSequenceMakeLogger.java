@@ -16,7 +16,7 @@
 
 package jetbrains.buildServer.makerunner.tests.agent.output;
 
-import jetbrains.buildServer.makerunner.agent.util.LoggerAdapter;
+import jetbrains.buildServer.cmakerunner.regexparser.LoggerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 /**
