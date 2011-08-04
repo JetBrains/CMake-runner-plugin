@@ -18,7 +18,6 @@ package jetbrains.buildServer.cmakerunner.agent;
 
 import com.intellij.util.containers.HashMap;
 import jetbrains.buildServer.RunBuildException;
-import jetbrains.buildServer.agent.runner.BuildServiceAdapter;
 import jetbrains.buildServer.agent.runner.ProcessListener;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
@@ -32,7 +31,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static jetbrains.buildServer.cmakerunner.MakeRunnerConstants.*;
@@ -41,17 +43,13 @@ import static jetbrains.buildServer.runner.BuildFileRunnerConstants.BUILD_FILE_P
 /**
  * @author : Vladislav.Rassokhin
  */
-public class MakeTasksBuildService extends BuildServiceAdapter {
-  // Tmp files set
-  @NotNull
-  private final Set<File> myFilesToDelete = new HashSet<File>();
-
+public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
   @NotNull
   private final AtomicReference<List<String>> myMakeTasks = new AtomicReference<List<String>>(new ArrayList<String>());
+  @NotNull
   private static final List<String> ONE_TASK_LIST = Collections.singletonList("default");
   @NotNull
   private static final String DEFAULT_MAKE_PROGRAM = "make";
-  private static final String NEW_LINES_PATTERN = "[" + System.getProperty("line.separator", "\n") + "]+";
 
   @NotNull
   @Override
@@ -114,15 +112,6 @@ public class MakeTasksBuildService extends BuildServiceAdapter {
     return tasks;
   }
 
-  @Override
-  public void afterProcessFinished() {
-    // Remove tmp files
-    for (final File file : myFilesToDelete) {
-      jetbrains.buildServer.util.FileUtil.delete(file);
-    }
-    myFilesToDelete.clear();
-  }
-
   @NotNull
   @Override
   public List<ProcessListener> getListeners() {
@@ -145,16 +134,6 @@ public class MakeTasksBuildService extends BuildServiceAdapter {
       }
     }
     return buildFile;
-  }
-
-  private void addCustomArguments(@NotNull final List<String> args, @Nullable final String parameters) {
-    if (StringUtil.isEmptyOrSpaces(parameters)) return;
-    //noinspection ConstantConditions
-    for (final String _line : parameters.split(NEW_LINES_PATTERN)) {
-      final String line = _line.trim();
-      if (StringUtil.isEmptyOrSpaces(line)) continue;
-      args.addAll(StringUtil.splitHonorQuotes(line));
-    }
   }
 
 }

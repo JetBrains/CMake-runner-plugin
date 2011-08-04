@@ -16,11 +16,8 @@
 
 package jetbrains.buildServer.cmakerunner.agent.output;
 
-import jetbrains.buildServer.agent.runner.ProcessListenerAdapter;
 import jetbrains.buildServer.cmakerunner.agent.util.PathUtil;
 import jetbrains.buildServer.cmakerunner.regexparser.Logger;
-import jetbrains.buildServer.cmakerunner.regexparser.ParserLoader;
-import jetbrains.buildServer.cmakerunner.regexparser.RegexParser;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -30,50 +27,19 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * @author Vladislav.Rassokhin
  */
-public class MakeOutputListener extends ProcessListenerAdapter {
-  @NotNull
-  private final AtomicReference<String> myWorkingDirectory;
-  @NotNull
-  private final MakeParserManager myContext;
-  @NotNull
-  private final RegexParser myRegexParser;
+public class MakeOutputListener extends RegexParsersBasedOutputListener {
 
   public MakeOutputListener(@NotNull final Logger logger, @NotNull final AtomicReference<List<String>> makeTasks) {
-    myWorkingDirectory = new AtomicReference<String>();
-    myContext = new MakeParserManager(logger, myWorkingDirectory, makeTasks);
-    //TODO: extract "/make-parser.xml" as variable?
-    RegexParser regexParser = ParserLoader.loadParser("/make-parser.xml", this.getClass());
-    if (regexParser == null) {
-      regexParser = new RegexParser("default empty parser", "default empty parser");
-    }
-    myRegexParser = regexParser;
+    super(new MakeParserManager(logger, makeTasks), "/make-parser.xml");
   }
 
   @Override
   public void processStarted(@NotNull final String programCommandLine, @NotNull final File workingDirectory) {
-    myWorkingDirectory.set(PathUtil.toUnixStylePath(workingDirectory.getAbsolutePath()));
+    ((MakeParserManager) myManager).setWorkingDirectory(PathUtil.toUnixStylePath(workingDirectory.getAbsolutePath()));
   }
 
   @Override
   public void processFinished(final int exitCode) {
-    myContext.finishAllTargets();
-  }
-
-  @Override
-  public void onStandardOutput(@NotNull final String text) {
-    if (!myRegexParser.processLine(text, myContext)) {
-      myContext.getLogger().message(text);
-    }
-  }
-
-  @Override
-  public void onErrorOutput(@NotNull final String text) {
-    if (!myRegexParser.processLine(text, myContext)) {
-      myContext.getLogger().error(text);
-    }
-  }
-
-  public RegexParser getParser() {
-    return myRegexParser;
+    ((MakeParserManager) myManager).finishAllTargets();
   }
 }

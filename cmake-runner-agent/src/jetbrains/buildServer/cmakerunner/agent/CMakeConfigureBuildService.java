@@ -17,19 +17,15 @@
 package jetbrains.buildServer.cmakerunner.agent;
 
 import jetbrains.buildServer.RunBuildException;
-import jetbrains.buildServer.agent.runner.BuildServiceAdapter;
 import jetbrains.buildServer.agent.runner.ProcessListener;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
 import jetbrains.buildServer.cmakerunner.CMakeBuildType;
-import jetbrains.buildServer.cmakerunner.agent.output.CMakeConfigureOutputListener;
+import jetbrains.buildServer.cmakerunner.agent.output.RegexParsersBasedOutputListener;
 import jetbrains.buildServer.cmakerunner.agent.util.OSUtil;
 import jetbrains.buildServer.cmakerunner.agent.util.SimpleLogger;
-import jetbrains.buildServer.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
 import java.util.*;
 
 import static jetbrains.buildServer.cmakerunner.CMakeConfigureConstants.*;
@@ -37,14 +33,9 @@ import static jetbrains.buildServer.cmakerunner.CMakeConfigureConstants.*;
 /**
  * @author : Vladislav.Rassokhin
  */
-public class CMakeConfigureBuildService extends BuildServiceAdapter {
-  // Tmp files set
-  @NotNull
-  private final Set<File> myFilesToDelete = new HashSet<File>();
-
+public class CMakeConfigureBuildService extends ExtendedBuildServiceAdapter {
   @NotNull
   private static final String DEFAULT_CMAKE_PROGRAM = "cmake";
-  private static final String NEW_LINES_PATTERN = "[" + System.getProperty("line.separator", "\n") + "]+";
 
   @NotNull
   @Override
@@ -127,39 +118,10 @@ public class CMakeConfigureBuildService extends BuildServiceAdapter {
     return redirectStdErr ? OSUtil.makeOSSpecific(pcl) : pcl;
   }
 
-  @Override
-  public void afterProcessFinished() {
-    // Remove tmp files
-    for (final File file : myFilesToDelete) {
-      jetbrains.buildServer.util.FileUtil.delete(file);
-    }
-    myFilesToDelete.clear();
-  }
-
   @NotNull
   @Override
   public List<ProcessListener> getListeners() {
-    return Collections.<ProcessListener>singletonList(new CMakeConfigureOutputListener(new SimpleLogger(getLogger())));
-  }
-
-  private void addCustomArguments(@NotNull final List<String> args, @Nullable final String parameters) {
-    if (StringUtil.isEmptyOrSpaces(parameters)) return;
-    //noinspection ConstantConditions
-    for (final String _line : parameters.split(NEW_LINES_PATTERN)) {
-      final String line = _line.trim();
-      if (StringUtil.isEmptyOrSpaces(line)) continue;
-      args.addAll(StringUtil.splitHonorQuotes(line));
-    }
-  }
-
-  private void addVariablesToArguments(@NotNull final List<String> args, @NotNull final Map<String, String> variables) {
-    for (final Map.Entry<String, String> entry : variables.entrySet()) {
-      args.add(getVariableToArgument(entry.getKey(), entry.getValue()));
-    }
-  }
-
-  private String getVariableToArgument(@NotNull final String name, @NotNull final String value) {
-    return "-D" + name + "=" + value;
+    return Collections.<ProcessListener>singletonList(new RegexParsersBasedOutputListener(new SimpleLogger(getLogger()), "/cmake-parser.xml"));
   }
 
 }

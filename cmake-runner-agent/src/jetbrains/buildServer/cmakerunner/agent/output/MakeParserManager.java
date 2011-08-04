@@ -41,9 +41,9 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
   private ListIterator<String> myMainMakeTasksIterator;
 
 
-  public MakeParserManager(@NotNull final Logger logger, @NotNull final AtomicReference<String> workingDirectory, @NotNull final AtomicReference<List<String>> mainMakeTasks) {
+  public MakeParserManager(@NotNull final Logger logger, @NotNull final AtomicReference<List<String>> mainMakeTasks) {
     super(logger);
-    this.myWorkingDirectory = workingDirectory;
+    this.myWorkingDirectory = new AtomicReference<String>();
     this.myMainMakeTasks = mainMakeTasks;
   }
 
@@ -201,6 +201,10 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
   @Nullable
   private String getNextMainTarget() {
     return initMainTasksIterator() && myMainMakeTasksIterator.hasNext() ? myMainMakeTasksIterator.next() : null;
+  }
+
+  public void setWorkingDirectory(final String workingDirectory) {
+    myWorkingDirectory.set(workingDirectory);
   }
 
   static class Target {
