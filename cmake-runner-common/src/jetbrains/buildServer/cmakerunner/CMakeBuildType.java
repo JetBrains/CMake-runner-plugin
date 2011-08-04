@@ -19,6 +19,7 @@ package jetbrains.buildServer.cmakerunner;
 /**
  * @author Vladislav.Rassokhin
  */
+@SuppressWarnings({"UnusedDeclaration"})
 public enum CMakeBuildType {
   Default("None"),
   Debug("Debug"),

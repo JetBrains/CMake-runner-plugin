@@ -24,6 +24,7 @@ import static jetbrains.buildServer.cmakerunner.CMakeBuildConstants.*;
 /**
  * @author Vladislav.Rassokhin
  */
+@SuppressWarnings({"SameReturnValue"})
 public class CMakeBuildBean {
 
   @NotNull

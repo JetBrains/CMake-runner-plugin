@@ -71,7 +71,7 @@ public class CMakeConfigureRunType extends RunType {
   @Override
   public Map<String, String> getDefaultRunnerProperties() {
     final String trueStr = Boolean.toString(true);
-    final String falseStr = Boolean.toString(false);
+//    final String falseStr = Boolean.toString(false);
 
     final Map<String, String> ret = new HashMap<String, String>();
 
