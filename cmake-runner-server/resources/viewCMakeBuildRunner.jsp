@@ -47,23 +47,10 @@
 </div>
 
 <div class="parameter">
-  Additional CMake command line parameters:
-  <strong><props:displayValue name="${bean.additionalParamsKey}" emptyValue="<not specified>"/></strong>
-</div>
-<div class="parameter">
   Native tool command line parameters:
   <strong><props:displayValue name="${bean.nativeToolParamsKey}" emptyValue="<not specified>"/></strong>
 </div>
 
-<%--<div class="parameter">--%>
-<%--Generator:--%>
-<%--<strong><props:displayValue name="${bean.generatorKey}" emptyValue="Default"/></strong>--%>
-<%--</div>--%>
-
-<%--<div class="parameter">--%>
-<%--Build type:--%>
-<%--<strong><props:displayValue name="${bean.buildTypeKey}" emptyValue="DEFAULT"/></strong>--%>
-<%--</div>--%>
 
 <div class="parameter">
   Launching Parameters:
@@ -74,22 +61,3 @@
     </ul>
   </div>
 </div>
-<%--<div class="parameter">--%>
-<%--Debugging Parameters:--%>
-<%--<div class="nestedParameter">--%>
-<%--<ul style="list-style: none; padding-left: 0; margin-left: 0; margin-top: 0.1em; margin-bottom: 0.1em;">--%>
-<%--<li>Print developer debugging information:--%>
-<%--<strong><props:displayCheckboxValue name="${bean.developerWarningsKey}"/></strong></li>--%>
-<%--<li>Print a warning when an uninitialized variable is used:--%>
-<%--<strong><props:displayCheckboxValue name="${bean.warnUninitializedKey}"/></strong></li>--%>
-<%--<li>Find variables that are declared or set, but not used:--%>
-<%--<strong><props:displayCheckboxValue name="${bean.warnUnusedVarsKey}"/></strong></li>--%>
-<%--<li>Don't find variables that are declared on the command line, but not used:--%>
-<%--<strong><props:displayCheckboxValue name="${bean.noWarnUnusedCliKey}"/></strong></li>--%>
-<%--<li>Print a trace of all calls made and from where with message(send_error ) calls:--%>
-<%--<strong><props:displayCheckboxValue name="${bean.printTraceKey}"/></strong></li>--%>
-<%--<li>Print extra stuff during the cmake run like stack traces with message(send_error ) calls:--%>
-<%--<strong><props:displayCheckboxValue name="${bean.debugModeKey}"/></strong></li>--%>
-<%--</ul>--%>
-<%--</div>--%>
-<%--</div>--%>

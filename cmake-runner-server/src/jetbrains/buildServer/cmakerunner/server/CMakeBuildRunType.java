@@ -72,22 +72,8 @@ public class CMakeBuildRunType extends RunType {
 
   @Override
   public Map<String, String> getDefaultRunnerProperties() {
-    final String trueStr = Boolean.toString(true);
-    final String falseStr = Boolean.toString(false);
-
     final Map<String, String> ret = new HashMap<String, String>();
-
-    ret.put(CMakeBuildConstants.UI_REDIRECT_STDERR, trueStr);
-
-    ret.put(CMakeBuildConstants.UI_DEVELOPER_WARNINGS, trueStr);
-    ret.put(CMakeBuildConstants.UI_WARN_UNINITIALIZED, trueStr);
-    ret.put(CMakeBuildConstants.UI_WARN_UNUSED_VARS, trueStr);
-//    ret.put(CMakeRunnerConstants.UI_PRINT_TRACE, falseStr);
-//    ret.put(CMakeRunnerConstants.UI_DEBUG_MODE, falseStr);
-//    ret.put(CMakeRunnerConstants.UI_NO_WARN_UNUSED_CLI, falseStr);
-
-    ret.put(CMakeBuildConstants.UI_MAKEFILE_GENERATOR, "Default");
-
+    ret.put(CMakeBuildConstants.UI_REDIRECT_STDERR, Boolean.toString(true));
     return ret;
   }
 }

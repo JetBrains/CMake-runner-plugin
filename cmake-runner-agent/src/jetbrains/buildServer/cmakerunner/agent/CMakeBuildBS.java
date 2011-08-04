@@ -82,9 +82,6 @@ public class CMakeBuildBS extends ExtendedBuildServiceAdapter {
       arguments.add("--clean-first");
     }
 
-    // Other arguments
-    addCustomArguments(arguments, runnerParameters.get(UI_ADDITIONAL_PARAMS));
-
     // Native tool arguments
     arguments.add("--");
     addCustomArguments(arguments, runnerParameters.get(UI_NATIVE_TOOL_PARAMS));

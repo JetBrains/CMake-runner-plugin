@@ -49,16 +49,7 @@ public class RegexParsersBasedOutputListener extends ProcessListenerAdapter {
   }
 
   public RegexParsersBasedOutputListener(@NotNull final Logger logger, @NotNull final String... parserConfigResourceNames) {
-    this.myManager = new ParserManager(logger);
-    final ArrayList<RegexParser> parsers = new ArrayList<RegexParser>(parserConfigResourceNames.length);
-    for (final String resourceName : parserConfigResourceNames) {
-      final RegexParser regexParser = ParserLoader.loadParser(resourceName, this.getClass());
-      if (regexParser != null) {
-        parsers.add(regexParser);
-      }
-    }
-    parsers.trimToSize();
-    myParsers = parsers;
+    this(new ParserManager(logger), parserConfigResourceNames);
   }
 
   @Override
