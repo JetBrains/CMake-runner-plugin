@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.makerunner.tests.agent.output;
+package jetbrains.buildServer.cmakerunner.tests.agent.output;
 
 /**
  * @author Vladislav.Rassokhin

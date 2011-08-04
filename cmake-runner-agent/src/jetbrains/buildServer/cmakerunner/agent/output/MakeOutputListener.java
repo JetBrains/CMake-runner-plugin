@@ -32,14 +32,14 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class MakeOutputListener extends ProcessListenerAdapter {
   @NotNull
-  private final AtomicReference<File> myWorkingDirectory;
+  private final AtomicReference<String> myWorkingDirectory;
   @NotNull
   private final MakeParserManager myContext;
   @NotNull
   private final RegexParser myRegexParser;
 
   public MakeOutputListener(@NotNull final Logger logger, @NotNull final AtomicReference<List<String>> makeTasks) {
-    myWorkingDirectory = new AtomicReference<File>();
+    myWorkingDirectory = new AtomicReference<String>();
     myContext = new MakeParserManager(logger, myWorkingDirectory, makeTasks);
     //TODO: extract "/make-parser.xml" as variable?
     RegexParser regexParser = ParserLoader.loadParser("/make-parser.xml", this.getClass());
@@ -51,7 +51,7 @@ public class MakeOutputListener extends ProcessListenerAdapter {
 
   @Override
   public void processStarted(@NotNull final String programCommandLine, @NotNull final File workingDirectory) {
-    myWorkingDirectory.set(new File(PathUtil.toUnixStylePath(workingDirectory.getAbsolutePath())));
+    myWorkingDirectory.set(PathUtil.toUnixStylePath(workingDirectory.getAbsolutePath()));
   }
 
   @Override

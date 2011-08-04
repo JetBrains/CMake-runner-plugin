@@ -1,8 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd">
-<suite name="make-runner">
+<suite name="cmake-runner">
   <test name="all tests">
     <packages>
-      <package name="jetbrains.buildServer.makerunner.tests.*"/>
+      <package name="jetbrains.buildServer.cmakerunner.tests.*"/>
     </packages>
   </test>
 </suite>

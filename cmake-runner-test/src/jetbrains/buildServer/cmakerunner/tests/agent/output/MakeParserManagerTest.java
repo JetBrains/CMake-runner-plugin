@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.makerunner.tests.agent.output;
+package jetbrains.buildServer.cmakerunner.tests.agent.output;
 
 import jetbrains.buildServer.BaseTestCase;
 import jetbrains.buildServer.cmakerunner.agent.output.MakeParserManager;
-import jetbrains.buildServer.makerunner.tests.util.MatchingTester;
+import jetbrains.buildServer.cmakerunner.tests.util.MatchingTester;
 import org.testng.annotations.Test;
 
 /**

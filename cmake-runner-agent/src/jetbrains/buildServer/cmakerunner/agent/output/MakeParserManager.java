@@ -35,13 +35,13 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
   @NotNull
   private final Stack<Target> myTargetsStack = new Stack<Target>();
   @NotNull
-  private final AtomicReference<File> myWorkingDirectory;
+  private final AtomicReference<String> myWorkingDirectory;
   @NotNull
   private final AtomicReference<List<String>> myMainMakeTasks;
   private ListIterator<String> myMainMakeTasksIterator;
 
 
-  public MakeParserManager(@NotNull final Logger logger, @NotNull final AtomicReference<File> workingDirectory, @NotNull final AtomicReference<List<String>> mainMakeTasks) {
+  public MakeParserManager(@NotNull final Logger logger, @NotNull final AtomicReference<String> workingDirectory, @NotNull final AtomicReference<List<String>> mainMakeTasks) {
     super(logger);
     this.myWorkingDirectory = workingDirectory;
     this.myMainMakeTasks = mainMakeTasks;
@@ -60,15 +60,16 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
   }
 
   boolean isWorkingDirectory(@Nullable final String dir) {
-    return myWorkingDirectory.get().equals(new File(PathUtil.toUnixStylePath(dir)));
+    return new File(myWorkingDirectory.get()).equals(new File(PathUtil.toUnixStylePath(dir)));
   }
 
-  void directoryStart(final String directory, int level) {
+  void directoryStart(String directory, int level) {
+    directory = PathUtil.toUnixStylePath(directory);
     if (!hasTargets()) {
       // Starting new Main task
       final String targetName = getNextMainTarget();
       final String targetDescription = targetName != null ? "Making " + targetName + " in ." : "Making unknown target in .";
-      myTargetsStack.push(new Target(myWorkingDirectory.get().getAbsolutePath(), targetDescription, 0));
+      myTargetsStack.push(new Target(myWorkingDirectory.get(), targetDescription, 0));
       getLogger().blockStart(targetDescription);
 
       if (isWorkingDirectory(directory)) {
@@ -121,7 +122,7 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
   }
 
   private void checkMainTaskFinished(@Nullable final String dirName, final int level) {
-    if (level <= 1 && isWorkingDirectory(dirName) && isLastTargetDirectory(myWorkingDirectory.get().getAbsolutePath())) {
+    if (level <= 1 && isWorkingDirectory(dirName) && isLastTargetDirectory(myWorkingDirectory.get())) {
       getLogger().blockFinish(myTargetsStack.pop().getDescription());
     }
   }
@@ -194,7 +195,7 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
 
   @NotNull
   private String getPrevTargetDirectory() {
-    return hasTargets() ? myTargetsStack.peek().getDirectory() : myWorkingDirectory.get().getAbsolutePath();
+    return hasTargets() ? myTargetsStack.peek().getDirectory() : myWorkingDirectory.get();
   }
 
   @Nullable

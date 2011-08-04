@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.cmakerunner.regexparser;
+package jetbrains.buildServer.cmakerunner.tests.regexparser;
 
 import jetbrains.buildServer.BaseTestCase;
+import jetbrains.buildServer.cmakerunner.regexparser.RegexParser;
+import jetbrains.buildServer.cmakerunner.regexparser.RegexPattern;
+import jetbrains.buildServer.cmakerunner.regexparser.Severity;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package jetbrains.buildServer.makerunner.tests.agent.output;
+package jetbrains.buildServer.cmakerunner.tests.agent.output;
 
 import jetbrains.buildServer.cmakerunner.agent.output.MakeOutputListener;
 import jetbrains.buildServer.cmakerunner.regexparser.LoggerAdapter;
@@ -29,8 +29,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static jetbrains.buildServer.makerunner.tests.agent.output.MakeOutputFoldingGenerator.generateEnterMessage;
-import static jetbrains.buildServer.makerunner.tests.agent.output.MakeOutputFoldingGenerator.generateLeaveMessage;
+import static jetbrains.buildServer.cmakerunner.tests.agent.output.MakeOutputFoldingGenerator.generateEnterMessage;
+import static jetbrains.buildServer.cmakerunner.tests.agent.output.MakeOutputFoldingGenerator.generateLeaveMessage;
 
 /**
  * @author Vladislav.Rassokhin
@@ -74,7 +74,7 @@ public class OutputListenerTest extends TestCase {
     }
 
     Assert.assertTrue(logger.isSequenceCorrect());
-    Assert.assertEquals(logger.getSequence(), "(()()(())())");
+    Assert.assertEquals(logger.getSequence(), "(()()(()))(())");
   }
 
   @Test
@@ -126,7 +126,7 @@ public class OutputListenerTest extends TestCase {
     }
 
     Assert.assertTrue(logger.isSequenceCorrect());
-    Assert.assertEquals(logger.getSequence(), "(.(b)b(c)c(a(d)d)a(c)c).");
+    Assert.assertEquals(logger.getSequence(), "(.(b)b(c)c(a(d)d)a).(.(c)c).");
   }
 
   @Test

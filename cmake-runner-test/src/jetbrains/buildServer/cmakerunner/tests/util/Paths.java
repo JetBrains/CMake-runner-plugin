@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package jetbrains.buildServer.makerunner.tests.util;
+package jetbrains.buildServer.cmakerunner.tests.util;
 
 import jetbrains.buildServer.util.FileUtil;
 import org.jetbrains.annotations.NotNull;
