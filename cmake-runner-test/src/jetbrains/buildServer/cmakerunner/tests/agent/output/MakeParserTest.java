@@ -17,7 +17,6 @@
 package jetbrains.buildServer.cmakerunner.tests.agent.output;
 
 import jetbrains.buildServer.BaseTestCase;
-import jetbrains.buildServer.cmakerunner.regexparser.LoggerAdapter;
 import jetbrains.buildServer.cmakerunner.regexparser.ParserManager;
 import jetbrains.buildServer.cmakerunner.regexparser.RegexParser;
 import org.jetbrains.annotations.NotNull;
@@ -34,33 +33,6 @@ import java.io.InputStream;
 public class MakeParserTest extends BaseTestCase {
 
   private RegexParser myParser;
-
-  static class CounterLogger extends LoggerAdapter {
-    int message;
-    int error;
-    int warning;
-    int special;
-
-    @Override
-    public void message(@NotNull final String text) {
-      message++;
-    }
-
-    @Override
-    public void error(@NotNull final String text) {
-      error++;
-    }
-
-    @Override
-    public void warning(@NotNull final String text) {
-      warning++;
-    }
-
-    public void special() {
-      special++;
-    }
-
-  }
 
   private static final String[] MAKE_OUTPUT0 = {
           // Infos

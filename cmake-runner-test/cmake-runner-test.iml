@@ -10,15 +10,16 @@
     <orderEntry type="module" module-name="cmake-runner-agent" />
     <orderEntry type="module" module-name="cmake-runner-common" />
     <orderEntry type="module" module-name="cmake-runner-server" />
+    <orderEntry type="module" module-name="regex-parser" />
     <orderEntry type="library" name="Tags lib" level="project" />
     <orderEntry type="library" name="TeamCity Third-Party" level="project" />
     <orderEntry type="library" name="TeamCity Open API server" level="project" />
     <orderEntry type="library" name="TeamCity Open API common" level="project" />
     <orderEntry type="library" name="TeamCity Open API agent" level="project" />
     <orderEntry type="library" name="Annotations" level="project" />
+    <orderEntry type="library" name="XStream" level="project" />
     <orderEntry type="library" scope="TEST" name="Testing Libs" level="project" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="regex-parser" />
   </component>
 </module>
 
