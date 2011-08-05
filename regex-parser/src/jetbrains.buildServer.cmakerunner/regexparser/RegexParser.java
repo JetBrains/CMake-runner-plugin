@@ -47,6 +47,7 @@ public class RegexParser {
   @XStreamAsAttribute
   private final String myName;
 
+  @NotNull
   @XStreamImplicit(itemFieldName = "pattern")
   private final List<RegexPattern> myPatterns = new ArrayList<RegexPattern>();
 
@@ -78,6 +79,7 @@ public class RegexParser {
   /**
    * @return list of patterns of this parser.
    */
+  @NotNull
   public List<RegexPattern> getPatterns() {
     return myPatterns;
   }
@@ -94,7 +96,7 @@ public class RegexParser {
    * @param parserManager - parsing manager
    * @return true if parser recognized and accepted line, false otherwise
    */
-  public boolean processLine(final String line, final ParserManager parserManager) {
+  public boolean processLine(@NotNull final String line, @NotNull final ParserManager parserManager) {
     for (final RegexPattern pattern : myPatterns) {
       try {
         if (pattern.processLine(line, parserManager)) {
@@ -146,7 +148,7 @@ public class RegexParser {
   private static XStreamHolder createXStreamHolder() {
     return new XStreamHolder() {
       @Override
-      protected void configureXStream(final XStream xStream) {
+      protected void configureXStream(@NotNull final XStream xStream) {
         xStream.processAnnotations(RegexParser.class);
         xStream.processAnnotations(RegexPattern.class);
       }

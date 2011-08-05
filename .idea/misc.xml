@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DependencyValidationManager">
-    <scope name="CMake-Runner" pattern="[cmake-runner-server]:*..*||[cmake-runner-common]:*..*||[cmake-runner-agent]:*..*||[cmake-runner-root]:*..*" />
+    <scope name="CMake-Runner" pattern="[cmake-runner-server]:*..*||[cmake-runner-common]:*..*||[cmake-runner-agent]:*..*||[cmake-runner-root]:*..*||[regex-parser]:*..*" />
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
   <component name="EntryPointsManager">

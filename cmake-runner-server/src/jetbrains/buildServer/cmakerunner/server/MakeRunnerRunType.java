@@ -32,7 +32,7 @@ import java.util.Map;
 
 public class MakeRunnerRunType extends RunType {
 
-  public MakeRunnerRunType(final RunTypeRegistry runTypeRegistry) {
+  public MakeRunnerRunType(@NotNull final RunTypeRegistry runTypeRegistry) {
     runTypeRegistry.registerRunType(this);
   }
 
@@ -42,12 +42,14 @@ public class MakeRunnerRunType extends RunType {
     return MakeRunnerConstants.TYPE;
   }
 
+  @NotNull
   @Override
   public String getDisplayName() {
     return MakeRunnerConstants.DISPLAY_NAME;
 
   }
 
+  @NotNull
   @Override
   public String getDescription() {
     return MakeRunnerConstants.DESCRIPTION;

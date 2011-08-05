@@ -19,6 +19,7 @@ package jetbrains.buildServer.cmakerunner.agent.util;
 import jetbrains.buildServer.agent.BuildAgentConfiguration;
 import jetbrains.buildServer.cmakerunner.CMakeConfigureConstants;
 import jetbrains.buildServer.util.StringUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,7 +38,7 @@ public class CMakeUtil {
 
   public static final Pattern GENERATOR_PATTERN = Pattern.compile("\\s*([^=]+)\\s*(.*)?");
 
-  public static boolean isGeneratorSupported(final BuildAgentConfiguration agentConfiguration) {
+  public static boolean isGeneratorSupported(@NotNull final BuildAgentConfiguration agentConfiguration) {
     final Collection<String> availableGenerators = getAvailableGenerators();
     final String genName = agentConfiguration.getConfigurationParameters().get(CMakeConfigureConstants.UI_MAKEFILE_GENERATOR);
     if (genName == null) return true;
@@ -48,6 +49,7 @@ public class CMakeUtil {
     }
   }
 
+  @NotNull
   public static Collection<String> getAvailableGenerators() {
     final String[] cmdline = {"cmake", "--help"};
     final Collection<String> generators = new HashSet<String>();
@@ -78,11 +80,11 @@ public class CMakeUtil {
     return generators;
   }
 
-  public static boolean isAgentSupported(final BuildAgentConfiguration agentConf) {
+  public static boolean isAgentSupported(@NotNull final BuildAgentConfiguration agentConf) {
     return isGeneratorSupported(agentConf) && isCMakeExist(agentConf);
   }
 
-  public static boolean isCMakeExist(final BuildAgentConfiguration agentConf) {
+  public static boolean isCMakeExist(@NotNull final BuildAgentConfiguration agentConf) {
     final Map<String, String> buildParams = agentConf.getConfigurationParameters();
     final String cmakeCommandStr = buildParams.get(CMakeConfigureConstants.UI_CMAKE_COMMAND);
     File cmakeFile = null;

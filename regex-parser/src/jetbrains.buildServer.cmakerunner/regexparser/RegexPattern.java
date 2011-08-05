@@ -30,10 +30,13 @@ import java.util.regex.Pattern;
  */
 @XStreamAlias("pattern")
 public class RegexPattern {
+  @NotNull
   private static final Severity DEFAULT_SEVERITY = Severity.SPECIAL;
+  @NotNull
   private static final String DEFAULT_DESCRIPTION_EXPR = "$0";
   private static final boolean DEFAULT_EAT_LINE = true;
 
+  @NotNull
   @XStreamAlias("regex")
   @XStreamAsAttribute
   @XStreamConverter(PatternConverter.class)
@@ -56,6 +59,7 @@ public class RegexPattern {
     this.myEatLine = eatLine;
   }
 
+  @NotNull
   public Pattern getPattern() {
     return myPattern;
   }
@@ -118,7 +122,7 @@ public class RegexPattern {
    * @param matcher       - matcher to parse the input line.
    * @param parserManager - {@link ParserManager}.
    */
-  protected void applyToManager(final Matcher matcher, final ParserManager parserManager) {
+  protected void applyToManager(@NotNull final Matcher matcher, @NotNull final ParserManager parserManager) {
     parserManager.log(getDescription(matcher), mySeverity);
   }
 
@@ -127,6 +131,7 @@ public class RegexPattern {
    *
    * @return this
    */
+  @NotNull
   @SuppressWarnings({"UnusedDeclaration"})
   private Object readResolve() {
     if (myEatLine == null) myEatLine = DEFAULT_EAT_LINE;
@@ -148,7 +153,7 @@ public class RegexPattern {
   }
 
   public static class PatternConverter extends AbstractSingleValueConverter {
-    public String toString(final Object o) {
+    public String toString(@NotNull final Object o) {
       return ((Pattern) o).pattern();
     }
 

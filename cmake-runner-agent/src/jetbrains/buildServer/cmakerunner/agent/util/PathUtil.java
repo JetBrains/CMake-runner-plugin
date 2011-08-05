@@ -17,6 +17,7 @@
 package jetbrains.buildServer.cmakerunner.agent.util;
 
 import com.intellij.openapi.util.SystemInfo;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,10 +27,13 @@ import java.util.regex.Pattern;
  */
 public class PathUtil {
   private static final Pattern winDrivePath = Pattern.compile("^([a-zA-Z]):(.*)$");
+  @NotNull
   private static final String SSLASH = "/";
+  @NotNull
   private static final String BSLASH = "\\\\";
 
-  public static String toUnixStylePath(final String path) {
+  @NotNull
+  public static String toUnixStylePath(@NotNull final String path) {
     if (path.startsWith("/")) return path;
 
     if (SystemInfo.isUnix) {

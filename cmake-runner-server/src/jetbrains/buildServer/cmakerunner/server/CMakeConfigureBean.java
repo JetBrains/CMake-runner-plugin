@@ -94,14 +94,17 @@ public class CMakeConfigureBean {
     return UI_CMAKE_COMMAND;
   }
 
+  @NotNull
   public Collection<CMakeBuildType> getBuildTypesSet() {
     return Arrays.asList(CMakeBuildType.values());
   }
 
+  @NotNull
   public String getSourcePathKey() {
     return UI_SOURCE_PATH;
   }
 
+  @NotNull
   public ArrayList<String> getGeneratorsNames() {
     final ArrayList<String> ret = new ArrayList<String>();
     for (final String s : CMakeGenerator.KNOWN_GENERATORS) {

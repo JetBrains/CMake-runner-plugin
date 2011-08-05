@@ -31,6 +31,7 @@ import java.util.Set;
  * @author Vladislav.Rassokhin
  */
 public abstract class ExtendedBuildServiceAdapter extends BuildServiceAdapter {
+  @NotNull
   private static final String NEW_LINES_PATTERN = "[" + System.getProperty("line.separator", "\n") + "]+";
 
   // Tmp files set
@@ -64,6 +65,7 @@ public abstract class ExtendedBuildServiceAdapter extends BuildServiceAdapter {
     }
   }
 
+  @NotNull
   protected String getVariableToArgument(@NotNull final String name, @NotNull final String value) {
     return "-D" + name + "=" + value;
   }

@@ -59,11 +59,11 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
     return hasTargets() && myTargetsStack.peek().getLevel() == level;
   }
 
-  boolean isWorkingDirectory(@Nullable final String dir) {
+  boolean isWorkingDirectory(@NotNull final String dir) {
     return new File(myWorkingDirectory.get()).equals(new File(PathUtil.toUnixStylePath(dir)));
   }
 
-  void directoryStart(String directory, int level) {
+  void directoryStart(@NotNull String directory, int level) {
     directory = PathUtil.toUnixStylePath(directory);
     if (!hasTargets()) {
       // Starting new Main task
@@ -100,13 +100,14 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
     }
   }
 
-  private String getRelativePath(final String base, final String directory) {
+  @Nullable
+  private String getRelativePath(@NotNull final String base, @NotNull final String directory) {
     final File base1 = new File(PathUtil.toUnixStylePath(base));
     final File dir = new File(PathUtil.toUnixStylePath(directory));
     return jetbrains.buildServer.util.FileUtil.getRelativePath(base1, dir);
   }
 
-  void directoryFinish(String directory, final int level) {
+  void directoryFinish(@NotNull String directory, final int level) {
     directory = PathUtil.toUnixStylePath(directory);
     if (!isLastTargetDirectory(directory)) return;
     if (isLastTargetLevel(level)) {
@@ -121,7 +122,7 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
     return hasTargets() ? myTargetsStack.peek().getLevel() : -1;
   }
 
-  private void checkMainTaskFinished(@Nullable final String dirName, final int level) {
+  private void checkMainTaskFinished(@NotNull final String dirName, final int level) {
     if (level <= 1 && isWorkingDirectory(dirName) && isLastTargetDirectory(myWorkingDirectory.get())) {
       getLogger().blockFinish(myTargetsStack.pop().getDescription());
     }
@@ -134,6 +135,7 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
     return true;
   }
 
+  @NotNull
   private final Queue<String> toPrintAfterDirectoryStart = new ArrayDeque<String>();
 
   public void finishAllTargets() {
@@ -145,10 +147,13 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
     }
   }
 
+  @NotNull
   @NonNls
   private static final String MAKING_IN = ".*[Mm]aking (\\S+) in (\\S+)";
+  @NotNull
   @NonNls
   private static final String DIRECTORY_LEAVE = ".*[Mm]ake[^\\[\\]]*(?:\\[(\\d+)\\])?: Leaving directory `(.*)'";
+  @NotNull
   @NonNls
   private static final String DIRECTORY_ENTER = ".*[Mm]ake[^\\[\\]]*(?:\\[(\\d+)\\])?: Entering directory `(.*)'";
 

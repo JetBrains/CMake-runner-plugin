@@ -46,6 +46,7 @@ public class MakeRunnerBean {
     return MakeRunnerConstants.UI_REDIRECT_STDERR;
   }
 
+  @NotNull
   public String getMakeProgramPathKey() {
     return MakeRunnerConstants.UI_MAKE_PROGRAM_PATH;
   }

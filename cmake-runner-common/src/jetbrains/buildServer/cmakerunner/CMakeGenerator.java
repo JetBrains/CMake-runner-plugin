@@ -16,6 +16,8 @@
 
 package jetbrains.buildServer.cmakerunner;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Collection;
 import java.util.TreeSet;
 
@@ -24,6 +26,7 @@ import java.util.TreeSet;
  */
 @SuppressWarnings({"UnusedDeclaration"})
 public class CMakeGenerator {
+  @NotNull
   public static Collection<String> KNOWN_GENERATORS = new TreeSet<String>();
 
   static {

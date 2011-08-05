@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class CMakeBuildRunType extends RunType {
 
-  public CMakeBuildRunType(final RunTypeRegistry runTypeRegistry) {
+  public CMakeBuildRunType(@NotNull final RunTypeRegistry runTypeRegistry) {
     runTypeRegistry.registerRunType(this);
   }
 
@@ -43,12 +43,14 @@ public class CMakeBuildRunType extends RunType {
     return CMakeBuildConstants.TYPE;
   }
 
+  @NotNull
   @Override
   public String getDisplayName() {
     return CMakeBuildConstants.DISPLAY_NAME;
 
   }
 
+  @NotNull
   @Override
   public String getDescription() {
     return CMakeBuildConstants.DESCRIPTION;

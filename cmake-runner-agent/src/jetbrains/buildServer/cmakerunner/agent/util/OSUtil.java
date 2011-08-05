@@ -137,6 +137,7 @@ public class OSUtil {
   @NotNull
   private static final String OS_NOT_SUPPORTED = "OS not supported";
 
+  @NotNull
   public static String getEnvPATHVariableName() {
     if (SystemInfo.isUnix) {
       return "PATH";

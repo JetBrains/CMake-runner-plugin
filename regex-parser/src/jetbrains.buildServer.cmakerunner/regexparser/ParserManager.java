@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
  * @author Vladislav.Rassokhin
  */
 public class ParserManager {
+  @NotNull
   private final Logger myLogger;
 
   public ParserManager(@NotNull final Logger myLogger) {
