@@ -29,7 +29,8 @@ import java.io.InputStream;
  * @author Vladislav.Rassokhin
  */
 public class ParserLoader {
-  public static final Logger LOG = Logger.getLogger(ParserLoader.class);
+  @NotNull
+  private static final Logger LOG = Logger.getLogger(ParserLoader.class);
 
   @Nullable
   public static RegexParser loadParser(@NotNull final String configResourceName, @NotNull final Class clazz) {
