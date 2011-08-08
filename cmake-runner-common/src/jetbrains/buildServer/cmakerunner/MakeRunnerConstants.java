@@ -25,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
 public interface MakeRunnerConstants {
   @NotNull
   @NonNls
-  String TYPE = "jetbrains.cmake.gnumake";
+  String TYPE = "jetbrains-cmake-gnumake";
 
   @NotNull
   @NonNls
