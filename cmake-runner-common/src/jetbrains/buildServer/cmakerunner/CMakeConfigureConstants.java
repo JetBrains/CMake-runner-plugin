@@ -25,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
 public interface CMakeConfigureConstants {
   @NotNull
   @NonNls
-  String TYPE = "cmake-configure";
+  String TYPE = "jetbrains.cmake.conf";
 
   @NotNull
   @NonNls

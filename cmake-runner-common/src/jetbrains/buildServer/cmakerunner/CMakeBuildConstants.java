@@ -25,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
 public interface CMakeBuildConstants {
   @NotNull
   @NonNls
-  String TYPE = "cmake-build";
+  String TYPE = "jetbrains.cmake.build";
 
   @NotNull
   @NonNls
