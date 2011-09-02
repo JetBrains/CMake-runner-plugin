@@ -104,7 +104,11 @@ public class CMakeUtil {
         }
       }
     } else {
-      cmakeFile = new File(FileUtil.findExecutableByNameInPATH("cmake", agentConf.getBuildParameters().getEnvironmentVariables()));
+      final String path = FileUtil.findExecutableByNameInPATH("cmake", agentConf.getBuildParameters().getEnvironmentVariables());
+      if (path == null) {
+        return false;
+      }
+      cmakeFile = new File(path);
     }
     return cmakeFile == null || cmakeFile.exists();
   }

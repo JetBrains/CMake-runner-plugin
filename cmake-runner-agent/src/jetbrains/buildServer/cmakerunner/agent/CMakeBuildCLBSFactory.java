@@ -21,6 +21,7 @@ import jetbrains.buildServer.agent.BuildAgentConfiguration;
 import jetbrains.buildServer.agent.runner.CommandLineBuildService;
 import jetbrains.buildServer.agent.runner.CommandLineBuildServiceFactory;
 import jetbrains.buildServer.cmakerunner.CMakeBuildConstants;
+import jetbrains.buildServer.cmakerunner.agent.util.CMakeUtil;
 import jetbrains.buildServer.cmakerunner.agent.util.OSUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,6 +45,6 @@ public class CMakeBuildCLBSFactory implements CommandLineBuildServiceFactory, Ag
   }
 
   public boolean canRun(@NotNull final BuildAgentConfiguration agentConfiguration) {
-    return OSUtil.isOSSupported();// && CMakeUtil.isAgentSupported(agentConfiguration);
+    return OSUtil.isOSSupported() && CMakeUtil.isCMakeExist(agentConfiguration);
   }
 }
