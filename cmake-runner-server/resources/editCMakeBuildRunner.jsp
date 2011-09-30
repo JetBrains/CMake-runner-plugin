@@ -63,7 +63,7 @@
   <th><label for="${bean.buildConfigurationKey}">Configuration: </label></th>
   <td><props:textProperty name="${bean.buildConfigurationKey}" className="longField" maxlength="256"/>
     <span class="smallNote">Enter configuration for multi-configuration tools. (equals '--config &lt;tgt&gt;' cmd param)
-      <br/>E.g. 'test' or 'clean'.</span>
+      <br/>E.g. 'Release' or 'Debug'.</span>
   </td>
 </tr>
 
