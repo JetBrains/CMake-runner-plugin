@@ -2,8 +2,8 @@
   <library name="Testing Libs">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/testng-6.1.1.jar!/" />
-      <root url="jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/junit-3.8.2.jar!/" />
-      <root url="jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/jmock-SNAPSHOT.jar!/" />
+      <root url="jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/junit-3.8.2.jar!/" />
+      <root url="jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/jmock-SNAPSHOT.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

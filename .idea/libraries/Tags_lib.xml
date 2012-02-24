@@ -3,8 +3,8 @@
     <CLASSES />
     <JAVADOC />
     <SOURCES>
-      <root url="file://$teamcitydistribution$/webapps/ROOT/WEB-INF/tags" />
-      <root url="file://$teamcitydistribution$/webapps/ROOT/WEB-INF" />
+      <root url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/tags" />
+      <root url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF" />
     </SOURCES>
   </library>
 </component>

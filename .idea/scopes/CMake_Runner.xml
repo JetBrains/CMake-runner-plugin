@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="CMake-Runner" pattern="[cmake-runner-server]:*..*||[cmake-runner-common]:*..*||[cmake-runner-agent]:*..*||[cmake-runner-root]:*..*||[regex-parser]:*..*" />
+</component>
