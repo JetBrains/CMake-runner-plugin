@@ -57,6 +57,9 @@ public class FileUtil {
     if (!exeName.endsWith(".exe") && SystemInfo.isWindows) {
       return findExecutableByNameInPATH(exeName + ".exe", environment);
     }
+    if (!exeName.endsWith(".bat") && SystemInfo.isWindows) {
+      return findExecutableByNameInPATH(exeName + ".bat", environment);
+    }
     return null;
   }
 }
