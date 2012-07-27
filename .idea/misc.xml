@@ -18,10 +18,10 @@
         <modules>
           <module name="ResolveHelper">
             <files>
-              <file url="file://$teamcitydistribution$/webapps/ROOT/WEB-INF/build-server-plugin-freespace.xml" />
-              <file url="file://$teamcitydistribution$/webapps/ROOT/WEB-INF/buildServerConfigurator.xml" />
-              <file url="file://$teamcitydistribution$/webapps/ROOT/WEB-INF/buildServerPluginsSupportWeb.xml" />
-              <file url="file://$teamcitydistribution$/webapps/ROOT/WEB-INF/buildServerSpringWeb.xml" />
+              <file url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/build-server-plugin-freespace.xml" />
+              <file url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/buildServerConfigurator.xml" />
+              <file url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/buildServerPluginsSupportWeb.xml" />
+              <file url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/buildServerSpringWeb.xml" />
             </files>
           </module>
         </modules>
@@ -35,7 +35,7 @@
           </module>
           <module name="ResolveHelper">
             <files>
-              <file url="file://$teamcitydistribution$/webapps/ROOT/WEB-INF/web.xml" />
+              <file url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/web.xml" />
             </files>
           </module>
         </modules>

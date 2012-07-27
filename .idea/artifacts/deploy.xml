@@ -6,7 +6,7 @@
         <file>file://$PROJECT_DIR$/build-hooks.xml</file>
         <target>copy-after-build-artifact</target>
         <build-properties>
-          <build-property name="artifact.copy.to.path" value="$teamcitydistribution$/Data/plugins" />
+          <build-property name="artifact.copy.to.path" value="$TeamCityDistribution$/Data/plugins" />
         </build-properties>
       </options>
     </properties>

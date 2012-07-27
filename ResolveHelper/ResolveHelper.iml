@@ -4,25 +4,28 @@
     <facet type="web" name="Web">
       <configuration>
         <descriptors>
-          <deploymentDescriptor name="web.xml" url="file://$teamcitydistribution$/webapps/ROOT/WEB-INF/web.xml" />
+          <deploymentDescriptor name="web.xml" url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/web.xml" />
         </descriptors>
         <webroots>
-          <root url="file://$teamcitydistribution$/webapps/ROOT" relative="/" />
+          <root url="file://$TeamCityDistribution$/webapps/ROOT" relative="/" />
         </webroots>
+        <sourceRoots>
+          <root url="file://$TeamCityDistribution$/webapps/ROOT" />
+        </sourceRoots>
       </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$teamcitydistribution$/webapps/ROOT">
-      <sourceFolder url="file://$teamcitydistribution$/webapps/ROOT" isTestSource="false" />
+    <content url="file://$TeamCityDistribution$/webapps/ROOT">
+      <sourceFolder url="file://$TeamCityDistribution$/webapps/ROOT" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/standard.jar!/" />
+          <root url="jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/standard.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
