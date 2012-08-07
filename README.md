@@ -1,16 +1,20 @@
 TeamCity CMake & Make Support Plugin
 =============
 
+Current status
+--------------
+![Status]('http://teamcity.jetbrains.com/app/rest/builds/buildType:(id:bt347)/statusIcon')
+
 Notice
-------------
+------
 See documentation at http://www.jetbrains.net/confluence/display/TW/CMake+Plugin
 
 Building
-------------
+--------
 Build with IntelliJ IDEA. Don't forget to specify "TeamCityDistribution" variable as path to your TeamCity installation directory.
 
 Sources
-------------
+-------
 
  |- root
  |--- [cmake-runner-agent] - Agent's part of Teamcity CMake & Make Runners, JAVA sources
@@ -22,7 +26,7 @@ Sources
  |--- [lib] - Libraries
  |--- build-hooks.xml - Special ant script for building plugin
  |--- copyright.txt - Copyright for sources
- |--- README - this file
+ |--- README.md - this file
 
 Installation
 ------------
