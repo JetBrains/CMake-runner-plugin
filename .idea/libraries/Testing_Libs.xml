@@ -4,6 +4,8 @@
       <root url="jar://$PROJECT_DIR$/lib/testng-6.1.1.jar!/" />
       <root url="jar://$TeamCityDistribution$/devPackage/tests/junit-3.8.2.jar!/" />
       <root url="jar://$TeamCityDistribution$/devPackage/tests/jmock-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hamcrest-core-1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hamcrest-library-1.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
