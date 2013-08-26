@@ -3,7 +3,7 @@ TeamCity CMake & Make Support Plugin
 
 Current status
 --------------
-[![Status](http://teamcity.jetbrains.com/app/rest/builds/buildType:\(id:bt347\)/statusIcon)](http://teamcity.jetbrains.com/viewType.html?buildTypeId=bt347)
+[![Status](http://teamcity.jetbrains.com/app/rest/builds/buildType:\(id:TeamCityPluginsByJetBrains_CMakePlugin_BuildAgainstTeamCity80x\)/statusIcon)](http://teamcity.jetbrains.com/viewType.html?buildTypeId=TeamCityPluginsByJetBrains_CMakePlugin_BuildAgainstTeamCity80x)
 
 Notice
 ------
