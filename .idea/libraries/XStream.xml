@@ -2,7 +2,7 @@
   <library name="XStream">
     <CLASSES>
       <root url="jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/xpp3-1.1.4c.jar!/" />
-      <root url="jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/xstream-1.4-20110423.112604-3.jar!/" />
+      <root url="jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/xstream-1.4.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
