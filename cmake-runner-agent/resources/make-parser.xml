@@ -47,4 +47,7 @@
   <pattern regex=".*make.*\[.*\] (Error [\-]?\d*.*)" severity="WARN"/>
   <pattern regex=".*make.*: (Circular .* dependency dropped.)" severity="WARN"/>
 
+  <!-- Compiler warnings -->
+  <pattern regex=".* warning: .*" severity="WARN"/>
+
 </parser>

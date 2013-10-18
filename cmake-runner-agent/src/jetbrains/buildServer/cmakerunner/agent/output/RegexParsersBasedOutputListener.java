@@ -65,7 +65,7 @@ public class RegexParsersBasedOutputListener extends ProcessListenerAdapter {
     for (final RegexParser parser : myParsers) {
       if (parser.processLine(text, myManager)) return;
     }
-    myManager.getLogger().error(text);
+    myManager.getLogger().warning(text);
   }
 
   @NotNull
