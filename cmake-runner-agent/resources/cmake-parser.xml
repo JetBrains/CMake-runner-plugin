@@ -41,4 +41,7 @@
   <pattern regex="[^\-]*CMake no longer defines.*" severity="WARN"/>
   <pattern regex="[^\-]*unused variable \(.*\) '.*'" severity="WARN"/>
 
+  <!-- Compiler warnings -->
+  <pattern regex=".* warning: .*" severity="WARN"/>
+
 </parser>
