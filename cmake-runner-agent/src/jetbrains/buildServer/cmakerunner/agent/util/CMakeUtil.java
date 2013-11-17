@@ -18,8 +18,10 @@ package jetbrains.buildServer.cmakerunner.agent.util;
 
 import jetbrains.buildServer.agent.BuildAgentConfiguration;
 import jetbrains.buildServer.cmakerunner.CMakeConfigureConstants;
+import jetbrains.buildServer.cmakerunner.agent.CMakeConfigureBuildService;
 import jetbrains.buildServer.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -85,16 +87,23 @@ public class CMakeUtil {
   }
 
   public static boolean isCMakeExist(@NotNull final BuildAgentConfiguration agentConf) {
+    final File cmakeFile = getCMakeExecutable(agentConf);
+    return cmakeFile == null || cmakeFile.exists();
+  }
+
+  @Nullable
+  public static File getCMakeExecutable(@NotNull final BuildAgentConfiguration agentConf) {
+    File cmakeFile = null;
     final Map<String, String> buildParams = agentConf.getConfigurationParameters();
     final String cmakeCommandStr = buildParams.get(CMakeConfigureConstants.UI_CMAKE_COMMAND);
-    File cmakeFile = null;
     if (cmakeCommandStr != null) {
       final File workDirectory = agentConf.getWorkDirectory();
       final File pathFile = new File(cmakeCommandStr);
       if (pathFile.isAbsolute()) {
         cmakeFile = pathFile;
       } else {
-        if (cmakeCommandStr.startsWith("..")) {
+        final String rel = FileUtil.normalizeRelativePath(cmakeCommandStr);
+        if (rel.startsWith("..")) {
           String a = cmakeCommandStr.substring(2);
           while (a.startsWith("\\")) a = a.substring(1);
           while (a.startsWith("/")) a = a.substring(1);
@@ -104,12 +113,12 @@ public class CMakeUtil {
         }
       }
     } else {
-      final String path = FileUtil.findExecutableByNameInPATH("cmake", agentConf.getBuildParameters().getEnvironmentVariables());
+      final String path = FileUtil.findExecutableByNameInPATH(CMakeConfigureBuildService.DEFAULT_CMAKE_PROGRAM, agentConf.getBuildParameters().getEnvironmentVariables());
       if (path == null) {
-        return false;
+        return null;
       }
       cmakeFile = new File(path);
     }
-    return cmakeFile == null || cmakeFile.exists();
+    return cmakeFile;
   }
 }

@@ -35,7 +35,7 @@ import static jetbrains.buildServer.cmakerunner.CMakeConfigureConstants.*;
  */
 public class CMakeConfigureBuildService extends ExtendedBuildServiceAdapter {
   @NotNull
-  private static final String DEFAULT_CMAKE_PROGRAM = "cmake";
+  public static final String DEFAULT_CMAKE_PROGRAM = "cmake";
 
   @NotNull
   @Override
