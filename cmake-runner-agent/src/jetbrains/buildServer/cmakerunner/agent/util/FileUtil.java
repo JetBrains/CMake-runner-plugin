@@ -27,7 +27,7 @@ import java.util.StringTokenizer;
 /**
  * @author Roman.Chernyatchik
  */
-public class FileUtil {
+public class FileUtil extends jetbrains.buildServer.util.FileUtil {
 
   /**
    * @param path Path to check
