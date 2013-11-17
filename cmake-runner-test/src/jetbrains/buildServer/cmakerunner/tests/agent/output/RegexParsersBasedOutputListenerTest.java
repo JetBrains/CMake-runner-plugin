@@ -46,7 +46,7 @@ public class RegexParsersBasedOutputListenerTest extends BaseTestCase {
       listener.onErrorOutput("test");
     }
     Assert.assertEquals(logger.message, outCount);
-    Assert.assertEquals(logger.error, errCount);
+    Assert.assertEquals(logger.warning, errCount);
   }
 
   @Test
