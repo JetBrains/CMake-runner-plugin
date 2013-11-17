@@ -129,18 +129,10 @@ public class RegexParser {
 
   @Nullable
   public static RegexParser deserialize(@NotNull final String xml) {
-    // TODO: (in TC 7.0) use XStreamWrapper.deserializeObject(String, XStreamHolder, ClassLoader)
-    // Because current  XStreamWrapper.deserializeObject(String, XStreamHolder) will be deprecated.
-    final XStreamHolder holder = createXStreamHolder();
-    if (xml.length() > 0) {
-      final XStream xStream = holder.getXStream(RegexParser.class.getClassLoader());
-      try {
-        return (RegexParser) xStream.fromXML(xml);
-      } finally {
-        holder.releaseXStream(xStream);
-      }
-    } else {
+    if (xml.isEmpty()) {
       return null;
+    } else {
+      return XStreamWrapper.deserializeObject(RegexParser.class.getClassLoader(), xml, createXStreamHolder());
     }
   }
 
