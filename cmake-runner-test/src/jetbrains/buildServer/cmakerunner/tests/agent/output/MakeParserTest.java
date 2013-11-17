@@ -62,6 +62,7 @@ public class MakeParserTest extends BaseTestCase {
           // Warning
           "GNUmakefile:12: warning: overriding commands for target `target'",
           "Makefile1:10: include.mk: No such file or directory",
+          "mytest.cpp:19: warning: unused variable 'i'",
           // Errors
           "Makefile2:10: *** missing separator.  Stop.",
           "Makefile3:10: *** missing separator (did you mean TAB instead of 8 spaces?).  Stop.",
@@ -69,11 +70,10 @@ public class MakeParserTest extends BaseTestCase {
           "Makefile5:10: *** Recursive variable 'VAR' references itself (eventually). Stop.",
           "Makefile6:10: *** target pattern contains no `%'.  Stop.",
           // Ignored. Do not intercept compiler warnings
-          "mytest.cpp:19: warning: unused variable 'i'",
           "hello.c:14:17: error: foo.h: No such file or directory",
   };
-  private static final int MAKE_OUTPUT1_MESSAGES = 2;
-  private static final int MAKE_OUTPUT1_WARNINGS = 2;
+  private static final int MAKE_OUTPUT1_MESSAGES = 1;
+  private static final int MAKE_OUTPUT1_WARNINGS = 3;
   private static final int MAKE_OUTPUT1_ERRORS = 5;
 
   private static final String[] MAKE_OUTPUT2 = {
