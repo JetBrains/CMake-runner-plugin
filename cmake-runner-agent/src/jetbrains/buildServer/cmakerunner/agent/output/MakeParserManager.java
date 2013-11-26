@@ -18,6 +18,7 @@ package jetbrains.buildServer.cmakerunner.agent.output;
 
 import jetbrains.buildServer.cmakerunner.agent.util.PathUtil;
 import jetbrains.buildServer.cmakerunner.regexparser.Logger;
+import jetbrains.buildServer.util.StringUtil;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -81,7 +82,7 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
       }
     }
     final String relativePath = getRelativePath(getPrevTargetDirectory(), directory);
-    if (!isWorkingDirectory(directory) && !"".equals(relativePath)) {
+    if (!isWorkingDirectory(directory) && !StringUtil.isEmpty(relativePath)) {
       if (level == -1) level = getPrevTargetLevel() + 1;
       final String description = toPrintAfterDirectoryStart.isEmpty() ? relativePath : toPrintAfterDirectoryStart.peek();
       @SuppressWarnings({"ConstantConditions"})
