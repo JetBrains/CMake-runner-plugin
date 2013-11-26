@@ -54,11 +54,13 @@ public class FileUtil extends jetbrains.buildServer.util.FileUtil {
       }
     }
 
-    if (!exeName.endsWith(".exe") && SystemInfo.isWindows) {
-      return findExecutableByNameInPATH(exeName + ".exe", environment);
-    }
-    if (!exeName.endsWith(".bat") && SystemInfo.isWindows) {
-      return findExecutableByNameInPATH(exeName + ".bat", environment);
+    if (SystemInfo.isWindows && !exeName.endsWith(".exe") && !exeName.endsWith(".bat")) {
+      String deep;
+      deep = findExecutableByNameInPATH(exeName + ".exe", environment);
+      if (deep == null) {
+        deep = findExecutableByNameInPATH(exeName + ".bat", environment);
+      }
+      return deep;
     }
     return null;
   }
