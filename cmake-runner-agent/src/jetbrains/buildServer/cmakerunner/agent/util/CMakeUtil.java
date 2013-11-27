@@ -41,9 +41,9 @@ public class CMakeUtil {
   public static final Pattern GENERATOR_PATTERN = Pattern.compile("\\s*([^=]+)\\s*(.*)?");
 
   public static boolean isGeneratorSupported(@NotNull final BuildAgentConfiguration agentConfiguration) {
-    final Collection<String> availableGenerators = getAvailableGenerators();
     final String genName = agentConfiguration.getConfigurationParameters().get(CMakeConfigureConstants.UI_MAKEFILE_GENERATOR);
     if (genName == null) return true;
+    final Collection<String> availableGenerators = getAvailableGenerators();
     if (genName.equalsIgnoreCase("default")) {
       return !availableGenerators.isEmpty();
     } else {
