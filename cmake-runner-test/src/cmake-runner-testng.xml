@@ -20,5 +20,8 @@
     <packages>
       <package name="jetbrains.buildServer.cmakerunner.tests.*"/>
     </packages>
+    <classes>
+      <class name="jetbrains.buildServer.cmakerunner.agent.util.OutputRedirectProcessorTest"/>
+    </classes>
   </test>
 </suite>
