@@ -18,15 +18,11 @@ package jetbrains.buildServer.cmakerunner.agent.util;
 
 import com.intellij.openapi.util.SystemInfo;
 import jetbrains.buildServer.RunBuildException;
-import jetbrains.buildServer.agent.runner.ProgramCommandLine;
-import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
 import jetbrains.buildServer.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -94,46 +90,10 @@ public class OSUtil {
     }
   }
 
-  /**
-   * Generates OS specific launcher for ProgramCommandLine.
-   * Redirects StdErr into StdOut.
-   *
-   * @param pcl original ProgramCommandLine instance
-   * @return see above
-   * @throws jetbrains.buildServer.RunBuildException
-   *          if OS not supported or some errors in detecting CLI
-   */
-  @NotNull
-  public static ProgramCommandLine makeOSSpecific(@NotNull final ProgramCommandLine pcl) throws RunBuildException {
-    if (!isOSSupported()) throw new RunBuildException(OS_NOT_SUPPORTED);
-
-    final Map<String, String> environment = pcl.getEnvironment();
-    final List<String> arguments = new ArrayList<String>();
-
-    final String shell = getCLIFullPath(environment);
-    if (SystemInfo.isUnix) {  // sh -c "make $@ 2>&1" -- clean all
-      arguments.add("-c");
-      arguments.add(pcl.getExecutablePath() + RUNNER_SCRIPT_UNIX);
-      arguments.add("--");
-      arguments.addAll(pcl.getArguments());
-    } else if (SystemInfo.isWindows) {  // cmd  "2>&1 /C" make "-k" "clean" "all"   // valid 'make' must not have "
-      arguments.add("/C");
-      arguments.add(pcl.getExecutablePath());
-      arguments.addAll(pcl.getArguments());
-      arguments.add("2>&1");
-    } else {
-      throw new RunBuildException(OS_NOT_SUPPORTED);
-    }
-
-    return new SimpleProgramCommandLine(environment, pcl.getWorkingDirectory(), shell, arguments);
-  }
-
   @NotNull
   private static final String SCRIPT_RUNNER_EXE_WIN_KEY = "ComSpec";
   @NotNull
   private static final String SCRIPT_RUNNER_EXE_UNIX_KEY = "SHELL";
-  @NotNull
-  private static final String RUNNER_SCRIPT_UNIX = " \"$@\" 2>&1";
   @NotNull
   private static final String OS_NOT_SUPPORTED = "OS not supported";
 

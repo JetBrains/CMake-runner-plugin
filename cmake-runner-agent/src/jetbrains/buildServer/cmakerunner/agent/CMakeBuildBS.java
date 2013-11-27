@@ -21,7 +21,7 @@ import jetbrains.buildServer.agent.runner.ProcessListener;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
 import jetbrains.buildServer.cmakerunner.agent.output.RegexParsersBasedOutputListener;
-import jetbrains.buildServer.cmakerunner.agent.util.OSUtil;
+import jetbrains.buildServer.cmakerunner.agent.util.OutputRedirectProcessor;
 import jetbrains.buildServer.cmakerunner.agent.util.SimpleLogger;
 import jetbrains.buildServer.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
@@ -93,7 +93,7 @@ public class CMakeBuildBS extends ExtendedBuildServiceAdapter {
             getWorkingDirectory().getAbsolutePath(),
             programPath,
             arguments);
-    return redirectStdErr ? OSUtil.makeOSSpecific(pcl) : pcl;
+    return redirectStdErr ? OutputRedirectProcessor.wrap(getBuild(), pcl) : pcl;
   }
 
   @NotNull
