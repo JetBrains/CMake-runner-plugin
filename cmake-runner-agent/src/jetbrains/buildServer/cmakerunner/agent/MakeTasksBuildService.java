@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2011 JetBrains s.r.o.
+ * Copyright 2000-2013 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import jetbrains.buildServer.agent.runner.ProcessListener;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
 import jetbrains.buildServer.cmakerunner.agent.output.MakeOutputListener;
-import jetbrains.buildServer.cmakerunner.agent.util.OSUtil;
+import jetbrains.buildServer.cmakerunner.agent.util.OutputRedirectProcessor;
 import jetbrains.buildServer.cmakerunner.agent.util.SimpleLogger;
 import jetbrains.buildServer.runner.BuildFileRunnerUtil;
 import jetbrains.buildServer.util.PropertiesUtil;
@@ -101,7 +101,7 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
             getWorkingDirectory().getAbsolutePath(),
             programPath,
             arguments);
-    return redirectStdErr ? OSUtil.makeOSSpecific(pcl) : pcl;
+    return redirectStdErr ? OutputRedirectProcessor.wrap(getBuild(), pcl) : pcl;
   }
 
   @NotNull
