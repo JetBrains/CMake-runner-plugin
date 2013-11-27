@@ -55,4 +55,13 @@
     </copy>
   </target>
 
+  <target name="prepare-commandline-agent-plugin" description="For Tests">
+    <unzip dest="lib"
+           src="${TeamCityDistribution}/webapps/ROOT/WEB-INF/plugins/commandLineRunner/agent/commandLineRunner.jar">
+      <patternset>
+        <include name="**/*.jar"/>
+      </patternset>
+    </unzip>
+  </target>
+
 </project>

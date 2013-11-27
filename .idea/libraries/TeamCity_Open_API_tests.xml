@@ -141,7 +141,7 @@
       <root url="jar://$TeamCityDistribution$/buildAgent/lib/xmlrpc-2.0.1.jar!/" />
       <root url="jar://$TeamCityDistribution$/buildAgent/lib/xpp3-1.1.4c.jar!/" />
       <root url="jar://$TeamCityDistribution$/buildAgent/lib/xstream-1.4.1.jar!/" />
-      <root url="jar://$TeamCityDistribution$/buildAgent/plugins/commandLineRunner/commandLineRunner.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commandLineRunner/commandLineRunner.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

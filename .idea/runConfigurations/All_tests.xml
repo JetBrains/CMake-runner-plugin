@@ -30,6 +30,8 @@
     </RunnerSettings>
     <RunnerSettings RunnerId="Run" />
     <ConfigurationWrapper RunnerId="Run" />
-    <method />
+    <method>
+      <option name="AntTarget" enabled="true" antfile="file://$PROJECT_DIR$/build-hooks.xml" target="prepare-commandline-agent-plugin" />
+    </method>
   </configuration>
 </component>
