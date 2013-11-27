@@ -28,8 +28,6 @@ import org.testng.Assert;
 import org.testng.SkipException;
 import org.testng.annotations.Test;
 
-import java.io.File;
-
 @SpringContextFixture(beans = {@SpringContextXmlBean(name = "wrapper", clazz = OutputRedirectProcessor.class)})
 public class OutputRedirectProcessorTest extends RunnerTest2Base {
   @Test
@@ -62,12 +60,6 @@ public class OutputRedirectProcessorTest extends RunnerTest2Base {
       Assert.assertTrue(contains, "Actual build log: " + buildLog);
     }
     return build;
-  }
-
-
-  @NotNull
-  private File getTestData(@NotNull final String path) {
-    return new File(new File("cmake-runner-test/testData").getAbsoluteFile(), path);
   }
 
   @NotNull
