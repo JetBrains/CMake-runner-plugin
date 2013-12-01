@@ -22,4 +22,6 @@
   <bean class="jetbrains.buildServer.cmakerunner.server.CMakeConfigureRunType"/>
   <bean class="jetbrains.buildServer.cmakerunner.server.CMakeBuildRunType"/>
   <bean class="jetbrains.buildServer.cmakerunner.server.MakeRunnerRunType"/>
+
+  <bean class="jetbrains.buildServer.cmakerunner.server.CMakeDiscoveryExtension"/>
 </beans>
