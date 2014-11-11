@@ -21,6 +21,7 @@
     <orderEntry type="library" scope="TEST" name="Testing Libs" level="project" />
     <orderEntry type="library" scope="TEST" name="TeamCity Open API tests" level="project" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="TeamCity Server Runtime" level="project" />
+    <orderEntry type="library" name="TeamCity Agent Runtime" level="project" />
   </component>
 </module>
-

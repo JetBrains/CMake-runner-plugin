@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="TeamCity Server Runtime">
+    <CLASSES>
+      <root url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib" />
+      <root url="jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/plugins/commandLineRunner/server/commandLineRunner.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <NATIVE>
+      <root url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib" />
+    </NATIVE>
+    <SOURCES>
+      <root url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib" />
+    </SOURCES>
+    <jarDirectory url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib" recursive="false" />
+    <jarDirectory url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib" recursive="false" type="SOURCES" />
+  </library>
+</component>

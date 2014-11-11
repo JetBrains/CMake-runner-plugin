@@ -1,11 +1,12 @@
 <component name="libraryTable">
   <library name="Testing Libs">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/testng-6.1.1.jar!/" />
       <root url="jar://$TeamCityDistribution$/devPackage/tests/junit-3.8.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/hamcrest-core-1.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/hamcrest-library-1.1.jar!/" />
       <root url="jar://$TeamCityDistribution$/devPackage/tests/jmock-1.2.0.jar!/" />
+      <root url="jar://$TeamCityDistribution$/devPackage/tests/junit-4.11.jar!/" />
+      <root url="jar://$TeamCityDistribution$/devPackage/tests/testng-6.8.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
