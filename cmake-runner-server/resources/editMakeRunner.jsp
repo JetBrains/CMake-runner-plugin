@@ -73,7 +73,7 @@
       <br/>
     </td>
   </tr>
-  <tr>
+  <tr class="advancedSetting">
     <th><label for="${bean.additionalCmdParamsKey}">Additional Make command line parameters: </label></th>
     <td><props:textProperty name="${bean.additionalCmdParamsKey}" className="longField" maxlength="256"/>
       <span class="smallNote">If isn't empty these parameters will be added to 'make' command line.</span>

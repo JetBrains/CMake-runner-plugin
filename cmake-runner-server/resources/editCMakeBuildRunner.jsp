@@ -78,7 +78,7 @@
 </tr>
 
 <l:settingsGroup title="Launching Parameters" className="advancedSetting">
-  <tr>
+  <tr class="advancedSetting">
     <th>
       <label>Debug: </label>
     </th>

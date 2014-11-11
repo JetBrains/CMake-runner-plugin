@@ -77,7 +77,7 @@
 
 
 <l:settingsGroup title="Launching Parameters" className="advancedSetting">
-  <tr>
+  <tr class="advancedSetting">
     <th>
       <label>Debug: </label>
     </th>
@@ -90,7 +90,7 @@
 </l:settingsGroup>
 
 <l:settingsGroup title="Debuging Parameters" className="advancedSetting">
-  <tr>
+  <tr class="advancedSetting">
     <th>
       <props:radioButtonProperty name="${bean.developerWarningsKey}" value="false" id="customDevWarn1"
                                  checked="${empty propertiesBean.properties[bean.developerWarningsKey] or propertiesBean.properties[bean.developerWarningsKey]=='false'}"/>
@@ -99,7 +99,7 @@
     <td>
     </td>
   </tr>
-  <tr>
+  <tr class="advancedSetting">
     <th>
       <props:radioButtonProperty name="${bean.developerWarningsKey}" value="true" id="customDevWarn2"/>
       <label for="customDevWarn2">Print developer debugging information (-Wdev)</label>
