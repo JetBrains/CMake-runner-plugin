@@ -11,7 +11,10 @@ See documentation at http://www.jetbrains.net/confluence/display/TW/CMake+Plugin
 
 Building
 --------
-Build with IntelliJ IDEA. Don't forget to specify "TeamCityDistribution" variable as path to your TeamCity installation directory.
+- Download and install TeamCity distribution.
+- Open project with IntelliJ IDEA.
+- Set "TeamCityDistribution" path variable in IDEA Preferences as path to your TeamCity installation directory.
+- Build 'plugin-zip' artifact
 
 Sources
 -------
