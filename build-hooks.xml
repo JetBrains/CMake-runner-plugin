@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright 2000-2013 JetBrains s.r.o.
+  ~ Copyright 2000-2014 JetBrains s.r.o.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -22,13 +22,13 @@
 
     <echo message="replacing tokens in teamcity-plugin.xml file under ${home}"/>
 
-    <condition property="build.number" else="${build.special.name}">
+    <condition property="build.special.name" else="${build.special.name}" value="snapshot">
       <not>
         <isset property="build.special.name"/>
       </not>
     </condition>
 
-    <condition property="build.number" value="snapshot" else="${build.number}">
+    <condition property="build.number" value="${build.special.name}" else="${build.number}">
       <not>
         <isset property="build.number"/>
       </not>
