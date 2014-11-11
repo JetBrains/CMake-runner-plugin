@@ -25,10 +25,10 @@
     <envs />
     <properties />
     <listeners />
-    <RunnerSettings RunnerId="Profile ">
-      <option name="myExternalizedOptions" />
-    </RunnerSettings>
+    <RunnerSettings RunnerId="Cover" />
+    <RunnerSettings RunnerId="Profile " />
     <RunnerSettings RunnerId="Run" />
+    <ConfigurationWrapper RunnerId="Cover" />
     <ConfigurationWrapper RunnerId="Run" />
     <method>
       <option name="AntTarget" enabled="true" antfile="file://$PROJECT_DIR$/build-hooks.xml" target="prepare-commandline-agent-plugin" />
