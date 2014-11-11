@@ -98,7 +98,7 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
     myMakeTasks.set(splitMakeTasks(makeTasksStr));
 
     final String customPattersFilePath = getRunnerContext().getConfigParameters().get(TEAMCITY_MAKE_OUTPUT_PATTERNS_FILE_PROPERTY);
-    if (FileUtil.checkIfExists(customPattersFilePath)) {
+    if (!StringUtil.isEmptyOrSpaces(customPattersFilePath) && FileUtil.checkIfExists(customPattersFilePath)) {
       final File file = FileUtil.getCanonicalFile(new File(customPattersFilePath));
       if (file.exists()) {
         myCustomPatternsFile.set(file);
