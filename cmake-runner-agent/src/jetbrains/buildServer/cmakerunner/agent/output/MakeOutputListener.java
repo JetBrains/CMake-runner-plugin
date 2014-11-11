@@ -35,8 +35,9 @@ public class MakeOutputListener extends RegexParsersBasedOutputListener {
 
   public MakeOutputListener(@NotNull final Logger logger,
                             @NotNull final AtomicReference<List<String>> makeTasks,
-                            @Nullable final AtomicReference<File> customPatternsFile) {
-    super(new MakeParserManager(logger, makeTasks), "/make-parser.xml");
+                            @Nullable final AtomicReference<File> customPatternsFile,
+                            final boolean defaultParsersEnabled) {
+    super(new MakeParserManager(logger, makeTasks), defaultParsersEnabled ? new String[]{"/make-parser.xml"} : new String[0]);
     myCustomPatternsFile = customPatternsFile;
   }
 

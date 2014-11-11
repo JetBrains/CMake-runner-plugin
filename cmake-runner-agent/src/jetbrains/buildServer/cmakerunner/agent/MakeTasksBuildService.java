@@ -53,6 +53,7 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
   private static final String DEFAULT_MAKE_PROGRAM = "make";
   @NotNull
   private final AtomicReference<File> myCustomPatternsFile = new AtomicReference<File>();
+  private boolean myDefaultParsersEnabled = true;
 
   @NotNull
   @Override
@@ -104,6 +105,13 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
         myCustomPatternsFile.set(file);
       }
     }
+    final String defaultParsers = getRunnerContext().getConfigParameters().get(TEAMCITY_MAKE_OUTPUT_DEFAULT_PATTERNS_ENABLED_PROPERTY);
+    if (!StringUtil.isEmptyOrSpaces(defaultParsers)) {
+      myDefaultParsersEnabled = PropertiesUtil.getBoolean(defaultParsers);
+      if (!myDefaultParsersEnabled) {
+        getLogger().message("Default messages parser disabled");
+      }
+    }
 
     final boolean redirectStdErr = Boolean.valueOf(runnerParameters.get(UI_REDIRECT_STDERR));
     // Result:
@@ -125,7 +133,7 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
   @NotNull
   @Override
   public List<ProcessListener> getListeners() {
-    return Collections.<ProcessListener>singletonList(new MakeOutputListener(new SimpleLogger(getLogger()), myMakeTasks, myCustomPatternsFile));
+    return Collections.<ProcessListener>singletonList(new MakeOutputListener(new SimpleLogger(getLogger()), myMakeTasks, myCustomPatternsFile, myDefaultParsersEnabled));
   }
 
   @Nullable

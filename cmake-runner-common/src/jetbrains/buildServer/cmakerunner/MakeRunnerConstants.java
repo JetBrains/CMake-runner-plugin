@@ -65,4 +65,7 @@ public interface MakeRunnerConstants {
   @NotNull
   @NonNls
   String TEAMCITY_MAKE_OUTPUT_PATTERNS_FILE_PROPERTY = "teamcity.make.output.patterns.file";
+  @NotNull
+  @NonNls
+  String TEAMCITY_MAKE_OUTPUT_DEFAULT_PATTERNS_ENABLED_PROPERTY = "teamcity.make.output.default.patterns.enabled";
 }
