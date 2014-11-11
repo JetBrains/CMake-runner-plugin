@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2014 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package jetbrains.buildServer.cmakerunner.agent.util;
 
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.SystemInfo;
 import jetbrains.buildServer.RunBuildException;
 import jetbrains.buildServer.util.StringUtil;
@@ -32,6 +33,7 @@ import java.util.Map;
  * @author Vladislav.Rassokhin
  */
 public class OSUtil {
+  private final static Logger LOG = Logger.getInstance(OSUtil.class.getName());
 
   /**
    * Returns full path to OS command line scripts executor (CLI).
@@ -54,12 +56,20 @@ public class OSUtil {
         }
       }
       if (scriptsRunner == null) {
-        throw new RunBuildException("cannot locate commands launcher (env variable " + SCRIPT_RUNNER_EXE_WIN_KEY + " missing)");
+        throw new RunBuildException("Cannot locate commands launcher (ensure environment variable '" + SCRIPT_RUNNER_EXE_WIN_KEY + "' set to shell, e.g. 'C:\\Windows\\system32\\cmd.exe')");
       }
     } else if (SystemInfo.isUnix) {
-      scriptsRunner = environment.get(SCRIPT_RUNNER_EXE_UNIX_KEY);
+      scriptsRunner = environment.get(SCRIPT_RUNNER_UNIX_KEY);
       if (scriptsRunner == null) {
-        throw new RunBuildException("cannot locate commands launcher (env variable " + SCRIPT_RUNNER_EXE_UNIX_KEY + " missing)");
+        throw new RunBuildException("Cannot locate commands launcher (ensure environment variable '" + SCRIPT_RUNNER_UNIX_KEY + "' set to shell, e.g. '/bin/bash')");
+      }
+      if (!scriptsRunner.contains("/")) {
+        // Seems simple shell name, e.g. 'bash', lets resolve.
+        final String shell = FileUtil.findExecutableByNameInPATH(scriptsRunner, environment);
+        if (shell == null) {
+          LOG.debug("Cannot resolve " + SCRIPT_RUNNER_UNIX_KEY + " env variable with value '" + scriptsRunner + "' into absolute path");
+          throw new RunBuildException("Cannot locate commands launcher (ensure environment variable '" + SCRIPT_RUNNER_UNIX_KEY + "' set to shell, e.g. '/bin/bash')");
+        }
       }
     } else {
       throw new RunBuildException(OS_NOT_SUPPORTED);
@@ -85,7 +95,8 @@ public class OSUtil {
   public static boolean isCLIExist(@NotNull final Map<String, String> environment) {
     try {
       return new File(getCLIFullPath(environment)).exists();
-    } catch (RunBuildException e) {
+    } catch (final RunBuildException e) {
+      LOG.info("There no CLI found: " + e.getMessage());
       return false;
     }
   }
@@ -93,7 +104,7 @@ public class OSUtil {
   @NotNull
   private static final String SCRIPT_RUNNER_EXE_WIN_KEY = "ComSpec";
   @NotNull
-  private static final String SCRIPT_RUNNER_EXE_UNIX_KEY = "SHELL";
+  private static final String SCRIPT_RUNNER_UNIX_KEY = "SHELL";
   @NotNull
   private static final String OS_NOT_SUPPORTED = "OS not supported";
 
