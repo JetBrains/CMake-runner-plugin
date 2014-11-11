@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2000-2011 JetBrains s.r.o.
+  ~ Copyright 2000-2014 JetBrains s.r.o.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@
     <xs:simpleContent>
       <xs:extension base="xs:string">
         <xs:attribute name="regex" type="xs:string" use="required"/>
+        <!-- output-expr useful with BLOCK*,COMPILATION* severities -->
         <xs:attribute name="output-expr" type="xs:string" default="$0" use="optional"/>
         <xs:attribute name="severity" type="severityType" default="SPECIAL" use="optional"/>
         <xs:attribute name="eat-line" type="xs:boolean" default="true" use="optional"/>
@@ -45,6 +46,12 @@
       <xs:enumeration value="WARN"/>
       <xs:enumeration value="INFO"/>
       <xs:enumeration value="SPECIAL"/>
+      <xs:enumeration value="BLOCK_START"/>
+      <xs:enumeration value="BLOCK_FINISH"/>
+      <xs:enumeration value="BLOCK_CHANGE"/>  <!-- Ends previous block, starts new one -->
+      <xs:enumeration value="COMPILATION_START"/>
+      <xs:enumeration value="COMPILATION_FINISH"/>
+      <xs:enumeration value="COMPILATION_CHANGE"/>  <!-- Ends previous compilation block, starts new one -->
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>

@@ -41,7 +41,7 @@ public class OutputListenerTest extends TestCase {
   public void testTargetsFolding() throws Exception {
     final BracketSequenceMakeLogger logger = new BracketSequenceMakeLogger();
     final AtomicReference<List<String>> makeTasks = new AtomicReference<List<String>>(Arrays.asList("all", "clean"));
-    final MakeOutputListener mll = new MakeOutputListener(logger, makeTasks, null);
+    final MakeOutputListener mll = new MakeOutputListener(logger, makeTasks, null, true);
 
     {
       final File workingDirectory = new File("");
@@ -93,7 +93,7 @@ public class OutputListenerTest extends TestCase {
       }
     };
     final AtomicReference<List<String>> makeTasks = new AtomicReference<List<String>>(Arrays.asList("all", "clean"));
-    final MakeOutputListener mll = new MakeOutputListener(logger, makeTasks, null);
+    final MakeOutputListener mll = new MakeOutputListener(logger, makeTasks, null, true);
 
     {
       final File workingDirectory = new File("");
@@ -142,7 +142,7 @@ public class OutputListenerTest extends TestCase {
     final TargetsCollector tc = new TargetsCollector();
     final List<String> targets = Arrays.asList("all", "clean");
     final AtomicReference<List<String>> makeTasks = new AtomicReference<List<String>>(targets);
-    final MakeOutputListener mll = new MakeOutputListener(tc, makeTasks, null);
+    final MakeOutputListener mll = new MakeOutputListener(tc, makeTasks, null, true);
 
     final File workingDir = new File("");
     mll.processStarted("make", workingDir);

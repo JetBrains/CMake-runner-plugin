@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2014 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,9 +32,7 @@ import java.util.regex.Pattern;
 /**
  * @author Vladislav.Rassokhin
  */
-public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexparser.ParserManager {
-  @NotNull
-  private final Stack<Target> myTargetsStack = new Stack<Target>();
+public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexparser.ParserManager<MakeParserManager.Target> {
   @NotNull
   private final AtomicReference<String> myWorkingDirectory;
   @NotNull
@@ -49,15 +47,15 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
   }
 
   private boolean hasTargets() {
-    return !myTargetsStack.empty();
+    return !myBlocksStack.empty();
   }
 
   private boolean isLastTargetDirectory(@NotNull final String dir) {
-    return hasTargets() && new File(myTargetsStack.peek().getDirectory()).equals(new File(dir));
+    return hasTargets() && new File(myBlocksStack.peek().getDirectory()).equals(new File(dir));
   }
 
   private boolean isLastTargetLevel(final int level) {
-    return hasTargets() && myTargetsStack.peek().getLevel() == level;
+    return hasTargets() && myBlocksStack.peek().getLevel() == level;
   }
 
   boolean isWorkingDirectory(@NotNull final String dir) {
@@ -70,14 +68,11 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
       // Starting new Main task
       final String targetName = getNextMainTarget();
       final String targetDescription = targetName != null ? "Making " + targetName + " in ." : "Making unknown target in .";
-      myTargetsStack.push(new Target(myWorkingDirectory.get(), targetDescription, 0));
-      getLogger().blockStart(targetDescription);
+      myBlocksStack.push(new Target(myWorkingDirectory.get(), targetDescription, 0));
+      myLogger.blockStart(targetDescription);
 
       if (isWorkingDirectory(directory)) {
-        for (final String line : toPrintAfterDirectoryStart) {
-          getLogger().message(line);
-        }
-        toPrintAfterDirectoryStart.clear();
+        printPostponedMessages();
         return;
       }
     }
@@ -87,18 +82,19 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
       final String description = toPrintAfterDirectoryStart.isEmpty() ? relativePath : toPrintAfterDirectoryStart.peek();
       @SuppressWarnings({"ConstantConditions"})
       final Target mt = new Target(directory, description, level);
-      myTargetsStack.push(mt);
-      getLogger().blockStart(description);
-      for (final String line : toPrintAfterDirectoryStart) {
-        getLogger().message(line);
-      }
-      toPrintAfterDirectoryStart.clear();
+      myBlocksStack.push(mt);
+      myLogger.blockStart(description);
+      printPostponedMessages();
     } else if (isWorkingDirectory(directory)) {
-      for (final String line : toPrintAfterDirectoryStart) {
-        getLogger().message(line);
-      }
-      toPrintAfterDirectoryStart.clear();
+      printPostponedMessages();
     }
+  }
+
+  private void printPostponedMessages() {
+    for (final String line : toPrintAfterDirectoryStart) {
+      myLogger.message(line);
+    }
+    toPrintAfterDirectoryStart.clear();
   }
 
   @Nullable
@@ -112,20 +108,20 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
     directory = PathUtil.toUnixStylePath(directory);
     if (!isLastTargetDirectory(directory)) return;
     if (isLastTargetLevel(level)) {
-      final Target mt = myTargetsStack.pop();
-      getLogger().blockFinish(mt.getDescription());
+      final Target mt = myBlocksStack.pop();
+      myLogger.blockFinish(mt.getName());
     } else {
       checkMainTaskFinished(directory, level);
     }
   }
 
   int getPrevTargetLevel() {
-    return hasTargets() ? myTargetsStack.peek().getLevel() : -1;
+    return hasTargets() ? myBlocksStack.peek().getLevel() : -1;
   }
 
   private void checkMainTaskFinished(@NotNull final String dirName, final int level) {
     if (level <= 1 && isWorkingDirectory(dirName) && isLastTargetDirectory(myWorkingDirectory.get())) {
-      getLogger().blockFinish(myTargetsStack.pop().getDescription());
+      myLogger.blockFinish(myBlocksStack.pop().getName());
     }
   }
 
@@ -141,9 +137,9 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
 
   public void finishAllTargets() {
     // Closing all opened targets in exit.
-    while (!myTargetsStack.isEmpty()) {
-      final Target mt = myTargetsStack.pop();
-      getLogger().blockFinish(mt.getDescription());
+    while (!myBlocksStack.isEmpty()) {
+      final Target mt = myBlocksStack.pop();
+      myLogger.blockFinish(mt.getName());
 //      checkMainTaskFinished(mt.getDirectory());
     }
   }
@@ -163,6 +159,16 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
   public static final Pattern DIRECTORY_ENTER_PATTERN = Pattern.compile(DIRECTORY_ENTER);
 
   @Override
+  protected Target createBlock(@NotNull final String name) {
+    return new Target(name, name, myBlocksStack.size());
+  }
+
+  @Override
+  protected Target createCompilationBlock(@NotNull final String name) {
+    return new Target(name, name, myBlocksStack.size());
+  }
+
+  @Override
   protected boolean specialParse(@NotNull final String text) {
     Matcher m;
     m = MAKING_IN_PATTERN.matcher(text);
@@ -180,12 +186,12 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
         level = Integer.parseInt(levelStr);
       }
       directoryStart(dirName, level);
-      getLogger().message(text);
+      myLogger.message(text);
       return true;
     }
     m = DIRECTORY_LEAVE_PATTERN.matcher(text);
     if (m.find()) {
-      getLogger().message(text);
+      myLogger.message(text);
       final String dirName = m.group(2);
       final String levelStr = m.group(1);
       int level = 0;
@@ -201,7 +207,7 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
 
   @NotNull
   private String getPrevTargetDirectory() {
-    return hasTargets() ? myTargetsStack.peek().getDirectory() : myWorkingDirectory.get();
+    return hasTargets() ? myBlocksStack.peek().getDirectory() : myWorkingDirectory.get();
   }
 
   @Nullable
@@ -209,31 +215,24 @@ public class MakeParserManager extends jetbrains.buildServer.cmakerunner.regexpa
     return initMainTasksIterator() && myMainMakeTasksIterator.hasNext() ? myMainMakeTasksIterator.next() : null;
   }
 
-  public void setWorkingDirectory(final String workingDirectory) {
+  public void setWorkingDirectory(@NotNull final String workingDirectory) {
     myWorkingDirectory.set(workingDirectory);
   }
 
-  static class Target {
+  public static class Target extends jetbrains.buildServer.cmakerunner.regexparser.ParserManager.Block {
     @NotNull
     private final String myDirectory;
-    @NotNull
-    private final String myDescription;
     private final int myLevel;
 
     public Target(@NotNull final String directory, @NotNull final String description, final int level) {
+      super(description);
       this.myDirectory = directory;
-      this.myDescription = description;
       this.myLevel = level;
     }
 
     @NotNull
     public String getDirectory() {
       return myDirectory;
-    }
-
-    @NotNull
-    public String getDescription() {
-      return myDescription;
     }
 
     public int getLevel() {
