@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2014 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import jetbrains.buildServer.cmakerunner.CMakeConfigureConstants;
 import jetbrains.buildServer.serverSide.PropertiesProcessor;
 import jetbrains.buildServer.serverSide.RunType;
 import jetbrains.buildServer.serverSide.RunTypeRegistry;
+import jetbrains.buildServer.web.openapi.PluginDescriptor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -32,8 +33,12 @@ import java.util.Map;
 
 public class CMakeConfigureRunType extends RunType {
 
-  public CMakeConfigureRunType(@NotNull final RunTypeRegistry runTypeRegistry) {
+  private final PluginDescriptor myPluginDescriptor;
+
+  public CMakeConfigureRunType(@NotNull final RunTypeRegistry runTypeRegistry,
+                               @NotNull final PluginDescriptor descriptor) {
     runTypeRegistry.registerRunType(this);
+    myPluginDescriptor = descriptor;
   }
 
   @NotNull
@@ -46,7 +51,6 @@ public class CMakeConfigureRunType extends RunType {
   @Override
   public String getDisplayName() {
     return CMakeConfigureConstants.DISPLAY_NAME;
-
   }
 
   @NotNull
@@ -63,12 +67,12 @@ public class CMakeConfigureRunType extends RunType {
 
   @Override
   public String getEditRunnerParamsJspFilePath() {
-    return "../cmake-runner/editCMakeConfiguratorRunner.jsp";
+    return myPluginDescriptor.getPluginResourcesPath("editCMakeConfiguratorRunner.jsp");
   }
 
   @Override
   public String getViewRunnerParamsJspFilePath() {
-    return "../cmake-runner/viewCMakeConfiguratorRunner.jsp";
+    return myPluginDescriptor.getPluginResourcesPath("viewCMakeConfiguratorRunner.jsp");
   }
 
   @Override
