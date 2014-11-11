@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2014 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,4 +62,7 @@ public interface MakeRunnerConstants {
   @NonNls
   String MAKE_CMDLINE_OPTIONS_KEEP_GOING = "--keep-going";
 
+  @NotNull
+  @NonNls
+  String TEAMCITY_MAKE_OUTPUT_PATTERNS_FILE_PROPERTY = "teamcity.make.output.patters.file";
 }

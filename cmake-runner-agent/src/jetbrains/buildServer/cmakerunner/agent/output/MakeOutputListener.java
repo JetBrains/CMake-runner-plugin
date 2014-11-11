@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2014 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package jetbrains.buildServer.cmakerunner.agent.output;
 import jetbrains.buildServer.cmakerunner.agent.util.PathUtil;
 import jetbrains.buildServer.cmakerunner.regexparser.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.List;
@@ -29,8 +30,13 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class MakeOutputListener extends RegexParsersBasedOutputListener {
 
-  public MakeOutputListener(@NotNull final Logger logger, @NotNull final AtomicReference<List<String>> makeTasks) {
+  public MakeOutputListener(@NotNull final Logger logger,
+                            @NotNull final AtomicReference<List<String>> makeTasks,
+                            @Nullable final File customPattersFile) {
     super(new MakeParserManager(logger, makeTasks), "/make-parser.xml");
+    if (customPattersFile != null) {
+      addParserFromFile(customPattersFile);
+    }
   }
 
   @Override

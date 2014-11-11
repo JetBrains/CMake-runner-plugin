@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2014 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import jetbrains.buildServer.agent.runner.ProcessListener;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
 import jetbrains.buildServer.cmakerunner.agent.output.MakeOutputListener;
+import jetbrains.buildServer.cmakerunner.agent.util.FileUtil;
 import jetbrains.buildServer.cmakerunner.agent.util.OutputRedirectProcessor;
 import jetbrains.buildServer.cmakerunner.agent.util.SimpleLogger;
 import jetbrains.buildServer.runner.BuildFileRunnerUtil;
@@ -50,6 +51,7 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
   private static final List<String> ONE_TASK_LIST = Collections.singletonList("default");
   @NotNull
   private static final String DEFAULT_MAKE_PROGRAM = "make";
+  @Nullable private File myCustomPattersFile;
 
   @NotNull
   @Override
@@ -94,6 +96,13 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
 
     myMakeTasks.set(splitMakeTasks(makeTasksStr));
 
+    final String customPattersFilePath = getRunnerContext().getConfigParameters().get(TEAMCITY_MAKE_OUTPUT_PATTERNS_FILE_PROPERTY);
+    if (FileUtil.checkIfExists(customPattersFilePath)) {
+      final File file = FileUtil.getCanonicalFile(new File(customPattersFilePath));
+      if (file.exists()) {
+        myCustomPattersFile = file;
+      }
+    }
 
     final boolean redirectStdErr = Boolean.valueOf(runnerParameters.get(UI_REDIRECT_STDERR));
     // Result:
@@ -115,7 +124,7 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
   @NotNull
   @Override
   public List<ProcessListener> getListeners() {
-    return Collections.<ProcessListener>singletonList(new MakeOutputListener(new SimpleLogger(getLogger()), myMakeTasks));
+    return Collections.<ProcessListener>singletonList(new MakeOutputListener(new SimpleLogger(getLogger()), myMakeTasks, myCustomPattersFile));
   }
 
   @Nullable

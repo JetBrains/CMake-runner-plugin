@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2014 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,16 @@
 package jetbrains.buildServer.cmakerunner.agent.output;
 
 import jetbrains.buildServer.agent.runner.ProcessListenerAdapter;
+import jetbrains.buildServer.cmakerunner.agent.util.FileUtil;
 import jetbrains.buildServer.cmakerunner.regexparser.Logger;
 import jetbrains.buildServer.cmakerunner.regexparser.ParserLoader;
 import jetbrains.buildServer.cmakerunner.regexparser.ParserManager;
 import jetbrains.buildServer.cmakerunner.regexparser.RegexParser;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,4 +82,19 @@ public class RegexParsersBasedOutputListener extends ProcessListenerAdapter {
     return myManager;
   }
 
+  protected void addParserFromFile(@NotNull final File file) {
+    if (file.exists() && file.isFile()) {
+      FileInputStream fis = null;
+      try {
+        fis = new FileInputStream(file);
+        final RegexParser regexParser = ParserLoader.loadParser(fis);
+        if (regexParser != null) {
+          myParsers.add(regexParser);
+        }
+      } catch (final FileNotFoundException ignored) {
+      } finally {
+        FileUtil.close(fis);
+      }
+    }
+  }
 }

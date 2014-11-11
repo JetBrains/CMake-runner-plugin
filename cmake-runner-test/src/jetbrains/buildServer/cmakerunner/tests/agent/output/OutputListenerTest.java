@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2014 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ public class OutputListenerTest extends TestCase {
   public void testTargetsFolding() throws Exception {
     final BracketSequenceMakeLogger logger = new BracketSequenceMakeLogger();
     final AtomicReference<List<String>> makeTasks = new AtomicReference<List<String>>(Arrays.asList("all", "clean"));
-    final MakeOutputListener mll = new MakeOutputListener(logger, makeTasks);
+    final MakeOutputListener mll = new MakeOutputListener(logger, makeTasks, null);
 
     {
       final File workingDirectory = new File("");
@@ -93,7 +93,7 @@ public class OutputListenerTest extends TestCase {
       }
     };
     final AtomicReference<List<String>> makeTasks = new AtomicReference<List<String>>(Arrays.asList("all", "clean"));
-    final MakeOutputListener mll = new MakeOutputListener(logger, makeTasks);
+    final MakeOutputListener mll = new MakeOutputListener(logger, makeTasks, null);
 
     {
       final File workingDirectory = new File("");
@@ -142,7 +142,7 @@ public class OutputListenerTest extends TestCase {
     final TargetsCollector tc = new TargetsCollector();
     final List<String> targets = Arrays.asList("all", "clean");
     final AtomicReference<List<String>> makeTasks = new AtomicReference<List<String>>(targets);
-    final MakeOutputListener mll = new MakeOutputListener(tc, makeTasks);
+    final MakeOutputListener mll = new MakeOutputListener(tc, makeTasks, null);
 
     final File workingDir = new File("");
     mll.processStarted("make", workingDir);
