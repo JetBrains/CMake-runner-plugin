@@ -7,6 +7,7 @@
       <root url="jar://$TeamCityDistribution$/devPackage/tests/jmock-1.2.0.jar!/" />
       <root url="jar://$TeamCityDistribution$/devPackage/tests/junit-4.11.jar!/" />
       <root url="jar://$TeamCityDistribution$/devPackage/tests/testng-6.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/testng-6.1.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -5,7 +5,7 @@
       <root url="jar://$TeamCityDistribution$/devPackage/tests/tests-support.jar!/" />
       <root url="jar://$TeamCityDistribution$/devPackage/tests/tests-integration.jar!/" />
       <root url="jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/server.jar!/" />
-      <root url="jar://$TeamCityDistribution$/devPackage/tests/spring-test.jar!/" />
+      <root url="jar://$TeamCityDistribution$/devPackage/tests/org.springframework.test-3.0.5.RELEASE.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
