@@ -30,17 +30,21 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class MakeOutputListener extends RegexParsersBasedOutputListener {
 
+  @Nullable
+  private final AtomicReference<File> myCustomPatternsFile;
+
   public MakeOutputListener(@NotNull final Logger logger,
                             @NotNull final AtomicReference<List<String>> makeTasks,
-                            @Nullable final File customPattersFile) {
+                            @Nullable final AtomicReference<File> customPatternsFile) {
     super(new MakeParserManager(logger, makeTasks), "/make-parser.xml");
-    if (customPattersFile != null) {
-      addParserFromFile(customPattersFile);
-    }
+    myCustomPatternsFile = customPatternsFile;
   }
 
   @Override
   public void processStarted(@NotNull final String programCommandLine, @NotNull final File workingDirectory) {
+    if (myCustomPatternsFile != null && myCustomPatternsFile.get() != null) {
+      addParserFromFile(myCustomPatternsFile.get());
+    }
     ((MakeParserManager) myManager).setWorkingDirectory(PathUtil.toUnixStylePath(workingDirectory.getAbsolutePath()));
   }
 

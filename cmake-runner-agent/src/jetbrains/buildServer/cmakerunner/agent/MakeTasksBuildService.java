@@ -51,7 +51,8 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
   private static final List<String> ONE_TASK_LIST = Collections.singletonList("default");
   @NotNull
   private static final String DEFAULT_MAKE_PROGRAM = "make";
-  @Nullable private File myCustomPattersFile;
+  @NotNull
+  private final AtomicReference<File> myCustomPatternsFile = new AtomicReference<File>();
 
   @NotNull
   @Override
@@ -100,7 +101,7 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
     if (FileUtil.checkIfExists(customPattersFilePath)) {
       final File file = FileUtil.getCanonicalFile(new File(customPattersFilePath));
       if (file.exists()) {
-        myCustomPattersFile = file;
+        myCustomPatternsFile.set(file);
       }
     }
 
@@ -124,7 +125,7 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
   @NotNull
   @Override
   public List<ProcessListener> getListeners() {
-    return Collections.<ProcessListener>singletonList(new MakeOutputListener(new SimpleLogger(getLogger()), myMakeTasks, myCustomPattersFile));
+    return Collections.<ProcessListener>singletonList(new MakeOutputListener(new SimpleLogger(getLogger()), myMakeTasks, myCustomPatternsFile));
   }
 
   @Nullable

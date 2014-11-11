@@ -89,6 +89,7 @@ public class RegexParsersBasedOutputListener extends ProcessListenerAdapter {
         fis = new FileInputStream(file);
         final RegexParser regexParser = ParserLoader.loadParser(fis);
         if (regexParser != null) {
+          myManager.getLogger().message("Using custom messages parser from file: " + file.getAbsolutePath());
           myParsers.add(regexParser);
         }
       } catch (final FileNotFoundException ignored) {
