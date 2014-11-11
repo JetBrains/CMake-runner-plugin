@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2014 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package jetbrains.buildServer.cmakerunner.agent.util;
 
 import jetbrains.buildServer.agent.BuildProgressLogger;
 import jetbrains.buildServer.cmakerunner.regexparser.LoggerAdapter;
+import jetbrains.buildServer.messages.DefaultMessagesInfo;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -48,11 +49,21 @@ public class SimpleLogger extends LoggerAdapter {
 
   @Override
   public void blockStart(@NotNull final String name) {
-    myBuildLogger.targetStarted(name);
+    myBuildLogger.activityStarted(name, DefaultMessagesInfo.BLOCK_TYPE_TARGET);
   }
 
   @Override
   public void blockFinish(@NotNull final String name) {
-    myBuildLogger.targetFinished(name);
+    myBuildLogger.activityFinished(name, DefaultMessagesInfo.BLOCK_TYPE_TARGET);
+  }
+
+  @Override
+  public void compilationBlockStart(@NotNull final String name) {
+    myBuildLogger.activityStarted(name, DefaultMessagesInfo.BLOCK_TYPE_COMPILATION);
+  }
+
+  @Override
+  public void compilationBlockFinish(@NotNull final String name) {
+    myBuildLogger.activityFinished(name, DefaultMessagesInfo.BLOCK_TYPE_COMPILATION);
   }
 }
