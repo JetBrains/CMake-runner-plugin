@@ -1,5 +1,5 @@
 <%--
-  ~ Copyright 2000-2013 JetBrains s.r.o.
+  ~ Copyright 2000-2014 JetBrains s.r.o.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
 <jsp:useBean id="bean" class="jetbrains.buildServer.cmakerunner.server.CMakeConfigureBean"/>
 <jsp:useBean id="propertiesBean" scope="request" type="jetbrains.buildServer.controllers.BasePropertiesBean"/>
 
-<tr>
+<tr class="advancedSetting">
   <th><label for="${bean.cmakeCommandKey}">CMake program path: </label></th>
   <td>
     <props:textProperty name="${bean.cmakeCommandKey}" className="longField" maxlength="256"/>
@@ -39,7 +39,7 @@
   </td>
 </tr>
 
-<tr>
+<tr class="advancedSetting">
   <th><label for="${bean.additionalParamsKey}">Additional parameters: </label></th>
   <td>
     <props:multilineProperty name="${bean.additionalParamsKey}"
@@ -49,7 +49,7 @@
   </td>
 </tr>
 
-<tr>
+<tr class="advancedSetting">
   <th><label for="${bean.generatorKey}">Generator: </label></th>
   <td id="generator">
     <c:set var="generatorValue"><c:out value="${propertiesBean.properties[bean.generatorKey]}"/></c:set>
@@ -76,7 +76,7 @@
 </tr>
 
 
-<l:settingsGroup title="Launching Parameters">
+<l:settingsGroup title="Launching Parameters" className="advancedSetting">
   <tr>
     <th>
       <label>Debug: </label>
@@ -89,7 +89,7 @@
   </tr>
 </l:settingsGroup>
 
-<l:settingsGroup title="Debuging Parameters">
+<l:settingsGroup title="Debuging Parameters" className="advancedSetting">
   <tr>
     <th>
       <props:radioButtonProperty name="${bean.developerWarningsKey}" value="false" id="customDevWarn1"

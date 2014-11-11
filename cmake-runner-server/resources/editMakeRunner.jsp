@@ -1,5 +1,5 @@
 <%--
-  ~ Copyright 2000-2013 JetBrains s.r.o.
+  ~ Copyright 2000-2014 JetBrains s.r.o.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@
 <jsp:useBean id="bean" class="jetbrains.buildServer.cmakerunner.server.MakeRunnerBean"/>
 <jsp:useBean id="propertiesBean" scope="request" type="jetbrains.buildServer.controllers.BasePropertiesBean"/>
 
-<l:settingsGroup title="Make parameters">
   <tr>
     <th>
       <props:radioButtonProperty name="use-custom-build-file" value="" id="customMakefile1"
@@ -55,13 +54,13 @@
       <span class="smallNote">Enter tasks names separated by space character if you don't want to use default (first non-prune) task.<br/>E.g. 'test' or 'clean test'.</span>
     </td>
   </tr>
-  <tr>
+  <tr class="advancedSetting">
     <th><label for="${bean.makeProgramPathKey}">Make program path: </label></th>
     <td><props:textProperty name="${bean.makeProgramPathKey}" className="longField" maxlength="256"/>
       <span class="smallNote">Enter path to make program or leave blank for using default 'make'.</span>
     </td>
   </tr>
-  <tr>
+  <tr class="advancedSetting">
     <th>
       <label>Other options: </label>
     </th>
@@ -70,7 +69,7 @@
       <label for="${bean.keepGoingKey}">Keep-going after first error</label>
       <br/>
       <props:checkboxProperty name="${bean.redirectStderrKey}"/>
-      <label for="${bean.redirectStderrKey}">Synchronise stdorr and stdout messages (redirect stderr into stdout)</label>
+      <label for="${bean.redirectStderrKey}">Synchronize stderr and stdout messages (redirect stderr into stdout)</label>
       <br/>
     </td>
   </tr>
@@ -80,7 +79,6 @@
       <span class="smallNote">If isn't empty these parameters will be added to 'make' command line.</span>
     </td>
   </tr>
-</l:settingsGroup>
 
 
 <script type="text/javascript">

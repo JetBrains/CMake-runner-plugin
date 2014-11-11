@@ -1,5 +1,5 @@
 <%--
-  ~ Copyright 2000-2013 JetBrains s.r.o.
+  ~ Copyright 2000-2014 JetBrains s.r.o.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
 <jsp:useBean id="bean" class="jetbrains.buildServer.cmakerunner.server.CMakeBuildBean"/>
 <jsp:useBean id="propertiesBean" scope="request" type="jetbrains.buildServer.controllers.BasePropertiesBean"/>
 
-<tr>
+<tr class="advancedSetting">
   <th><label for="${bean.cmakeCommandKey}">CMake program path: </label></th>
   <td>
     <props:textProperty name="${bean.cmakeCommandKey}" className="longField" maxlength="256"/>
@@ -47,7 +47,7 @@
       <br/>E.g. 'test' or 'clean'.</span>
   </td>
 </tr>
-<tr>
+<tr class="advancedSetting">
   <th>
     <label>Additional: </label>
   </th>
@@ -67,7 +67,7 @@
   </td>
 </tr>
 
-<tr>
+<tr class="advancedSetting">
   <th><label for="${bean.nativeToolParamsKey}">Native tool parameters: </label></th>
   <td>
     <props:multilineProperty name="${bean.nativeToolParamsKey}"
@@ -77,7 +77,7 @@
   </td>
 </tr>
 
-<l:settingsGroup title="Launching Parameters">
+<l:settingsGroup title="Launching Parameters" className="advancedSetting">
   <tr>
     <th>
       <label>Debug: </label>
