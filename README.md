@@ -15,7 +15,7 @@ Build with IntelliJ IDEA. Don't forget to specify "TeamCityDistribution" variabl
 
 Sources
 -------
-
+```
  |- root
  |--- [cmake-runner-agent] - Agent's part of Teamcity CMake & Make Runners, JAVA sources
  |--- [cmake-runner-common] - Common code for Agent's and Server's parts or Teamcity CMake & Make Runners, JAVA
@@ -27,6 +27,7 @@ Sources
  |--- build-hooks.xml - Special ant script for building plugin
  |--- copyright.txt - Copyright for sources
  |--- README.md - this file
+```
 
 Installation
 ------------
