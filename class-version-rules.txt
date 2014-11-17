@@ -1,0 +1,2 @@
+; class version rules to be used with class version checker (https://github.com/jonnyzzz/ClassesVersionChecker)
+1.6 =>
