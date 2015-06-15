@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2015 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package jetbrains.buildServer.cmakerunner.agent;
 
 import jetbrains.buildServer.agent.AgentBuildRunnerInfo;
 import jetbrains.buildServer.agent.BuildAgentConfiguration;
+import jetbrains.buildServer.agent.messages.regex.RegexParsersTranslatorsRegistryManipulator;
 import jetbrains.buildServer.agent.runner.CommandLineBuildService;
 import jetbrains.buildServer.agent.runner.CommandLineBuildServiceFactory;
 import jetbrains.buildServer.cmakerunner.CMakeConfigureConstants;
@@ -29,9 +30,15 @@ import org.jetbrains.annotations.NotNull;
  * @author : Vladislav.Rassokhin
  */
 public class CMakeConfigureCLBSFactory implements CommandLineBuildServiceFactory, AgentBuildRunnerInfo {
+  private final RegexParsersTranslatorsRegistryManipulator myManipulator;
+
+  public CMakeConfigureCLBSFactory(RegexParsersTranslatorsRegistryManipulator manipulator) {
+    myManipulator = manipulator;
+  }
+
   @NotNull
   public CommandLineBuildService createService() {
-    return new CMakeConfigureBuildService();
+    return new CMakeConfigureBuildService(myManipulator);
   }
 
   @NotNull

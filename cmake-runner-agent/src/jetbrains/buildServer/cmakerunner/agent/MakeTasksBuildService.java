@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2014 JetBrains s.r.o.
+ * Copyright 2000-2015 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,19 @@
 
 package jetbrains.buildServer.cmakerunner.agent;
 
-import com.intellij.util.containers.HashMap;
 import jetbrains.buildServer.RunBuildException;
-import jetbrains.buildServer.agent.runner.ProcessListener;
+import jetbrains.buildServer.agent.messages.KeepMessagesLogger;
+import jetbrains.buildServer.agent.messages.RegexParserToSimpleMessagesTranslatorAdapter;
+import jetbrains.buildServer.agent.messages.SimpleLogger;
+import jetbrains.buildServer.agent.messages.regex.RegexParsersHelper;
+import jetbrains.buildServer.agent.messages.regex.RegexParsersTranslatorsRegistryManipulator;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
-import jetbrains.buildServer.cmakerunner.agent.output.MakeOutputListener;
+import jetbrains.buildServer.cmakerunner.agent.output.MakeParserManager;
 import jetbrains.buildServer.cmakerunner.agent.util.FileUtil;
 import jetbrains.buildServer.cmakerunner.agent.util.OutputRedirectProcessor;
-import jetbrains.buildServer.cmakerunner.agent.util.SimpleLogger;
+import jetbrains.buildServer.cmakerunner.regexparser.ParserLoader;
+import jetbrains.buildServer.cmakerunner.regexparser.RegexParser;
 import jetbrains.buildServer.runner.BuildFileRunnerUtil;
 import jetbrains.buildServer.util.PropertiesUtil;
 import jetbrains.buildServer.util.StringUtil;
@@ -32,10 +36,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static jetbrains.buildServer.cmakerunner.MakeRunnerConstants.*;
@@ -51,9 +52,13 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
   private static final List<String> ONE_TASK_LIST = Collections.singletonList("default");
   @NotNull
   private static final String DEFAULT_MAKE_PROGRAM = "make";
-  @NotNull
-  private final AtomicReference<File> myCustomPatternsFile = new AtomicReference<File>();
-  private boolean myDefaultParsersEnabled = true;
+  private final RegexParsersTranslatorsRegistryManipulator myRegexParsersTranslatorsRegistryManipulator;
+  private final ArrayList<RegexParserToSimpleMessagesTranslatorAdapter> myRegisteredTranslators = new ArrayList<RegexParserToSimpleMessagesTranslatorAdapter>();
+  private MakeParserManager myParserManager;
+
+  public MakeTasksBuildService(@NotNull final RegexParsersTranslatorsRegistryManipulator manipulator) {
+    myRegexParsersTranslatorsRegistryManipulator = manipulator;
+  }
 
   @NotNull
   @Override
@@ -98,28 +103,52 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
 
     myMakeTasks.set(splitMakeTasks(makeTasksStr));
 
+    // Register parsers
+    final KeepMessagesLogger logger = new KeepMessagesLogger();
+    myParserManager = new MakeParserManager(new SimpleLogger(logger), myMakeTasks);
+
+    if (isDefaultParsersEnabled()) {
+      final RegexParser parser = ParserLoader.loadParser("/make-parser.xml", this.getClass());
+      if (parser == null) {
+        getLogger().message("Cannot load default make parser");
+      } else {
+        final RegexParserToSimpleMessagesTranslatorAdapter adapter = new RegexParserToSimpleMessagesTranslatorAdapter(parser, myParserManager, logger);
+        myRegisteredTranslators.add(adapter);
+        myRegexParsersTranslatorsRegistryManipulator.register(adapter);
+      }
+    } else {
+      getLogger().message("Default messages parser disabled");
+    }
+
     final String customPattersFilePath = getRunnerContext().getConfigParameters().get(TEAMCITY_MAKE_OUTPUT_PATTERNS_FILE_PROPERTY);
     if (!StringUtil.isEmptyOrSpaces(customPattersFilePath) && FileUtil.checkIfExists(customPattersFilePath)) {
       final File file = FileUtil.getCanonicalFile(new File(customPattersFilePath));
       if (file.exists()) {
-        myCustomPatternsFile.set(file);
-      }
-    }
-    final String defaultParsers = getRunnerContext().getConfigParameters().get(TEAMCITY_MAKE_OUTPUT_DEFAULT_PATTERNS_ENABLED_PROPERTY);
-    if (!StringUtil.isEmptyOrSpaces(defaultParsers)) {
-      myDefaultParsersEnabled = PropertiesUtil.getBoolean(defaultParsers);
-      if (!myDefaultParsersEnabled) {
-        getLogger().message("Default messages parser disabled");
+        final RegexParser parser = RegexParsersHelper.loadParserFromFile(file);
+        if (parser != null) {
+          final RegexParserToSimpleMessagesTranslatorAdapter adapter = new RegexParserToSimpleMessagesTranslatorAdapter(parser, myParserManager, logger);
+          myRegisteredTranslators.add(adapter);
+          myRegexParsersTranslatorsRegistryManipulator.register(adapter);
+        } else {
+          getLogger().message("Cannot load parser from custom path: " + file);
+        }
+      } else {
+        getLogger().message("Custom parser file not found: " + customPattersFilePath);
       }
     }
 
     final boolean redirectStdErr = Boolean.valueOf(runnerParameters.get(UI_REDIRECT_STDERR));
     // Result:
     final SimpleProgramCommandLine pcl = new SimpleProgramCommandLine(environment,
-            getWorkingDirectory().getAbsolutePath(),
-            programPath,
-            arguments);
+        getWorkingDirectory().getAbsolutePath(),
+        programPath,
+        arguments);
     return redirectStdErr ? OutputRedirectProcessor.wrap(getBuild(), pcl) : pcl;
+  }
+
+  private boolean isDefaultParsersEnabled() {
+    final String defaultParsers = getRunnerContext().getConfigParameters().get(TEAMCITY_MAKE_OUTPUT_DEFAULT_PATTERNS_ENABLED_PROPERTY);
+    return StringUtil.isEmptyOrSpaces(defaultParsers) || PropertiesUtil.getBoolean(defaultParsers);
   }
 
   @NotNull
@@ -128,12 +157,6 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
     final List<String> tasks = StringUtil.split(tasksStr, " ");
     if (tasks.isEmpty()) return ONE_TASK_LIST;
     return tasks;
-  }
-
-  @NotNull
-  @Override
-  public List<ProcessListener> getListeners() {
-    return Collections.<ProcessListener>singletonList(new MakeOutputListener(new SimpleLogger(getLogger()), myMakeTasks, myCustomPatternsFile, myDefaultParsersEnabled));
   }
 
   @Nullable
@@ -152,6 +175,17 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
       }
     }
     return buildFile;
+  }
+
+  @Override
+  public void afterProcessFinished() {
+    super.afterProcessFinished();
+    // Finish all targets
+    myParserManager.finishAllTargets();
+    // Unregister parsers
+    for (RegexParserToSimpleMessagesTranslatorAdapter adapter : myRegisteredTranslators) {
+      myRegexParsersTranslatorsRegistryManipulator.unregister(adapter);
+    }
   }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2015 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,16 +17,19 @@
 package jetbrains.buildServer.cmakerunner.agent;
 
 import jetbrains.buildServer.RunBuildException;
-import jetbrains.buildServer.agent.runner.ProcessListener;
+import jetbrains.buildServer.agent.messages.regex.RegexParsersTranslatorsRegistryManipulator;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
-import jetbrains.buildServer.cmakerunner.agent.output.RegexParsersBasedOutputListener;
 import jetbrains.buildServer.cmakerunner.agent.util.OutputRedirectProcessor;
-import jetbrains.buildServer.cmakerunner.agent.util.SimpleLogger;
+import jetbrains.buildServer.cmakerunner.regexparser.ParserLoader;
+import jetbrains.buildServer.cmakerunner.regexparser.RegexParser;
 import jetbrains.buildServer.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static jetbrains.buildServer.cmakerunner.CMakeBuildConstants.*;
 
@@ -37,6 +40,11 @@ public class CMakeBuildBS extends ExtendedBuildServiceAdapter {
 
   @NotNull
   private static final String DEFAULT_CMAKE_PROGRAM = "cmake";
+  private final RegexParsersTranslatorsRegistryManipulator myManipulator;
+
+  public CMakeBuildBS(RegexParsersTranslatorsRegistryManipulator manipulator) {
+    myManipulator = manipulator;
+  }
 
   @NotNull
   @Override
@@ -86,6 +94,12 @@ public class CMakeBuildBS extends ExtendedBuildServiceAdapter {
     arguments.add("--");
     addCustomArguments(arguments, runnerParameters.get(UI_NATIVE_TOOL_PARAMS));
 
+    final RegexParser parser = ParserLoader.loadParser("/cmake-parser.xml", this.getClass());
+    if (parser == null) {
+      getLogger().message("Cannot load cmake parser");
+    } else {
+      myManipulator.register(parser);
+    }
 
     final boolean redirectStdErr = Boolean.valueOf(runnerParameters.get(UI_REDIRECT_STDERR));
     // Result:
@@ -95,13 +109,6 @@ public class CMakeBuildBS extends ExtendedBuildServiceAdapter {
             arguments);
     return redirectStdErr ? OutputRedirectProcessor.wrap(getBuild(), pcl) : pcl;
   }
-
-  @NotNull
-  @Override
-  public List<ProcessListener> getListeners() {
-    return Collections.<ProcessListener>singletonList(new RegexParsersBasedOutputListener(new SimpleLogger(getLogger()), "/cmake-parser.xml"));
-  }
-
 }
 
 
