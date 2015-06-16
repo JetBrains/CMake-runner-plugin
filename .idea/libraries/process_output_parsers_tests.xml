@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="process-output-parsers tests">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/dep/process-output-parsers/test" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/dep/process-output-parsers/test" recursive="false" />
+  </library>
+</component>
