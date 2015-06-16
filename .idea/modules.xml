@@ -8,8 +8,6 @@
       <module fileurl="file://$PROJECT_DIR$/cmake-runner-core.iml" filepath="$PROJECT_DIR$/cmake-runner-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/cmake-runner-server/cmake-runner-server.iml" filepath="$PROJECT_DIR$/cmake-runner-server/cmake-runner-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/cmake-runner-test/cmake-runner-test.iml" filepath="$PROJECT_DIR$/cmake-runner-test/cmake-runner-test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/regex-parser/regex-parser.iml" filepath="$PROJECT_DIR$/regex-parser/regex-parser.iml" />
     </modules>
   </component>
 </project>
-

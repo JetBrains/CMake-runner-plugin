@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2013 JetBrains s.r.o.
+ * Copyright 2000-2015 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package jetbrains.buildServer.cmakerunner.tests.agent.output;
 import jetbrains.buildServer.BaseTestCase;
 import jetbrains.buildServer.cmakerunner.regexparser.ParserManager;
 import jetbrains.buildServer.cmakerunner.regexparser.RegexParser;
+import jetbrains.buildServer.cmakerunner.tests.regexparser.CounterLogger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.testng.Assert;
