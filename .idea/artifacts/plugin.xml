@@ -17,12 +17,6 @@
             <element id="module-output" name="cmake-runner-common" />
           </element>
           <element id="file-copy" path="$PROJECT_DIR$/cmake-runner-agent/teamcity-agent-plugin.xml" output-file-name="teamcity-plugin.xml" />
-          <element id="archive" name="text-translators-agent.jar">
-            <element id="module-output" name="text-translators-agent" />
-          </element>
-          <element id="archive" name="regex-parser.jar">
-            <element id="module-output" name="regex-parser" />
-          </element>
         </element>
       </element>
       <element id="directory" name="server">
