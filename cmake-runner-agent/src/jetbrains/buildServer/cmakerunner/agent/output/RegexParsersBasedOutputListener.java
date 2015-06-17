@@ -17,11 +17,11 @@
 package jetbrains.buildServer.cmakerunner.agent.output;
 
 import jetbrains.buildServer.agent.runner.ProcessListenerAdapter;
-import jetbrains.buildServer.cmakerunner.regexparser.Logger;
-import jetbrains.buildServer.cmakerunner.regexparser.ParserLoader;
-import jetbrains.buildServer.cmakerunner.regexparser.ParserManager;
-import jetbrains.buildServer.cmakerunner.regexparser.RegexParser;
 import jetbrains.buildServer.util.FileUtil;
+import jetbrains.teamcity.util.regex.Logger;
+import jetbrains.teamcity.util.regex.ParserLoader;
+import jetbrains.teamcity.util.regex.ParserManager;
+import jetbrains.teamcity.util.regex.RegexParser;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;

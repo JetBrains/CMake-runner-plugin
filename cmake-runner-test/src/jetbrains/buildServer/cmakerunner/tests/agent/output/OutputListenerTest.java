@@ -1,5 +1,5 @@
 /*
- * Copyright 2000-2014 JetBrains s.r.o.
+ * Copyright 2000-2015 JetBrains s.r.o.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 package jetbrains.buildServer.cmakerunner.tests.agent.output;
 
 import jetbrains.buildServer.cmakerunner.agent.output.MakeOutputListener;
-import jetbrains.buildServer.cmakerunner.regexparser.LoggerAdapter;
+import jetbrains.teamcity.util.regex.LoggerAdapter;
 import junit.framework.TestCase;
 import org.jetbrains.annotations.NotNull;
 import org.testng.Assert;

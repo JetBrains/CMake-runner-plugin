@@ -18,7 +18,8 @@ package jetbrains.buildServer.cmakerunner.agent;
 
 import jetbrains.buildServer.agent.AgentBuildRunnerInfo;
 import jetbrains.buildServer.agent.BuildAgentConfiguration;
-import jetbrains.buildServer.agent.messages.regex.RegexParsersTranslatorsRegistryManipulator;
+import jetbrains.buildServer.agent.messages.regex.ParsersRegistry;
+import jetbrains.buildServer.agent.messages.regex.impl.ParsersRegistryImpl;
 import jetbrains.buildServer.agent.runner.CommandLineBuildService;
 import jetbrains.buildServer.agent.runner.CommandLineBuildServiceFactory;
 import jetbrains.buildServer.cmakerunner.CMakeBuildConstants;
@@ -30,15 +31,15 @@ import org.jetbrains.annotations.NotNull;
  * @author : Vladislav.Rassokhin
  */
 public class CMakeBuildCLBSFactory implements CommandLineBuildServiceFactory, AgentBuildRunnerInfo {
-  private final RegexParsersTranslatorsRegistryManipulator myManipulator;
+  private final ParsersRegistry myParsersRegistry;
 
-  public CMakeBuildCLBSFactory(RegexParsersTranslatorsRegistryManipulator manipulator) {
-    myManipulator = manipulator;
+  public CMakeBuildCLBSFactory(@NotNull final ParsersRegistryImpl registry) {
+    myParsersRegistry = registry;
   }
 
   @NotNull
   public CommandLineBuildService createService() {
-    return new CMakeBuildBS(myManipulator);
+    return new CMakeBuildBS(myParsersRegistry);
   }
 
   @NotNull

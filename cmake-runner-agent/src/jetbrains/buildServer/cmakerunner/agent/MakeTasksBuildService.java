@@ -18,20 +18,20 @@ package jetbrains.buildServer.cmakerunner.agent;
 
 import jetbrains.buildServer.RunBuildException;
 import jetbrains.buildServer.agent.messages.KeepMessagesLogger;
-import jetbrains.buildServer.agent.messages.RegexParserToSimpleMessagesTranslatorAdapter;
-import jetbrains.buildServer.agent.messages.SimpleLogger;
+import jetbrains.buildServer.agent.messages.regex.RegexParserToSimpleMessagesTranslatorAdapter;
 import jetbrains.buildServer.agent.messages.regex.RegexParsersHelper;
-import jetbrains.buildServer.agent.messages.regex.RegexParsersTranslatorsRegistryManipulator;
+import jetbrains.buildServer.agent.messages.regex.SimpleLogger;
+import jetbrains.buildServer.agent.messages.regex.impl.ParsersRegistryImpl;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
 import jetbrains.buildServer.cmakerunner.agent.output.MakeParserManager;
 import jetbrains.buildServer.cmakerunner.agent.util.FileUtil;
 import jetbrains.buildServer.cmakerunner.agent.util.OutputRedirectProcessor;
-import jetbrains.buildServer.cmakerunner.regexparser.ParserLoader;
-import jetbrains.buildServer.cmakerunner.regexparser.RegexParser;
 import jetbrains.buildServer.runner.BuildFileRunnerUtil;
 import jetbrains.buildServer.util.PropertiesUtil;
 import jetbrains.buildServer.util.StringUtil;
+import jetbrains.teamcity.util.regex.ParserLoader;
+import jetbrains.teamcity.util.regex.RegexParser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,12 +52,12 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
   private static final List<String> ONE_TASK_LIST = Collections.singletonList("default");
   @NotNull
   private static final String DEFAULT_MAKE_PROGRAM = "make";
-  private final RegexParsersTranslatorsRegistryManipulator myRegexParsersTranslatorsRegistryManipulator;
+  private final ParsersRegistryImpl myParsersRegistry;
   private final ArrayList<RegexParserToSimpleMessagesTranslatorAdapter> myRegisteredTranslators = new ArrayList<RegexParserToSimpleMessagesTranslatorAdapter>();
   private MakeParserManager myParserManager;
 
-  public MakeTasksBuildService(@NotNull final RegexParsersTranslatorsRegistryManipulator manipulator) {
-    myRegexParsersTranslatorsRegistryManipulator = manipulator;
+  public MakeTasksBuildService(@NotNull final ParsersRegistryImpl parsersRegistry) {
+    myParsersRegistry = parsersRegistry;
   }
 
   @NotNull
@@ -114,7 +114,7 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
       } else {
         final RegexParserToSimpleMessagesTranslatorAdapter adapter = new RegexParserToSimpleMessagesTranslatorAdapter(parser, myParserManager, logger);
         myRegisteredTranslators.add(adapter);
-        myRegexParsersTranslatorsRegistryManipulator.register(adapter);
+        myParsersRegistry.enable(adapter);
       }
     } else {
       getLogger().message("Default messages parser disabled");
@@ -128,7 +128,7 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
         if (parser != null) {
           final RegexParserToSimpleMessagesTranslatorAdapter adapter = new RegexParserToSimpleMessagesTranslatorAdapter(parser, myParserManager, logger);
           myRegisteredTranslators.add(adapter);
-          myRegexParsersTranslatorsRegistryManipulator.register(adapter);
+          myParsersRegistry.enable(adapter);
         } else {
           getLogger().message("Cannot load parser from custom path: " + file);
         }
@@ -184,7 +184,7 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
     myParserManager.finishAllTargets();
     // Unregister parsers
     for (RegexParserToSimpleMessagesTranslatorAdapter adapter : myRegisteredTranslators) {
-      myRegexParsersTranslatorsRegistryManipulator.unregister(adapter);
+      myParsersRegistry.disable(adapter);
     }
   }
 

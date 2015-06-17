@@ -17,9 +17,9 @@
 package jetbrains.buildServer.cmakerunner.tests.agent.output;
 
 import jetbrains.buildServer.BaseTestCase;
-import jetbrains.buildServer.cmakerunner.regexparser.ParserManager;
-import jetbrains.buildServer.cmakerunner.regexparser.RegexParser;
-import jetbrains.buildServer.cmakerunner.tests.regexparser.CounterLogger;
+import jetbrains.teamcity.util.regex.CounterLogger;
+import jetbrains.teamcity.util.regex.ParserManager;
+import jetbrains.teamcity.util.regex.RegexParser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.testng.Assert;

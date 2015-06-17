@@ -17,13 +17,14 @@
 package jetbrains.buildServer.cmakerunner.agent;
 
 import jetbrains.buildServer.RunBuildException;
-import jetbrains.buildServer.agent.messages.regex.RegexParsersTranslatorsRegistryManipulator;
+import jetbrains.buildServer.agent.messages.regex.ParserCommand;
+import jetbrains.buildServer.agent.messages.regex.ParsersRegistry;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
 import jetbrains.buildServer.cmakerunner.CMakeBuildType;
 import jetbrains.buildServer.cmakerunner.agent.util.OutputRedirectProcessor;
-import jetbrains.buildServer.cmakerunner.regexparser.ParserLoader;
-import jetbrains.buildServer.cmakerunner.regexparser.RegexParser;
+import jetbrains.teamcity.util.regex.ParserLoader;
+import jetbrains.teamcity.util.regex.RegexParser;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -36,10 +37,10 @@ import static jetbrains.buildServer.cmakerunner.CMakeConfigureConstants.*;
 public class CMakeConfigureBuildService extends ExtendedBuildServiceAdapter {
   @NotNull
   public static final String DEFAULT_CMAKE_PROGRAM = "cmake";
-  private final RegexParsersTranslatorsRegistryManipulator myManipulator;
+  private final ParsersRegistry myParsersRegistry;
 
-  public CMakeConfigureBuildService(RegexParsersTranslatorsRegistryManipulator manipulator) {
-    myManipulator = manipulator;
+  public CMakeConfigureBuildService(@NotNull final ParsersRegistry parsersRegistry) {
+    myParsersRegistry = parsersRegistry;
   }
 
   @NotNull
@@ -118,7 +119,8 @@ public class CMakeConfigureBuildService extends ExtendedBuildServiceAdapter {
     if (parser == null) {
       getLogger().message("Cannot load cmake parser");
     } else {
-      myManipulator.register(parser);
+      myParsersRegistry.register(parser.getName(), parser);
+      myParsersRegistry.enable(parser.getName(), ParserCommand.Scope.THIS_RUNNER);
     }
 
     final boolean redirectStdErr = Boolean.valueOf(runnerParameters.get(UI_REDIRECT_STDERR));
