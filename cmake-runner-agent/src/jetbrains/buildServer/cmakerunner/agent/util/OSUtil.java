@@ -62,14 +62,14 @@ public class OSUtil {
     } else if (SystemInfo.isUnix) {
       String shell = environment.get(SCRIPT_RUNNER_UNIX_KEY);
       if (shell == null) {
-        LOG.warn("Environment variable '" + SCRIPT_RUNNER_UNIX_KEY + "' is not found.");
+        LOG.info("Environment variable '" + SCRIPT_RUNNER_UNIX_KEY + "' is not found.");
       } else if (!shell.contains("/")) {
         // Seems simple shell name, e.g. 'bash', lets try to resolve.
         shell = FileUtil.findExecutableByNameInPATH(shell, environment);
         if (shell != null) {
           return shell;
         }
-        LOG.warn("Cannot resolve " + SCRIPT_RUNNER_UNIX_KEY + " env variable with value '" + environment.get(SCRIPT_RUNNER_UNIX_KEY) + "' into absolute path");
+        LOG.info("Cannot resolve " + SCRIPT_RUNNER_UNIX_KEY + " env variable with value '" + environment.get(SCRIPT_RUNNER_UNIX_KEY) + "' into absolute path");
       }
       shell = guessUnixShell(environment);
       if (shell != null) {
@@ -82,7 +82,7 @@ public class OSUtil {
   }
 
   @Nullable
-  private static String guessUnixShell(@NotNull final Map<String, String> environment) {
+  static String guessUnixShell(@NotNull final Map<String, String> environment) {
     for (final String candidate : UNIX_SHELL_CANDIDATES) {
       final String found = FileUtil.findExecutableByNameInPATH(candidate, environment);
       if (found != null) {
@@ -99,7 +99,7 @@ public class OSUtil {
         }
       }
     }
-    LOG.warn("No shell found either in PATH nor manually in " + Arrays.toString(UNIX_SHELL_LOCATIONS) + " directories");
+    LOG.info("No shell found either in PATH nor manually in " + Arrays.toString(UNIX_SHELL_LOCATIONS) + " directories");
     return null;
   }
 
