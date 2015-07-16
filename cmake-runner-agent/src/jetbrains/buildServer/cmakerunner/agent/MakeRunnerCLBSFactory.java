@@ -16,6 +16,7 @@
 
 package jetbrains.buildServer.cmakerunner.agent;
 
+import com.intellij.openapi.diagnostic.Logger;
 import jetbrains.buildServer.agent.AgentBuildRunnerInfo;
 import jetbrains.buildServer.agent.BuildAgentConfiguration;
 import jetbrains.buildServer.agent.messages.regex.impl.ParsersRegistryImpl;
@@ -29,6 +30,8 @@ import org.jetbrains.annotations.NotNull;
  * @author : Vladislav.Rassokhin
  */
 public class MakeRunnerCLBSFactory implements CommandLineBuildServiceFactory, AgentBuildRunnerInfo {
+  private final static Logger LOG = Logger.getInstance(MakeRunnerCLBSFactory.class.getName());
+
   private final ParsersRegistryImpl myParsersRegistry;
 
 
@@ -52,6 +55,14 @@ public class MakeRunnerCLBSFactory implements CommandLineBuildServiceFactory, Ag
   }
 
   public boolean canRun(@NotNull final BuildAgentConfiguration agentConfiguration) {
-    return OSUtil.isOSSupported() && OSUtil.isCLIExist(agentConfiguration.getBuildParameters().getEnvironmentVariables());
+    if (!OSUtil.isOSSupported()) {
+      LOG.info(MakeRunnerConstants.DISPLAY_NAME + " runner disabled: OS '" + System.getProperty("os.name") + "' is not supported");
+      return false;
+    }
+    if (!OSUtil.isCLIExist(agentConfiguration.getBuildParameters().getEnvironmentVariables())) {
+      LOG.info(MakeRunnerConstants.DISPLAY_NAME + " runner disabled: shell not found");
+      return false;
+    }
+    return true;
   }
 }
