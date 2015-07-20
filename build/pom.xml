@@ -55,8 +55,19 @@
           <outputFile>${basedir}/target/teamcity-plugin.xml</outputFile>
           <replacements>
             <replacement>
-              <token>@Version@</token>
+              <!--suppress MavenModelInspection -->
+              <token>@Plugin_Version@</token>
               <value>${teamcity.plugin.version}</value>
+            </replacement>
+            <replacement>
+              <!--suppress MavenModelInspection -->
+              <token>@Plugin_Vendor@</token>
+              <value>JetBrains, s.r.o.</value>
+            </replacement>
+            <replacement>
+              <!--suppress MavenModelInspection -->
+              <token>@Plugin_Vendor_Url@</token>
+              <value>http://www.jetbrains.com</value>
             </replacement>
           </replacements>
         </configuration>
