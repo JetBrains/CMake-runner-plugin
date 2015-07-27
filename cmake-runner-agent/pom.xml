@@ -25,6 +25,13 @@
     </dependency>
 
     <dependency>
+      <groupId>jetbrains.teamcity</groupId>
+      <artifactId>cmake-runner-common</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
       <groupId>org.jetbrains.teamcity</groupId>
       <artifactId>agent-api</artifactId>
       <version>${teamcity-version}</version>
