@@ -2,3 +2,9 @@
 out
 dep
 target/
+
+# IDEA libraries (generated from pom)
+.idea/libraries/
+# Exclude IDEA modules
+.idea/modules.xml
+*.iml
