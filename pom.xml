@@ -37,4 +37,19 @@
     <module>cmake-runner-test</module>
     <module>build</module>
   </modules>
+
+  <profiles>
+    <profile>
+      <id>TC-VERSION-SNAPSHOT</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+        <property>
+          <name>!teamcityVersion</name>
+        </property>
+      </activation>
+      <properties>
+        <teamcity-version>SNAPSHOT</teamcity-version>
+      </properties>
+    </profile>
+  </profiles>
 </project>
