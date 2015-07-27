@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="exploded-war" name="ResolveHelper">
-    <root id="root">
-      <element id="module-output" name="ResolveHelper" />
-      <element id="javaee-facet-resources" facet="ResolveHelper/web/Web" />
-      <element id="javaee-facet-resources" facet="cmake-runner-server/web/cmake-runner-server" />
-    </root>
-  </artifact>
-</component>
