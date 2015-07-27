@@ -9,12 +9,12 @@
   </parent>
   <artifactId>cmake-runner-server</artifactId>
   <packaging>jar</packaging>
-  <dependencies>
 
+  <dependencies>
     <dependency>
       <groupId>jetbrains.teamcity</groupId>
       <artifactId>cmake-runner-common</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
 
@@ -30,13 +30,6 @@
       <artifactId>common-api</artifactId>
       <version>${teamcity-version}</version>
       <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jetbrains.teamcity</groupId>
-      <artifactId>tests-support</artifactId>
-      <version>${teamcity-version}</version>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -59,7 +52,5 @@
       <version>LATEST</version>
       <scope>provided</scope>
     </dependency>
-
-
   </dependencies>
 </project>

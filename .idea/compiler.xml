@@ -18,38 +18,20 @@
       <profile default="true" name="Default" enabled="false">
         <processorPath useClasspath="true" />
       </profile>
-      <profile default="false" name="Annotation profile for cmake-runner-agent" enabled="true">
+      <profile default="false" name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="cmake-runner-agent" />
-      </profile>
-      <profile default="false" name="Annotation profile for cmake-runner-test" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="cmake-runner-test" />
-      </profile>
-      <profile default="false" name="Annotation profile for cmake-runner-server" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="cmake-runner-server" />
-      </profile>
-      <profile default="false" name="Annotation profile for cmake-runner-common" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
         <module name="cmake-runner-common" />
+        <module name="cmake-runner-server" />
+        <module name="cmake-runner-test" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="build" target="1.5" />
-      <module name="cmake-runner" target="1.5" />
+      <module name="build" target="1.6" />
+      <module name="cmake-runner" target="1.6" />
       <module name="cmake-runner-agent" target="1.6" />
       <module name="cmake-runner-common" target="1.6" />
       <module name="cmake-runner-server" target="1.6" />
