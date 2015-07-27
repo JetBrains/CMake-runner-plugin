@@ -1,46 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="EntryPointsManager">
-    <entry_points version="2.0" />
+  <component name="ASMPluginConfiguration">
+    <asm skipDebug="false" skipFrames="false" skipCode="false" expandFrames="false" />
+    <groovy codeStyle="LEGACY" />
   </component>
-  <component name="FacetAutodetectingManager">
-    <autodetection-disabled>
-      <facet-type id="jsf">
-        <modules>
-          <module name="cmake-runner-server">
-            <files>
-              <file url="file://$PROJECT_DIR$/cmake-runner-server/web/faces-config.xml" />
-            </files>
-          </module>
-        </modules>
-      </facet-type>
-      <facet-type id="Spring">
-        <modules>
-          <module name="ResolveHelper">
-            <files>
-              <file url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/build-server-plugin-freespace.xml" />
-              <file url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/buildServerConfigurator.xml" />
-              <file url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/buildServerPluginsSupportWeb.xml" />
-              <file url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/buildServerSpringWeb.xml" />
-            </files>
-          </module>
-        </modules>
-      </facet-type>
-      <facet-type id="web">
-        <modules>
-          <module name="cmake-runner-server">
-            <files>
-              <file url="file://$PROJECT_DIR$/cmake-runner-server/web/WEB-INF/web.xml" />
-            </files>
-          </module>
-          <module name="ResolveHelper">
-            <files>
-              <file url="file://$TeamCityDistribution$/webapps/ROOT/WEB-INF/web.xml" />
-            </files>
-          </module>
-        </modules>
-      </facet-type>
-    </autodetection-disabled>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+      </list>
+    </option>
   </component>
   <component name="IdProvider" IDEtalkID="F08989842E3C9FC0228DE968F7093096" />
   <component name="JavadocGenerationManager">
@@ -60,6 +29,16 @@
     <option name="LOCALE" />
     <option name="OPEN_IN_BROWSER" value="true" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
   <component name="ProjectKey">
     <option name="state" value="git@github.com:VladRassokhin/CMake-runner-plugin.git" />
   </component>
@@ -70,6 +49,21 @@
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.6</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
 </project>
-

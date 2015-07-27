@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ResolveHelper/ResolveHelper.iml" filepath="$PROJECT_DIR$/ResolveHelper/ResolveHelper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/build/build.iml" filepath="$PROJECT_DIR$/build/build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cmake-runner.iml" filepath="$PROJECT_DIR$/cmake-runner.iml" />
       <module fileurl="file://$PROJECT_DIR$/cmake-runner-agent/cmake-runner-agent.iml" filepath="$PROJECT_DIR$/cmake-runner-agent/cmake-runner-agent.iml" />
       <module fileurl="file://$PROJECT_DIR$/cmake-runner-common/cmake-runner-common.iml" filepath="$PROJECT_DIR$/cmake-runner-common/cmake-runner-common.iml" />
-      <module fileurl="file://$PROJECT_DIR$/cmake-runner-core.iml" filepath="$PROJECT_DIR$/cmake-runner-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/cmake-runner-server/cmake-runner-server.iml" filepath="$PROJECT_DIR$/cmake-runner-server/cmake-runner-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/cmake-runner-test/cmake-runner-test.iml" filepath="$PROJECT_DIR$/cmake-runner-test/cmake-runner-test.iml" />
     </modules>
