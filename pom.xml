@@ -16,6 +16,7 @@
     </repository>
   </repositories>
   <build>
+    <sourceDirectory>src</sourceDirectory>
     <pluginManagement>
       <plugins>
         <plugin>
