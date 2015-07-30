@@ -88,5 +88,13 @@
       <version>${teamcity-version}</version>
       <scope>provided</scope>
     </dependency>
+
+    <!-- Required for jetbrains.buildServer.agent.BaseServerLoggerFacade -->
+    <dependency>
+      <groupId>org.jetbrains.teamcity.internal.generated</groupId>
+      <artifactId>server-logging</artifactId>
+      <version>${teamcity-version}</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 </project>
