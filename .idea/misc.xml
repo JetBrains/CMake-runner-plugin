@@ -4,12 +4,8 @@
     <asm skipDebug="false" skipFrames="false" skipCode="false" expandFrames="false" />
     <groovy codeStyle="LEGACY" />
   </component>
-  <component name="MavenProjectsManager">
-    <option name="originalFiles">
-      <list>
-        <option value="$PROJECT_DIR$/pom.xml" />
-      </list>
-    </option>
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
   </component>
   <component name="IdProvider" IDEtalkID="F08989842E3C9FC0228DE968F7093096" />
   <component name="JavadocGenerationManager">
@@ -29,6 +25,16 @@
     <option name="LOCALE" />
     <option name="OPEN_IN_BROWSER" value="true" />
   </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectKey">
+    <option name="state" value="git@github.com:VladRassokhin/CMake-runner-plugin.git" />
+  </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
@@ -39,9 +45,6 @@
     <ConfirmationsSetting value="0" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
-  <component name="ProjectKey">
-    <option name="state" value="git@github.com:VladRassokhin/CMake-runner-plugin.git" />
-  </component>
   <component name="ProjectResources">
     <resource url="parser-configuration.xsd" location="$PROJECT_DIR$/regex-parser/resources/parser-configuration.xsd" />
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
@@ -49,6 +52,7 @@
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
+  <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="masterDetails">
     <states>
       <state key="ProjectJDKs.UI">
@@ -65,5 +69,4 @@
       </state>
     </states>
   </component>
-  <component name="WebServicesPlugin" addRequiredLibraries="true" />
 </project>
