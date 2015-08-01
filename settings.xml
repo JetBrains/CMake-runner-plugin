@@ -20,15 +20,16 @@
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
     <servers>
         <server>
-            <id>Process-Output-Parsers-Build</id>
+            <id>Process-Output-Parsers-Build-Auth</id>
             <username>${teamcity.auth.userId}</username>
             <password>${teamcity.auth.password}</password>
         </server>
     </servers>
     <mirrors>
         <mirror>
-            <id>Process-Output-Parsers-Build</id>
+            <id>Process-Output-Parsers-Build-Auth</id>
             <url>https://teamcity.jetbrains.com/httpAuth/repository/download/TeamCityPluginsByJetBrains_ProcessOutputParsers_BuildAgainstTeamCity91/.sameChainOrLastFinished/maven</url>
+            <mirrorOf>Process-Output-Parsers-Build</mirrorOf>
         </mirror>
     </mirrors>
 </settings>
