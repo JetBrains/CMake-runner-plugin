@@ -46,26 +46,5 @@
         <teamcity-version>${teamcityVersion}</teamcity-version>
       </properties>
     </profile>
-    <profile>
-      <id>Under-TC-Build-User</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-        <property>
-          <name>teamcity.auth.userId</name>
-        </property>
-      </activation>
-      <properties>
-        <!-- Fix IDEA resolving error -->
-        <teamcity.auth.password>${teamcity.auth.password}</teamcity.auth.password>
-      </properties>
-      <repositories>
-        <repository>
-          <id>Process-Output-Parsers-Build</id>
-          <url>
-            https://${teamcity.auth.userId}:${teamcity.auth.password}@teamcity.jetbrains.com/httpAuth/repository/download/TeamCityPluginsByJetBrains_ProcessOutputParsers_BuildAgainstTeamCity91/.sameChainOrLastFinished/maven
-          </url>
-        </repository>
-      </repositories>
-    </profile>
   </profiles>
 </project>
