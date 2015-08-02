@@ -66,8 +66,25 @@
       <artifactId>tests-integration</artifactId>
       <version>${teamcity-version}</version>
     </dependency>
+
+
+    <dependency>
+      <groupId>org.jetbrains.teamcity.internal</groupId>
+      <artifactId>agent</artifactId>
+      <version>${teamcity-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jetbrains.teamcity.internal</groupId>
+      <artifactId>server</artifactId>
+      <version>${teamcity-version}</version>
+    </dependency>
+
   </dependencies>
   <build>
+    <testSourceDirectory>src</testSourceDirectory>
+    <!--suppress MavenModelInspection -->
+    <sourceDirectory>main/src/java</sourceDirectory>
     <testResources>
       <testResource>
         <directory>testData</directory>
