@@ -67,19 +67,6 @@
       <version>${teamcity-version}</version>
     </dependency>
 
-
-    <dependency>
-      <groupId>org.jetbrains.teamcity.internal</groupId>
-      <artifactId>agent</artifactId>
-      <version>${teamcity-version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.jetbrains.teamcity.internal</groupId>
-      <artifactId>server</artifactId>
-      <version>${teamcity-version}</version>
-    </dependency>
-
     <dependency>
       <groupId>org.jetbrains.teamcity.internal.generated</groupId>
       <artifactId>all-in-one</artifactId>
