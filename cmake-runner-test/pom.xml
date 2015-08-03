@@ -80,6 +80,13 @@
       <version>${teamcity-version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.jetbrains.teamcity.internal.generated</groupId>
+      <artifactId>all-in-one</artifactId>
+      <version>${teamcity-version}</version>
+      <type>pom</type>
+    </dependency>
+
   </dependencies>
   <build>
     <testSourceDirectory>src</testSourceDirectory>
