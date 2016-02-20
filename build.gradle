@@ -12,20 +12,26 @@ buildscript {
 }
 
 ext {
-    teamcityVersion = '9.1.6'
-    teamcityDir = "$rootDir/servers/TeamCity-${teamcityVersion}"
+    teamcityVersion = project.hasProperty('teamcityVersion') ? project.getProperty('teamcityVersion') : '9.1.6'
+    teamcityDir = project.hasProperty('teamcityDir') ? project.getProperty('teamcityDir') : "$rootDir/servers/TeamCity-${teamcityVersion}"
     teamcityDataDir = "$rootDir/data/" + (teamcityVersion =~ /(\d+\.\d+).*/)[0][1]
     teamcityJavaHome = System.properties['java.home']
     teamcityGeneratedPoms = "$buildDir/generated-poms"
-    processOutputTranslatorPluginVersion = "1.0-SNAPSHOT"
+    teamcityInstall = project.hasProperty("teamcityInstall") ? project.getProperty("teamcityInstall") : false
+    teamcityPluginVersion = project.hasProperty("teamcityPluginVersion") ? project.getProperty("teamcityPluginVersion") : '1.0-SNAPSHOT'
+    processOutputTranslatorPluginVersion = project.hasProperty("processOutputTranslatorPluginVersion") ? project.getProperty("processOutputTranslatorPluginVersion") : teamcityPluginVersion
 }
 
 allprojects {
     group = 'org.jetbrains.teamcity.cmake'
-    version = '1.0-SNAPSHOT'
+    version = teamcityPluginVersion
 
     configurations {
         provided
+    }
+
+    if (!teamcityInstall) {
+        project.tasks.findByName("downloadTeamCity")*.setEnabled(false)
     }
 }
 
@@ -34,6 +40,9 @@ subprojects {
         mavenLocal()
         mavenCentral()
         maven { url "http://repository.jetbrains.com/teamcity" }
+        maven {
+            url "${rootProject.rootDir}/pop_maven_repo"
+        }
     }
 
     apply plugin: 'java'
@@ -46,7 +55,7 @@ subprojects {
 }
 
 apply plugin: 'idea'
-apply from: 'export-teamcity-to-local-maven.gradle'
+//apply from: 'export-teamcity-to-local-maven.gradle'
 
 idea {
     module {
