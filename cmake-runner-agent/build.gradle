@@ -25,7 +25,6 @@ teamcity {
 dependencies {
     compile project(':cmake-runner-common')
     provided("org.jetbrains.teamcity.output_parser:text-translators-agent:${processOutputTranslatorPluginVersion}")
-//    testCompile("org.jetbrains.teamcity.internal.generated:tests-integration:${teamcityVersion}")
 }
 
 sourceSets {

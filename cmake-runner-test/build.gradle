@@ -28,8 +28,8 @@ dependencies {
 
     testCompile("org.jetbrains.teamcity:tests-support:${teamcityVersion}")
 
-    provided("org.jetbrains.teamcity.internal.generated:tests-integration:${teamcityVersion}")
-    provided("org.jetbrains.teamcity.internal.generated:server-logging:${teamcityVersion}")
+//    provided files("$teamcityDir/buildAgent/lib/server-logging.jar")
+    provided files("$teamcityDir/devPackage/tests/tests-integration.jar")
 
     testRuntime fileTree(dir: "$teamcityDir/buildAgent/lib/", include: '*.jar', exclude: 'agent.jar')
     testRuntime fileTree(dir: "$teamcityDir/webapps/ROOT/WEB-INF/lib/", include: '*.jar')
