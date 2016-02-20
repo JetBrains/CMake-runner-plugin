@@ -52,6 +52,11 @@ subprojects {
     test {
         useTestNG()
     }
+    if (System.getenv("TEAMCITY_VERSION") != null) {
+        test.ignoreFailures = true
+    } else {
+        //test.testLogging.showStandardStreams = true
+    }
 }
 
 apply plugin: 'idea'
