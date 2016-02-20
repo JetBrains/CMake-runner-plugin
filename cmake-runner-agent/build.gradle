@@ -25,6 +25,7 @@ teamcity {
 dependencies {
     compile project(':cmake-runner-common')
     provided("org.jetbrains.teamcity.output_parser:text-translators-agent:${processOutputTranslatorPluginVersion}")
+    provided files("$teamcityDir/buildAgent/lib/server-logging.jar")
 }
 
 sourceSets {
