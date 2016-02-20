@@ -1,3 +1,3 @@
 #!/bin/bash
-targets="${@:-clean test package}"
-mvn -DteamcityVersion=SNAPSHOT ${targets}
+targets="${@:-clean test build}"
+gradle -DteamcityVersion=SNAPSHOT ${targets}
