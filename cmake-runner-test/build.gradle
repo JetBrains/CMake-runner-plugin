@@ -28,8 +28,11 @@ dependencies {
 
     testCompile("org.jetbrains.teamcity:tests-support:${teamcityVersion}")
 
-    testCompile("org.jetbrains.teamcity.internal.generated:tests-integration:${teamcityVersion}")
-    testCompile("org.jetbrains.teamcity.internal.generated:server-logging:${teamcityVersion}")
+    provided("org.jetbrains.teamcity.internal.generated:tests-integration:${teamcityVersion}")
+    provided("org.jetbrains.teamcity.internal.generated:server-logging:${teamcityVersion}")
+
+    testRuntime fileTree(dir: "$teamcityDir/buildAgent/lib/", include: '*.jar', exclude: 'agent.jar')
+    testRuntime fileTree(dir: "$teamcityDir/webapps/ROOT/WEB-INF/lib/", include: '*.jar')
 }
 
 sourceSets {
@@ -50,3 +53,5 @@ sourceSets {
         }
     }
 }
+
+//test.dependsOn(project(":cmake-runner-server").tasks.findByName("installTeamCity"))

@@ -44,6 +44,9 @@ public class CMakeDiscoveryExtensionTest {
   @Test
   public void testSimpleProjectDiscovery() throws Exception {
     final FileSystemBrowser browser = new FileSystemBrowser(getTestData("discovery/simple"));
+    assertNotNull(browser);
+    assertNotNull(browser.getRoot());
+    assertNotNull(browser.getElement("CMakeLists.txt"));
     final List<DiscoveredObject> discover = myExtension.discover(new MockBuildType(), browser);
     assertNotNull(discover);
     assertFalse(discover.isEmpty());
@@ -69,7 +72,13 @@ public class CMakeDiscoveryExtensionTest {
 
   @NotNull
   private static File getTestData(@NotNull final String path) {
-    final File home = new File("cmake-runner-test/testData");
+    final File wd = new File("").getAbsoluteFile();
+    final File home;
+    if (wd.getName().equals("cmake-runner-test")) {
+      home = new File(wd, "testData");
+    } else {
+      home = new File("cmake-runner-test/testData");
+    }
     return new File(home, path);
   }
 }
