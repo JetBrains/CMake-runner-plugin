@@ -14,7 +14,6 @@
     <resources>
       <resource>
         <directory>resources</directory>
-        <targetPath>buildServerResources</targetPath>
       </resource>
     </resources>
   </build>
