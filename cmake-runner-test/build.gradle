@@ -23,7 +23,7 @@ teamcity {
 dependencies {
     compile project(':cmake-runner-agent'), project(':cmake-runner-common'), project(':cmake-runner-server')
 
-    provided("jetbrains.teamcity:regex-parser:${processOutputTranslatorPluginVersion}:test")
+    provided("org.jetbrains.teamcity.output_parser:regex-parser:${processOutputTranslatorPluginVersion}:test")
     provided("org.jetbrains.teamcity.internal:agent:${teamcityVersion}")
 
     testCompile("org.jetbrains.teamcity:tests-support:${teamcityVersion}")
