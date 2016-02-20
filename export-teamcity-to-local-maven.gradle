@@ -1,0 +1,229 @@
+/*
+ * Copyright 2000-2015 JetBrains s.r.o.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import java.nio.charset.Charset
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+
+class ExportTCToLocalMavenTask extends DefaultTask {
+    @InputDirectory
+    def File pathToTeamCityDistribution
+
+    @OutputDirectory
+    def File pathToGeneratedFilesDirectory
+
+    @Input
+    def boolean verbose = false
+    @Input
+    def boolean useFirstFileIfConflict = false
+    @Input
+    def String version = "SNAPSHOT"
+
+
+    @TaskAction
+    def run() {
+        final Path output = Paths.get(pathToGeneratedFilesDirectory.getAbsolutePath())
+        final List<File> inputs = new ArrayList<File>()
+        final Path teamcity = Paths.get(pathToTeamCityDistribution.getAbsolutePath())
+
+        inputs.add(teamcity.resolve("buildAgent/lib/").toAbsolutePath().toFile())
+        inputs.add(teamcity.resolve("webapps/ROOT/WEB-INF/lib/").toAbsolutePath().toFile())
+        inputs.add(teamcity.resolve("devPackage/tests/").toAbsolutePath().toFile())
+
+        String build = null
+        for (Path file : Files.newDirectoryStream(teamcity)) {
+            def name = file.getFileName().toString()
+            if (name.startsWith("BUILD_")) {
+                build = name.substring("BUILD_".length())
+                break;
+            }
+        }
+
+        if (build == null) {
+            System.err.println("\033[0;31mCannot determine TeamCity version in directory ${teamcity.toAbsolutePath().toString()}, there no file 'BUILD_XXXXX' found\033[0m")
+            System.exit(2)
+        }
+
+        if (!Files.exists(output)) Files.createDirectory(output)
+        if (!Files.exists(output.resolve("poms"))) Files.createDirectory(output.resolve("poms"))
+
+        def jars = new HashMap<String, Path>()
+        def error = false;
+        for (File input : inputs) {
+            def tree = getProject().fileTree(dir: input.getAbsolutePath(), include: '**/*.jar')
+            for (File it : tree.getFiles()) {
+                if (it.name.endsWith('.jar')) {
+                    def current = Paths.get(it.getAbsolutePath())
+                    if (jars.containsKey(it.name)) {
+                        def prev = jars.get(it.name)
+                        if (Files.size(prev) != Files.size(current)) {
+                            println((useFirstFileIfConflict ? "WARN:" : "ERROR:") + " Jars map already have key '${it.name}' and files size is differrent. Paths:\n\t${prev}\n\t${current}")
+                            error |= !useFirstFileIfConflict;
+                            if (useFirstFileIfConflict) {
+                                jars.put("${Files.size(current)}.${it.name}", current);
+                            }
+                        } else if (verbose) {
+                            println "WARN: Jars map already have key '${it.name}' with same file, but ifferent path. Paths:\n\t${prev}\n\t${current}"
+                        }
+                    } else {
+                        jars.put(it.name, current);
+                    }
+                }
+            }
+        }
+
+        if (error) {
+            System.err.println("Error during jars collecting. See above.")
+            System.exit(3);
+        }
+
+// Generate pom for each jar
+// And generate dependency reference for each pom
+
+        def dependencies = new ArrayList<String>();
+
+        def install = new ArrayList<Tuple>()
+        for (Map.Entry<String, Path> entry : jars.entrySet()) {
+            def name = entry.key
+            def jar = entry.value
+            def artifactId = name.substring(0, name.length() - 4)
+            String pomContent = """
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.jetbrains.teamcity.internal.generated</groupId>
+  <artifactId>${artifactId}</artifactId>
+  <version>${version}</version>
+  <properties>
+    <teamcity.build>${build}</teamcity.build>
+  </properties>
+</project>
+"""
+            def pom = output.resolve("poms/${name}.pom")
+            if (Files.exists(pom)) Files.delete(pom)
+            pom = Files.createFile(pom)
+            pom = Files.write(pom, Arrays.<String> asList(pomContent), Charset.forName("UTF-8"));
+            Tuple tuple = [pom, jar]
+            install.add(tuple)
+
+            dependencies.add """
+<dependency>
+  <groupId>org.jetbrains.teamcity.internal.generated</groupId>
+  <artifactId>${artifactId}</artifactId>
+  <version>${version}</version>
+</dependency>
+"""
+        }
+
+        def allPomXml = output.resolve("everything-pom.xml")
+        if (Files.exists(allPomXml)) Files.delete(allPomXml)
+
+// Generate install script
+
+        def installScriptContent = new StringBuilder();
+        installScriptContent.append """<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.jetbrains.teamcity.internal.generated</groupId>
+  <artifactId>all-in-one</artifactId>
+  <version>${version}</version>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <executions>
+"""
+        int i = 0;
+        for (Tuple t : install) {
+            def (pom, jar) = t;
+            installScriptContent.append """
+          <execution>
+            <id>install${i++}</id>
+            <phase>package</phase>
+            <goals>
+              <goal>install-file</goal>
+            </goals>
+            <configuration>
+              <file>${jar.toAbsolutePath().toString()}</file>
+              <pomFile>${pom.toAbsolutePath().toString()}</pomFile>
+            </configuration>
+          </execution>"""
+
+        }
+        installScriptContent.append """
+          <execution>
+            <id>install${i++}</id>
+            <phase>package</phase>
+            <goals>
+              <goal>install</goal>
+            </goals>
+            <configuration>
+              <pomFile>${allPomXml.toAbsolutePath().toString()}</pomFile>
+            </configuration>
+          </execution>"""
+
+        installScriptContent.append """
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+  """
+
+        println "Generated poms for ${install.size()} files"
+
+        List<String> everything = new ArrayList<>()
+
+        everything.add("""<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.jetbrains.teamcity.internal.generated</groupId>
+  <artifactId>all-in-one</artifactId>
+  <version>${version}</version>
+  <packagingType>pom</packagingType>
+  <dependencies>
+""")
+        everything.addAll(dependencies)
+        everything.add("""</dependencies>
+</project>""")
+        Files.createFile(allPomXml);
+        Files.write(allPomXml, everything, Charset.forName("UTF-8"))
+
+// Save install-pom.xml
+        def installPom = output.resolve("install-pom.xml")
+        if (Files.exists(installPom)) Files.delete(installPom)
+        Files.createFile(installPom);
+        Files.write(installPom, Arrays.<String> asList(installScriptContent.toString()), Charset.forName("UTF-8"))
+    }
+}
+
+
+task generatePoms(type: ExportTCToLocalMavenTask) {
+    pathToTeamCityDistribution = file("${teamcityDir}");
+    pathToGeneratedFilesDirectory = file("${teamcityGeneratedPoms}");
+    useFirstFileIfConflict = true
+    version = "${teamcityVersion}"
+}
+
+task installGeneratedPoms(type: Exec, dependsOn: generatePoms) {
+    workingDir = file("${teamcityGeneratedPoms}")
+    executable 'mvn'
+    args("-f", "install-pom.xml", "package")
+}
+
+task exportTeamCityToMaven(type: org.gradle.api.DefaultTask, dependsOn: installGeneratedPoms)
+
+if (project.tasks.findByName("installTeamCity") != null) {
+    generatePoms.dependsOn("installTeamCity")
+}

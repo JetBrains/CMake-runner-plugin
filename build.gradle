@@ -1,0 +1,60 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath group: 'com.github.rodm', name: 'gradle-teamcity-plugin', version: '0.8.1'
+    }
+}
+
+ext {
+    teamcityVersion = '9.1.6'
+    teamcityDir = "$rootDir/servers/TeamCity-${teamcityVersion}"
+    teamcityDataDir = "$rootDir/data/" + (teamcityVersion =~ /(\d+\.\d+).*/)[0][1]
+    teamcityJavaHome = System.properties['java.home']
+    teamcityGeneratedPoms = "$buildDir/generated-poms"
+    processOutputTranslatorPluginVersion = "1.0-SNAPSHOT"
+}
+
+allprojects {
+    group = 'org.jetbrains.teamcity.cmake'
+    version = '1.0-SNAPSHOT'
+
+    configurations {
+        provided
+    }
+}
+
+subprojects {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "http://repository.jetbrains.com/teamcity" }
+    }
+
+    apply plugin: 'java'
+    sourceCompatibility = "1.6"
+    targetCompatibility = "1.6"
+
+    test {
+        useTestNG()
+    }
+}
+
+apply plugin: 'idea'
+apply from: 'export-teamcity-to-local-maven.gradle'
+
+idea {
+    module {
+        downloadJavadoc = false
+        downloadSources = true
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.11'
+}
