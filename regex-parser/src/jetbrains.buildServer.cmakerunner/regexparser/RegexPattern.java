@@ -20,6 +20,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
 import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
+import jetbrains.buildServer.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.regex.Matcher;
@@ -90,10 +91,17 @@ public class RegexPattern {
   }
 
   /**
+   * @param line    - input line
    * @param matcher - matcher to parse the input line.
    * @return parsed description or {@code null}.
    */
-  protected String getDescription(@NotNull final Matcher matcher) {
+  protected String getDescription(String line, @NotNull final Matcher matcher) {
+    if ("$line".equals(myDescriptionExpression)) {
+      return line;
+    }
+    if (StringUtil.isEmptyOrSpaces(myDescriptionExpression)) {
+      return line;
+    }
     return parseStr(matcher, myDescriptionExpression);
   }
 
@@ -112,18 +120,18 @@ public class RegexPattern {
     if (!(matcher.find() && matcher.group(0).length() == line.length()))
       return false;
 
-    applyToManager(matcher, parserManager);
+    applyToManager(line, matcher, parserManager);
     return myEatLine;
   }
 
   /**
    * Log matched string into {@link ParserManager}.
-   *
+   * @param line          - input line
    * @param matcher       - matcher to parse the input line.
    * @param parserManager - {@link ParserManager}.
    */
-  protected void applyToManager(@NotNull final Matcher matcher, @NotNull final ParserManager parserManager) {
-    parserManager.log(getDescription(matcher), mySeverity);
+  protected void applyToManager(@NotNull final String line, @NotNull final Matcher matcher, @NotNull final ParserManager parserManager) {
+    parserManager.log(getDescription(line, matcher), mySeverity);
   }
 
   /**

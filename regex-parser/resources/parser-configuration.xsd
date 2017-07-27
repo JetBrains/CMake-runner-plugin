@@ -32,9 +32,9 @@
       <xs:extension base="xs:string">
         <xs:attribute name="regex" type="xs:string" use="required"/>
         <!-- output-expr useful with BLOCK*,COMPILATION* severities -->
-        <xs:attribute name="output-expr" type="xs:string" default="$0" use="optional"/>
-        <xs:attribute name="severity" type="severityType" default="SPECIAL" use="optional"/>
-        <xs:attribute name="eat-line" type="xs:boolean" default="true" use="optional"/>
+        <xs:attribute name="output-expr" type="xs:string" default="$line"/>
+        <xs:attribute name="severity" type="severityType" default="SPECIAL"/>
+        <xs:attribute name="eat-line" type="xs:boolean" default="true"/>
       </xs:extension>
     </xs:simpleContent>
   </xs:complexType>

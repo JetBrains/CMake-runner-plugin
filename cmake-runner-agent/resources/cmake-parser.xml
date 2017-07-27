@@ -20,28 +20,28 @@
         xsi:noNamespaceSchemaLocation="parser-configuration.xsd">
 
   <!-- Warnings/errors matching -->
-  <pattern regex="[^\-]*CMake Warning (\([^\(\)]*\) )?at (.*):(\d+) (\([^\(\)]*\)):" severity="WARN"/>
-  <pattern regex="[^\-]*CMake Warning (\([^\(\)]*\) )?in (.*):" severity="WARN"/>
-  <pattern regex="[^\-]*CMake Warning:(.*)" severity="WARN"/>
-  <pattern regex="[^\-]*CMake Error (\([^\(\)]*\) )?at (.*):(\d+) (\([^\(\)]*\)):" severity="ERROR"/>
-  <pattern regex="[^\-]*CMake Error (\([^\(\)]*\) )?in (.*):" severity="ERROR"/>
-  <pattern regex="[^\-]*CMake Error:(.*)" severity="ERROR"/>
+  <pattern regex="CMake Warning (\([^\(\)]*\) )?at (.*):(\d+) (\([^\(\)]*\)):" severity="WARN"/>
+  <pattern regex="CMake Warning (\([^\(\)]*\) )?in (.*):" severity="WARN"/>
+  <pattern regex="CMake Warning:" severity="WARN"/>
+  <pattern regex="CMake Error (\([^\(\)]*\) )?at (.*):(\d+) (\([^\(\)]*\)):" severity="ERROR"/>
+  <pattern regex="CMake Error (\([^\(\)]*\) )?in (.*):" severity="ERROR"/>
+  <pattern regex="CMake Error:" severity="ERROR"/>
 
   <!-- Out states -->
   <pattern regex="-- Configuring incomplete, errors occurred!" severity="ERROR"/>
 
   <!-- Call stack parsing -->
-  <pattern regex="[^\-]*Call Stack \(most recent call first\):" severity="WARN"/>
-  <pattern regex="[^\-]*.+\.((cmake)|(txt)):\d+ \(.*\)" severity="WARN"/>
+  <pattern regex="Call Stack \(most recent call first\):" severity="WARN"/>
+  <pattern regex="\.((cmake)|(txt)):\d+ \(.*\)" severity="WARN"/>
 
   <!-- Errors descriptions -->
-  <pattern regex="[^\-]*Could NOT find.*" severity="ERROR"/>
+  <pattern regex="Could NOT find" severity="ERROR"/>
 
   <!-- Warnings descriptions -->
-  <pattern regex="[^\-]*CMake no longer defines.*" severity="WARN"/>
-  <pattern regex="[^\-]*unused variable \(.*\) '.*'" severity="WARN"/>
+  <pattern regex="CMake no longer defines" severity="WARN"/>
+  <pattern regex="unused variable \(.*\) '.*'" severity="WARN"/>
 
   <!-- Compiler warnings -->
-  <pattern regex=".* warning: .*" severity="WARN"/>
+  <pattern regex=" warning: " severity="WARN"/>
 
 </parser>
