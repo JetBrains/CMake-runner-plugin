@@ -19,6 +19,7 @@ package jetbrains.buildServer.cmakerunner.agent.util;
 import jetbrains.buildServer.agent.BuildAgentConfiguration;
 import jetbrains.buildServer.cmakerunner.CMakeConfigureConstants;
 import jetbrains.buildServer.cmakerunner.agent.CMakeConfigureBuildService;
+import jetbrains.buildServer.util.FileUtil;
 import jetbrains.buildServer.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -113,7 +114,7 @@ public class CMakeUtil {
         }
       }
     } else {
-      final String path = FileUtil.findExecutableByNameInPATH(CMakeConfigureBuildService.DEFAULT_CMAKE_PROGRAM, agentConf.getBuildParameters().getEnvironmentVariables());
+      final String path = FileUtil2.findExecutableByNameInPATH(CMakeConfigureBuildService.DEFAULT_CMAKE_PROGRAM, agentConf.getBuildParameters().getEnvironmentVariables());
       if (path == null) {
         return null;
       }
