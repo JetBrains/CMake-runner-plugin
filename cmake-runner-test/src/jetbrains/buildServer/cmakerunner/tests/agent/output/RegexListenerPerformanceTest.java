@@ -18,8 +18,8 @@ package jetbrains.buildServer.cmakerunner.tests.agent.output;
 
 import jetbrains.buildServer.BaseTestCase;
 import jetbrains.buildServer.cmakerunner.agent.output.RegexParsersBasedOutputListener;
-import jetbrains.buildServer.cmakerunner.agent.util.FileUtil;
 import jetbrains.buildServer.cmakerunner.regexparser.ParserManager;
+import jetbrains.buildServer.util.FileUtil;
 import jetbrains.buildServer.util.WatchDog;
 import org.jetbrains.annotations.NotNull;
 import org.testng.Assert;

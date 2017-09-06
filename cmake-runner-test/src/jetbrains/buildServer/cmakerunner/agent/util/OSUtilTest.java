@@ -32,7 +32,7 @@ public class OSUtilTest {
   public void testGetCLIFullPathDoesNotThrowsException() throws Exception {
     final String path = OSUtil.getCLIFullPath(System.getenv());
     Assert.assertNotNull(path);
-    Assert.assertTrue(FileUtil.checkIfExists(path));
+    Assert.assertTrue(FileUtil2.checkIfExists(path));
   }
 
   @DataProvider(name = "UnixOnly")

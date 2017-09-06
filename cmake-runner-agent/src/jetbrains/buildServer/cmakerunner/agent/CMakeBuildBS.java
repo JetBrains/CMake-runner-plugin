@@ -54,7 +54,7 @@ public class CMakeBuildBS extends ExtendedBuildServiceAdapter {
     }
 
     // Check for program exist
-//    if (!FileUtil.checkIfExists(programPath) && FileUtil.findExecutableByNameInPATH(programPath, environment) == null)
+//    if (!FileUtil2.checkIfExists(programPath) && FileUtil2.findExecutableByNameInPATH(programPath, environment) == null)
 //      throw new RunBuildException("Cannot locate `" + programPath + "' executable");
 
 

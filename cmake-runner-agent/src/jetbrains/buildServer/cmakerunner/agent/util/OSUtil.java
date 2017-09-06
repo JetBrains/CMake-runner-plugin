@@ -65,7 +65,7 @@ public class OSUtil {
         LOG.info("Environment variable '" + SCRIPT_RUNNER_UNIX_KEY + "' is not found.");
       } else if (!shell.contains("/")) {
         // Seems simple shell name, e.g. 'bash', lets try to resolve.
-        shell = FileUtil.findExecutableByNameInPATH(shell, environment);
+        shell = FileUtil2.findExecutableByNameInPATH(shell, environment);
         if (shell != null) {
           return shell;
         }
@@ -84,7 +84,7 @@ public class OSUtil {
   @Nullable
   static String guessUnixShell(@NotNull final Map<String, String> environment) {
     for (final String candidate : UNIX_SHELL_CANDIDATES) {
-      final String found = FileUtil.findExecutableByNameInPATH(candidate, environment);
+      final String found = FileUtil2.findExecutableByNameInPATH(candidate, environment);
       if (found != null) {
         LOG.info("Found '" + found + "' interpreter in PATH");
         return found;
@@ -93,7 +93,7 @@ public class OSUtil {
     for (final String location : UNIX_SHELL_LOCATIONS) {
       for (final String candidate : UNIX_SHELL_CANDIDATES) {
         final String absolute = location + "/" + candidate;
-        if (FileUtil.checkIfExists(absolute)) {
+        if (FileUtil2.checkIfExists(absolute)) {
           LOG.info("Found '" + absolute + "' interpreter");
           return absolute;
         }

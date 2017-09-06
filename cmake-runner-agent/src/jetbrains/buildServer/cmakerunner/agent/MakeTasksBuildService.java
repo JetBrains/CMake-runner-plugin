@@ -21,10 +21,11 @@ import jetbrains.buildServer.agent.runner.ProcessListener;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
 import jetbrains.buildServer.cmakerunner.agent.output.MakeOutputListener;
-import jetbrains.buildServer.cmakerunner.agent.util.FileUtil;
+import jetbrains.buildServer.cmakerunner.agent.util.FileUtil2;
 import jetbrains.buildServer.cmakerunner.agent.util.OutputRedirectProcessor;
 import jetbrains.buildServer.cmakerunner.agent.util.SimpleLogger;
 import jetbrains.buildServer.runner.BuildFileRunnerUtil;
+import jetbrains.buildServer.util.FileUtil;
 import jetbrains.buildServer.util.PropertiesUtil;
 import jetbrains.buildServer.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
@@ -67,7 +68,7 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
     }
 
     // Check for program exist
-//    if (!FileUtil.checkIfExists(programPath) && FileUtil.findExecutableByNameInPATH(programPath, environment) == null)
+//    if (!FileUtil2.checkIfExists(programPath) && FileUtil2.findExecutableByNameInPATH(programPath, environment) == null)
 //      throw new RunBuildException("Cannot locate `" + programPath + "' executable");
 
 
@@ -95,7 +96,7 @@ public class MakeTasksBuildService extends ExtendedBuildServiceAdapter {
     myMakeTasks.set(splitMakeTasks(makeTasksStr));
 
     final String customPattersFilePath = getRunnerContext().getConfigParameters().get(TEAMCITY_MAKE_OUTPUT_PATTERNS_FILE_PROPERTY);
-    if (!StringUtil.isEmptyOrSpaces(customPattersFilePath) && FileUtil.checkIfExists(customPattersFilePath)) {
+    if (!StringUtil.isEmptyOrSpaces(customPattersFilePath) && FileUtil2.checkIfExists(customPattersFilePath)) {
       final File file = FileUtil.getCanonicalFile(new File(customPattersFilePath));
       if (file.exists()) {
         myCustomPatternsFile.set(file);
