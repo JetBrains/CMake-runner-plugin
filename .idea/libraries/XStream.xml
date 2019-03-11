@@ -4,6 +4,7 @@
       <root url="jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/xpp3-1.1.4c.jar!/" />
       <root url="jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/xstream-1.4.1.jar!/" />
       <root url="jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/xstream-1.4.8-custom.jar!/" />
+      <root url="jar://$TeamCityDistribution$/webapps/ROOT/WEB-INF/lib/xstream-1.4.10-custom.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
