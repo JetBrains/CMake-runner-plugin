@@ -21,6 +21,7 @@
     <name>cmake-runner</name>
     <display-name>CMake and GNU Make tools support</display-name>
     <version>@Plugin_Version@</version>
+    <description>CMake and GNU Make tools support</description>
     <vendor>
       <name>@Plugin_Vendor@</name>
       <url>@Plugin_Vendor_Url@</url>
