@@ -17,7 +17,7 @@
 package jetbrains.buildServer.cmakerunner.regexparser;
 
 import jetbrains.buildServer.util.StringUtil;
-import org.apache.log4j.Logger;
+import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,7 +30,7 @@ import java.io.InputStream;
  */
 public class ParserLoader {
   @NotNull
-  private static final Logger LOG = Logger.getLogger(ParserLoader.class);
+  private static final Logger LOG = Logger.getInstance(ParserLoader.class);
 
   @Nullable
   public static RegexParser loadParser(@NotNull final String configResourceName, @NotNull final Class clazz) {
