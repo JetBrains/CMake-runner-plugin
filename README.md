@@ -1,13 +1,11 @@
 TeamCity CMake & Make Support Plugin
 =============
 
+https://plugins.jetbrains.com/plugin/20316-cmake-and-gnu-make-tools-support
+
 Current status
 --------------
 [![Status](http://teamcity.jetbrains.com/app/rest/builds/buildType:\(id:TeamCityPluginsByJetBrains_CMakePlugin_BuildAgainstTeamCity80x\)/statusIcon)](http://teamcity.jetbrains.com/viewType.html?buildTypeId=TeamCityPluginsByJetBrains_CMakePlugin_BuildAgainstTeamCity80x)
-
-Notice
-------
-See documentation at http://www.jetbrains.net/confluence/display/TW/CMake+Plugin
 
 Building
 --------
